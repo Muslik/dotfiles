@@ -1,0 +1,94 @@
+#  ███████╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
+#  ██╔════╝██║   ██║████╗  ██║██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
+#  █████╗  ██║   ██║██╔██╗ ██║██║        ██║   ██║██║   ██║██╔██╗ ██║███████╗
+#  ██╔══╝  ██║   ██║██║╚██╗██║██║        ██║   ██║██║   ██║██║╚██╗██║╚════██║
+#  ██║     ╚██████╔╝██║ ╚████║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║███████║
+#  ╚═╝      ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+
+#########################################
+# CREATE DIR AND ENTER IT               #
+#########################################
+function mkd()  {
+  mkdir -p -- "$@" && cd -- "$@"
+}
+
+#########################################
+# WEATHER                               #
+#########################################
+weather() {
+	curl ru.wttr.in/${1:Москва}
+}
+
+#########################################
+# STACK OVERFLOW                        #
+#########################################
+so() {
+  val1=("${1:=https://stackoverflow.com/}");
+  string=("$@");
+  if [ $val1 = 'https://stackoverflow.com/' ]; then
+    open "https://stackoverflow.com/"
+  else
+    search=${(j.+.)string}
+  url="https://stackoverflow.com/search?q="$search
+    open $url;
+  fi
+}
+
+#########################################
+# GOOGLE                                #
+#########################################
+google() {
+	val1=("${1:https://www.google.com}");
+	string=("$@");
+	if [$val1 = 'https://www.google.com' ]; then
+		open "https://www.google.com"
+	else
+		search=${(j.+.)string}
+		url="https://www.google.com/search?q="$search
+		open $url;
+	fi
+}
+
+#########################################
+# PLAYGROUND              				#
+#########################################
+pl () {
+	if [ $@ ]
+	then
+		mkdir ~/Desktop/Playground_$@
+		~/Desktop/Playground_$@
+	else
+		rm -rf ~/Desktop/Playground
+		~/Desktop
+		mkdir Playground
+		Playground
+	fi
+}
+
+function gpl() {
+  if [ $@ ]; then
+    ~/Desktop/Playground_$@
+  else
+    ~/Desktop/Playground
+  fi
+}
+
+#########################################
+# C 									#
+#########################################
+function run() {
+	gcc $@
+	./a.out
+}
+
+#########################################
+# REPEAT FUNC 					    	#
+#########################################
+function repeat()
+{
+    local i max
+    max=$1; shift;
+    for ((i=1; i <= max ; i++)); do  # --> C-like syntax
+        eval "$@";
+    done
+}

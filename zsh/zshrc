@@ -1,0 +1,37 @@
+export EDITOR=vim
+ZSH=$HOME/dotfiles/oh-my-zsh
+ZSH_THEME=""
+ZSH_CUSTOM=$HOME/dotfiles/zsh/zsh-custom
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=red')
+
+plugins=(
+	zsh-autosuggestions
+	zsh-syntax-highlighting
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# AUTO CD
+setopt auto_cd
+
+#TYPO CORRECTION
+setopt correctall
+
+#SOURCING
+
+for file in $HOME/dotfiles/zsh/sourced/*; do
+	source "$file"
+done
+
+bindkey -e
+
+#PURE THEME
+autoload -U promptinit; promptinit
+prompt pure
+
+#HISTORY
+HISTFILE=~/.zsh_history
+SAVEHIST=1000
+setopt inc_append_history
+setopt share_history

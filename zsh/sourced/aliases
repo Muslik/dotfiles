@@ -1,0 +1,74 @@
+#   █████╗ ██╗     ██╗ █████╗ ███████╗███████╗███████╗
+#  ██╔══██╗██║     ██║██╔══██╗██╔════╝██╔════╝██╔════╝
+#  ███████║██║     ██║███████║███████╗█████╗  ███████╗
+#  ██╔══██║██║     ██║██╔══██║╚════██║██╔══╝  ╚════██║
+#  ██║  ██║███████╗██║██║  ██║███████║███████╗███████║
+#  ╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+#
+
+#########################################
+# Quick dotfiles                        #
+#########################################
+alias zshdotfiles="vim ~/dotfiles/zsh/zshrc"
+alias vimdotfiles="vim ~/dotfiles/vim/vimrc"
+alias ssource='source ~/.zshrc'
+#########################################
+# Shorten common commands               #
+#########################################
+alias q="~/ && clear"
+alias h="history"
+alias t="touch"
+alias c="clear"
+alias ll="ls -lh"
+alias l.='ls -d .* --color=auto'
+alias lal="ls -lah"
+alias gcc="gcc -Wall -Wextra -Werror"
+alias norm="norminette"
+alias rm="rm -i"
+alias mv="mv -i"
+alias cp="cp -i"
+alias ct="column -t"
+alias grep="grep --color=always"
+
+#########################################
+# WEBSITES                              #
+#########################################
+alias vk="open https://www.vk.com"
+alias telegram="open https://web.telegram.org/"
+alias repl="open https://repl.it"
+
+#########################################
+# IP / Speedtest                        #
+#########################################
+alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
+alias ip='curl ipinfo.io/ip'
+
+#########################################
+# GIT                                   #
+#########################################
+alias gs="git status"
+alias gcm="git commit"
+alias gignore="vim .gitignore"
+alias ga="git add "
+alias gl="git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short"
+alias gb="git branch"
+alias go="git checkout"
+alias type="cat-file -t"
+alias dump="cat-file -d"
+
+#########################################
+# MY OWN COMMANDS                       #
+#########################################
+alias now='date +"%T | %d-%m-%Y"'
+alias stfu="osascript -e 'set volume output muted true'"
+
+#  ██████╗  █████╗ ████████╗██╗  ██╗███████╗
+#  ██╔══██╗██╔══██╗╚══██╔══╝██║  ██║██╔════╝
+#  ██████╔╝███████║   ██║   ███████║███████╗
+#  ██╔═══╝ ██╔══██║   ██║   ██╔══██║╚════██║
+#  ██║     ██║  ██║   ██║   ██║  ██║███████║
+#  ╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝
+#
+alias gdp="cd ~/Desktop"
+alias gdc="cd ~/Documents"
+alias gdl="cd ~/Downloads"
