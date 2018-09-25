@@ -16,6 +16,8 @@ alias ssource='source ~/.zshrc'
 # Shorten common commands               #
 #########################################
 alias q="~/ && clear"
+alias top="vtop"
+alias mkdirs="mkdir -p"
 alias hosts="sudo vi /private/etc/hosts"
 alias h="history"
 alias t="touch"
