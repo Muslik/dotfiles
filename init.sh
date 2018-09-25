@@ -29,7 +29,7 @@ ln -s ~/dotfiles/vim/vimrc ~/.vimrc
 ln -s ~/dotfiles/oh-my-zsh ~/.oh-my-zsh
 ln -s ~/dotfiles/global_ignore ~/
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
-ln -s ~/dotfiles/gitconfig ~/.gitconig
+ln -s ~/dotfiles/gitconfig ~/.gitconfig
 git dotfiles --global core.excludesfile ~/.global_ignore
 
 touch ~/.hushlogin
