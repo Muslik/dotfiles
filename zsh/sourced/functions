@@ -107,3 +107,10 @@ function repeat()
         eval "$@";
     done
 }
+#########################################
+# REACT TEMPLATE                        #
+#########################################
+function create-react-app()
+{
+	~/dotfiles/./script.sh "${1:reactApp}"
+}
