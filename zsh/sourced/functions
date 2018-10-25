@@ -110,7 +110,7 @@ function repeat()
 #########################################
 # REACT TEMPLATE                        #
 #########################################
-function create-react-app()
+function react-app()
 {
-	~/dotfiles/./script.sh "${1:reactApp}"
+	~/dotfiles/script.sh "${1:=reactApp}"
 }
