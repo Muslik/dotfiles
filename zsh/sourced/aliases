@@ -10,6 +10,8 @@
 # Quick dotfiles                        #
 #########################################
 alias zshconfig="vim ~/dotfiles/zsh/zshrc"
+alias zshaliases="vim ~/dotfiles/zsh/sourced/aliases"
+alias zshfunctions="vim ~/dotfiles/zsh/sourced/functions"
 alias vimconfig="vim ~/dotfiles/vim/vimrc"
 alias ssource='source ~/.zshrc'
 #########################################
@@ -17,10 +19,11 @@ alias ssource='source ~/.zshrc'
 #########################################
 alias q="~/ && clear"
 alias top="vtop"
-alias mkdirs="mkdir -p"
+alias mkdir="mkdir -pv"
 alias hosts="sudo vi /private/etc/hosts"
 alias h="history"
 alias t="touch"
+alias v="vim"
 alias c="clear"
 alias ll="ls -lh"
 alias l.='ls -d .* --color=auto'
@@ -32,6 +35,8 @@ alias mv="mv -i"
 alias cp="cp -i"
 alias ct="column -t"
 alias grep="grep --color=always"
+alias pj="vim package.json"
+alias wpc="vim webpack.config.js"
 
 #########################################
 # WEBSITES                              #
@@ -53,8 +58,9 @@ alias gs="git status"
 alias gcm="git commit"
 alias gignore="vim .gitignore"
 alias ga="git add "
-alias gl="git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short"
+alias gl="git log --pretty=format:'%C(Yellow)%h%Creset %ad | %s%d [%C(Green)%an%Creset]' --graph --date=short"
 alias gb="git branch"
+alias gbnm="git branch --no-merged"
 alias go="git checkout"
 
 #########################################
@@ -73,3 +79,4 @@ alias stfu="osascript -e 'set volume output muted true'"
 alias gdp="cd ~/Desktop"
 alias gdc="cd ~/Documents"
 alias gdl="cd ~/Downloads"
+alias wchelp="echo 'l   w   c\n\nl - число строк\nw - число слов\nc - число символов'"

@@ -29,13 +29,19 @@ call plug#begin(expand('~/.vim/plugged'))
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
-"Plug 'w0rp/ale'
+Plug 'w0rp/ale'
+Plug 'JamshedVesuna/vim-markdown-preview'
+Plug 'valloric/youcompleteme'
+Plug 'SirVer/ultisnips'
+Plug 'ervandew/supertab'
+Plug 'honza/vim-snippets'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/grep.vim'
 Plug 'bronson/vim-trailing-whitespace'
@@ -89,7 +95,7 @@ Plug 'hail2u/vim-css3-syntax'
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'tpope/vim-haml'
 Plug 'mattn/emmet-vim'
-
+Plug 'othree/xml.vim'
 
 "*****************************************************************************
 " JAVASCRIPT
@@ -102,12 +108,13 @@ Plug 'jelera/vim-javascript-syntax'
 Plug 'arnaud-lb/vim-php-namespace'
 call plug#end()
 
-"  ██████╗  █████╗ ███████╗██╗ ██████╗    ███████╗███████╗████████╗██╗   ██╗██████╗
-"  ██╔══██╗██╔══██╗██╔════╝██║██╔════╝    ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
-"  ██████╔╝███████║███████╗██║██║         ███████╗█████╗     ██║   ██║   ██║██████╔╝
-"  ██╔══██╗██╔══██║╚════██║██║██║         ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
-"  ██████╔╝██║  ██║███████║██║╚██████╗    ███████║███████╗   ██║   ╚██████╔╝██║
-"  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝ ╚═════╝    ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
+"  ██████╗  █████╗ ███████╗██╗ ██████╗███████╗
+"  ██╔══██╗██╔══██╗██╔════╝██║██╔════╝██╔════╝
+"  ██████╔╝███████║███████╗██║██║     ███████╗
+"  ██╔══██╗██╔══██║╚════██║██║██║     ╚════██║
+"  ██████╔╝██║  ██║███████║██║╚██████╗███████║
+"  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝ ╚═════╝╚══════╝
+"
 filetype plugin indent on
 set encoding=utf-8
 set fileencoding=utf-8
@@ -119,6 +126,9 @@ set colorcolumn=80
 set binary
 set ttyfast
 set autoread
+set nobackup
+set nowritebackup
+set noswapfile
 
 "*****************************************************************************
 " Fix backspace indent
@@ -130,16 +140,18 @@ set backspace=indent,eol,start
 "*****************************************************************************
 set tabstop=4
 set softtabstop=0
+set smarttab
 set shiftwidth=4
 set noexpandtab
 
 
-"   ██████╗██╗   ██╗███████╗████████╗ ██████╗ ███╗   ███╗    ███╗   ███╗ █████╗ ██████╗ ██████╗ ██╗███╗   ██╗ ██████╗ ███████"
-"  ██╔════╝██║   ██║██╔════╝╚══██╔══╝██╔═══██╗████╗ ████║    ████╗ ████║██╔══██╗██╔══██╗██╔══██╗██║████╗  ██║██╔════╝ ██╔════╝
-"  ██║     ██║   ██║███████╗   ██║   ██║   ██║██╔████╔██║    ██╔████╔██║███████║██████╔╝██████╔╝██║██╔██╗ ██║██║  ███╗███████╗
-"  ██║     ██║   ██║╚════██║   ██║   ██║   ██║██║╚██╔╝██║    ██║╚██╔╝██║██╔══██║██╔═══╝ ██╔═══╝ ██║██║╚██╗██║██║   ██║╚════██║
-"  ╚██████╗╚██████╔╝███████║   ██║   ╚██████╔╝██║ ╚═╝ ██║    ██║ ╚═╝ ██║██║  ██║██║     ██║     ██║██║ ╚████║╚██████╔╝███████║
-"   ╚═════╝ ╚═════╝ ╚══════╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝
+"  ██████╗ ██╗███╗   ██╗██████╗ ███████╗
+"  ██╔══██╗██║████╗  ██║██╔══██╗██╔════╝
+"  ██████╔╝██║██╔██╗ ██║██║  ██║███████╗
+"  ██╔══██╗██║██║╚██╗██║██║  ██║╚════██║
+"  ██████╔╝██║██║ ╚████║██████╔╝███████║
+"  ╚═════╝ ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝
+"
 "*****************************************************************************
 "" Abbreviations
 "*****************************************************************************
@@ -157,13 +169,11 @@ cnoreabbrev Qall qall
 
 let mapleader=','
 "" Buffer nav
-noremap <leader>z :bp<CR>
 noremap <leader>q :bp<CR>
-noremap <leader>x :bn<CR>
 noremap <leader>w :bn<CR>
 
 "" Close buffer
-noremap <leader>c :bd<CR>
+noremap <leader>e :bd<CR>
 
 "" Clean search (highlight)
 nnoremap <silent> <leader><space> :noh<cr>
@@ -241,17 +251,30 @@ nnoremap k kzz
 " NERD TREE
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
-"  _____  _     _    _  _____ _____ _   _    _____ ______ _______ _______ _____ _   _  _____  _____
-" |  __ \| |   | |  | |/ ____|_   _| \ | |  / ____|  ____|__   __|__   __|_   _| \ | |/ ____|/ ____|
-" | |__) | |   | |  | | |  __  | | |  \| | | (___ | |__     | |     | |    | | |  \| | |  __| (___
-" |  ___/| |   | |  | | | |_ | | | | . ` |  \___ \|  __|    | |     | |    | | | . ` | | |_ |\___ \ 
-" | |    | |___| |__| | |__| |_| |_| |\  |  ____) | |____   | |     | |   _| |_| |\  | |__| |____) |
-" |_|    |______\____/ \_____|_____|_| \_| |_____/|______|  |_|     |_|  |_____|_| \_|\_____|_____/
+
+"  ██████╗ ██╗     ██╗   ██╗ ██████╗ ███████╗
+"  ██╔══██╗██║     ██║   ██║██╔════╝ ██╔════╝
+"  ██████╔╝██║     ██║   ██║██║  ███╗███████╗
+"  ██╔═══╝ ██║     ██║   ██║██║   ██║╚════██║
+"  ██║     ███████╗╚██████╔╝╚██████╔╝███████║
+"  ╚═╝     ╚══════╝ ╚═════╝  ╚═════╝ ╚══════╝
+"
 
 "*****************************************************************************
 " EMMET
 "*****************************************************************************
 let g:user_emmet_leader_key='<leader>'
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
+autocmd FileType html,css,javascript.jsx EmmetInstall
+autocmd FileType js,html,css,javascript.jsx setlocal shiftwidth=2 tabstop=2
+"*****************************************************************************
+" MARKDOWN"
+"*****************************************************************************
+let vim_markdown_preview_github=1
 
 "*****************************************************************************
 " AIRLINE
@@ -296,19 +319,33 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
-"*****************************************************************************
-" SYNTASTIC
-"*****************************************************************************
+""*****************************************************************************
+"" ULTISNIPS
+""*****************************************************************************
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
 
-let g:airline#extensions#syntastic#enabled = 1
-" syntastic
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list=1
-let g:syntastic_aggregate_errors = 1
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsEditSplit="vertical"
+
+""*****************************************************************************
+"" SYNTASTIC
+""*****************************************************************************
+
+"let g:airline#extensions#syntastic#enabled = 1
+"" syntastic
+"let g:syntastic_always_populate_loc_list=1
+"let g:syntastic_error_symbol='✗'
+"let g:syntastic_warning_symbol='⚠'
+"let g:syntastic_style_error_symbol = '✗'
+"let g:syntastic_style_warning_symbol = '⚠'
+"let g:syntastic_auto_loc_list=1
+"let g:syntastic_aggregate_errors = 1
 
 "*****************************************************************************
 " NERD TREE
