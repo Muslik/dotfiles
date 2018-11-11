@@ -31,6 +31,8 @@ call plug#begin(expand('~/.vim/plugged'))
 "*****************************************************************************
 Plug 'w0rp/ale'
 Plug 'JamshedVesuna/vim-markdown-preview'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 Plug 'valloric/youcompleteme'
 Plug 'SirVer/ultisnips'
 Plug 'ervandew/supertab'
@@ -80,6 +82,7 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
 Plug 'romainl/Apprentice'
+Plug 'cocopon/iceberg.vim'
 
 "*****************************************************************************
 " C
@@ -259,13 +262,18 @@ nnoremap <silent> <F3> :NERDTreeToggle<CR>
 "  ██║     ███████╗╚██████╔╝╚██████╔╝███████║
 "  ╚═╝     ╚══════╝ ╚═════╝  ╚═════╝ ╚══════╝
 "
-
+"*****************************************************************************
+" ALE
+"*****************************************************************************
+let g:ale_sign_error = '●' " Less aggressive than the default '>>'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
 "*****************************************************************************
 " EMMET
 "*****************************************************************************
 let g:user_emmet_leader_key='<leader>'
 let g:user_emmet_settings = {
-\  'javascript' : {
+\  'javascript.jsx' : {
 \      'extends' : 'jsx',
 \  },
 \}
@@ -372,8 +380,8 @@ set number
 let no_buffers_menu=1
 
 let g:dracula_italic = 0
+colorscheme iceberg
 set background=dark
-colorscheme Apprentice
 highlight Normal ctermbg=None
 
 set termguicolors
@@ -393,4 +401,3 @@ set modelines=10
 " if exists("*fugitive#statusline")
 "   set statusline+=%{fugitive#statusline()}
 " endif
-
