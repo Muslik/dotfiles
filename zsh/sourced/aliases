@@ -84,3 +84,4 @@ alias wchelp="echo 'l   w   c\n\nl - число строк\nw - число сл�
 alias vim="nvim"
 alias nvimconfig="vim ~/.config/nvim/init.vim"
 alias todo="sh todo.sh"
+alias neofetch="neofetch --ascii ~/.config/neofetch/picture"
