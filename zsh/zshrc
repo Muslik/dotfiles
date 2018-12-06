@@ -40,5 +40,6 @@ HISTFILE=~/.zsh_history
 SAVEHIST=1000
 setopt inc_append_history
 setopt share_history
-if [ "$TMUX" = "" ]; then tmux; fi
+if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
+# if [ "$TMUX" = "" ]; then tmux; fi
 neofetch --ascii ~/.config/neofetch/picture
