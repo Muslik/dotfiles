@@ -41,3 +41,4 @@ SAVEHIST=1000
 setopt inc_append_history
 setopt share_history
 if [ "$TMUX" = "" ]; then tmux; fi
+neofetch --ascii ~/.config/neofetch/picture

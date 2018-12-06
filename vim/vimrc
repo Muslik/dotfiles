@@ -29,7 +29,7 @@ call plug#begin(expand('~/.vim/plugged'))
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
-Plug 'w0rp/ale'
+xPlug 'w0rp/ale'
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'

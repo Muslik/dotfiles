@@ -63,11 +63,11 @@ google() {
 pl () {
 	if [ $@ ]
 	then
-		mkdir ~/Desktop/Playground_$@
-		~/Desktop/Playground_$@
+		mkdir ~/Projects/Playground_$@
+		~/Projects/Playground_$@
 	else
-		rm -rf ~/Desktop/Playground
-		~/Desktop
+		rm -rf ~/Projects/Playground
+		~/Projects
 		mkdir Playground
 		Playground
 	fi
@@ -75,9 +75,9 @@ pl () {
 
 function gpl() {
   if [ $@ ]; then
-    ~/Desktop/Playground_$@
+    ~/Projects/Playground_$@
   else
-    ~/Desktop/Playground
+    ~/Projects/Playground
   fi
 }
 
