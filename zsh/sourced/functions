@@ -71,21 +71,6 @@ function gpl() {
     cd ~/Personal\ Projects/Playground
 }
 
-#########################################
-# NEW C PROJECT              			#
-#########################################
-proj () {
-	if [ $@ ]
-	then
-		mkdir ~/Projects/$@
-		~/Projects/$@
-	else
-		rm -rf ~/Projects/New_Project
-		~/Projects
-		mkdir New_Project
-		New_Project
-	fi
-}
 
 function gpj() {
   if [ $@ ]; then
