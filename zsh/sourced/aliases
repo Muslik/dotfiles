@@ -9,26 +9,30 @@
 #########################################
 # Quick dotfiles                        #
 #########################################
-alias zshconfig="vim ~/dotfiles/zsh/zshrc"
-alias zshaliases="vim ~/dotfiles/zsh/sourced/aliases"
-alias zshfunctions="vim ~/dotfiles/zsh/sourced/functions"
-alias vimconfig="vim ~/dotfiles/vim/vimrc"
+alias zshconfig="nvim ~/dotfiles/zsh/zshrc"
+alias zshaliases="nvim ~/dotfiles/zsh/sourced/aliases"
+alias zshfunctions="nvim ~/dotfiles/zsh/sourced/functions"
+alias vimconfig="nvim ~/dotfiles/vim/vimrc"
+alias nvimconfig="nvim ~/.config/nvim/init.vim"
 alias ssource='source ~/.zshrc'
 #########################################
 # Shorten common commands               #
 #########################################
 alias q="~/ && clear"
 alias top="vtop"
-alias mkdir="mkdir -pv"
+alias vim="nvim"
+alias mkdir="nocorrect mkdir -pv"
 alias hosts="sudo vi /private/etc/hosts"
 alias h="history"
-alias t="touch"
+alias t="nocorrect touch"
+alias touch="nocorrect touch"
 alias v="vim"
 alias c="clear"
 alias ll="ls -lh"
 alias l.='ls -d .* --color=auto'
 alias lal="ls -lah"
 alias gcc="gcc -Wall -Wextra -Werror"
+alias less="vimpager"
 alias norm="norminette"
 alias rm="rm -i"
 alias mv="mv -i"
@@ -37,6 +41,7 @@ alias ct="column -t"
 alias grep="grep --color=always"
 alias pj="vim package.json"
 alias wpc="vim webpack.config.js"
+alias rg="ranger"
 
 #########################################
 # WEBSITES                              #
@@ -79,5 +84,8 @@ alias stfu="osascript -e 'set volume output muted true'"
 alias gdp="cd ~/Desktop"
 alias gdc="cd ~/Documents"
 alias gdl="cd ~/Downloads"
-alias gpj="cd ~/Projects"
 alias wchelp="echo 'l   w   c\n\nl - число строк\nw - число слов\nc - число символов'"
+alias ex="chmod +x"
+alias todo="sh todo.sh"
+alias neofetch="neofetch --ascii ~/.config/neofetch/picture"
+alias debian="qemu-system-x86_64 -boot order=d -drive file=arch.img,format=raw -m 2048"

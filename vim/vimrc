@@ -5,30 +5,19 @@ if has('vim_starting')
   set nocompatible               " Be iMproved
 endif
 
-let vimplug_exists=expand('~/.vim/autoload/plug.vim')
+" let vimplug_exists=expand('~/.vim/autoload/plug.vim')
+let vimplug_exists=expand(~/.config/nvim/init.vim)
 
 let g:vim_bootstrap_langs = "c,html,javascript,php"
 let g:vim_bootstrap_editor = "vim"				" nvim or vim
 
-if !filereadable(vimplug_exists)
-  if !executable("curl")
-    echoerr "You have to install curl or first install vim-plug yourself!"
-    execute "q!"
-  endif
-  echo "Installing Vim-Plug..."
-  echo ""
-  silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  let g:not_finish_vimplug = "yes"
-
-  autocmd VimEnter * PlugInstall
-endif
-
 " Required:
-call plug#begin(expand('~/.vim/plugged'))
+call plug#begin(expand('~/.vim/plugged')
 
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
+Plug 'pbondoer/vim-42header'
 Plug 'w0rp/ale'
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'pangloss/vim-javascript'
@@ -83,6 +72,7 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
 Plug 'romainl/Apprentice'
 Plug 'cocopon/iceberg.vim'
+Plug 'chriskempson/base16-vim'
 
 "*****************************************************************************
 " C
@@ -205,6 +195,7 @@ endif
 
 " Tagbar
 nmap <silent> <F4> :TagbarToggle<CR>
+nmap <silent> <F5> :TagbarTogglePause<CR>
 let g:tagbar_autofocus = 1
 
 " Disable visualbell
@@ -268,6 +259,12 @@ nnoremap <silent> <F3> :NERDTreeToggle<CR>
 let g:ale_sign_error = '●' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
+let g:ale_linters = {
+\	'c': ['clang', 'norminette'],
+\   'cpp': ['clang', 'norminette'],
+\   'h': ['clang', 'norminette'],
+\   'hpp': ['clang', 'norminette']
+\}
 "*****************************************************************************
 " EMMET
 "*****************************************************************************
@@ -380,9 +377,8 @@ set number
 let no_buffers_menu=1
 
 let g:dracula_italic = 0
-colorscheme iceberg
 set background=dark
-highlight Normal ctermbg=None
+colorscheme base16-black-metal-immortal
 
 set termguicolors
 
