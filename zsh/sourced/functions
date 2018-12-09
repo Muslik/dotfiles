@@ -9,7 +9,7 @@
 # CREATE DIR AND ENTER IT               #
 #########################################
 function mkd()  {
-  mkdir -p -- "$@" && cd -- "$@"
+  nocorrect mkdir -p -- "$@" && cd -- "$@"
 }
 
 #########################################
@@ -61,23 +61,22 @@ google() {
 # PLAYGROUND              				#
 #########################################
 pl () {
-	if [ $@ ]
-	then
-		mkdir ~/Projects/Playground_$@
-		~/Projects/Playground_$@
-	else
-		rm -rf ~/Projects/Playground
-		~/Projects
-		mkdir Playground
-		Playground
-	fi
+	rm -rf ~/Personal\ Projects/Playground
+	~/Personal\ Projects
+	mkdir Playground
+	Playground
 }
 
 function gpl() {
+    cd ~/Personal\ Projects/Playground
+}
+
+
+function gpj() {
   if [ $@ ]; then
-    ~/Projects/Playground_$@
+    cd ~/Projects/$@
   else
-    ~/Projects/Playground
+    cd ~/Projects
   fi
 }
 
