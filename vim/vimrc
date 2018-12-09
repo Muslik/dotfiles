@@ -380,7 +380,7 @@ set number
 let no_buffers_menu=1
 
 let g:dracula_italic = 0
-colorscheme Apprentice
+colorscheme base16-default-dark
 set background=dark
 highlight Normal ctermbg=None
 
