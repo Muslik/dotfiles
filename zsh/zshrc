@@ -3,9 +3,8 @@ export LANG=en_US.UTF-8
 export DISPLAY=':0.0'
 export CFLAGS=-DNO_TRUE_COLOURS=1 # Execute this line _only_ if your terminal doesn't support true colours
 export CC=clang CXX=clang++
-export PATH=/Users/dmorgil/.brew/Caskroom/java/11.0.1,13/jdl-11.0.1.jdk/bin:$PATH
 ZSH=$HOME/dotfiles/oh-my-zsh
-ZSH_THEME="spaceship"
+ZSH_THEME=""
 ZSH_CUSTOM=$HOME/dotfiles/zsh/zsh-custom
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=red')
@@ -24,7 +23,6 @@ setopt auto_cd
 unsetopt correct_all
 
 #SOURCING
-
 for file in $HOME/dotfiles/zsh/sourced/*; do
 	source "$file"
 done
@@ -40,21 +38,12 @@ bindkey "^?" backward-delete-char
 zle -N zle-line-init
 zle -N zle-keymap-select
 
-#PURE THEME
-# autoload -U promptinit; promptinit
-# prompt pure
-
-#ITERM TOPBAR
 #HISTORY
 HISTFILE=~/.zsh_history
 SAVEHIST=1000
 setopt inc_append_history
 setopt share_history
-
-# Load Homebrew config script
-source $HOME/.brewconfig.zsh
-
-eval $(thefuck --alias)
-alias steam="open ~/Desktop/.hidden"
 if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
 neofetch --ascii ~/.config/neofetch/picture
+autoload -U promptinit; promptinit
+prompt pure

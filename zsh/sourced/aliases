@@ -13,7 +13,7 @@ alias zshconfig="nvim ~/dotfiles/zsh/zshrc"
 alias zshaliases="nvim ~/dotfiles/zsh/sourced/aliases"
 alias zshfunctions="nvim ~/dotfiles/zsh/sourced/functions"
 alias vimconfig="nvim ~/dotfiles/vim/vimrc"
-alias nvimconfig="nvim ~/.config/nvim/init.vim"
+alias nvimconfig="nvim ~/dotfiles/nvim/init.vim"
 alias ssource='source ~/.zshrc'
 #########################################
 # Shorten common commands               #
@@ -88,4 +88,3 @@ alias wchelp="echo 'l   w   c\n\nl - число строк\nw - число сл�
 alias ex="chmod +x"
 alias todo="sh todo.sh"
 alias neofetch="neofetch --ascii ~/.config/neofetch/picture"
-alias debian="qemu-system-x86_64 -boot order=d -drive file=arch.img,format=raw -m 2048"
