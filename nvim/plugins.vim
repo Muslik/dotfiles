@@ -9,6 +9,7 @@ call plug#begin()
 "" Plug install packages
 "*****************************************************************************
 Plug 'rhysd/vim-clang-format'
+Plug 'pbondoer/vim-42header'
 Plug 'w0rp/ale'
 Plug 'ryanoasis/vim-devicons'
 Plug 'JamshedVesuna/vim-markdown-preview'
