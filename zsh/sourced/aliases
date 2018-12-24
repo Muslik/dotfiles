@@ -14,6 +14,7 @@ alias zshaliases="nvim ~/dotfiles/zsh/sourced/aliases"
 alias zshfunctions="nvim ~/dotfiles/zsh/sourced/functions"
 alias vimconfig="nvim ~/dotfiles/vim/vimrc"
 alias nvimconfig="nvim ~/dotfiles/nvim/init.vim"
+alias tmuxconfig="nvim ~/.tmux.conf"
 alias ssource='source ~/.zshrc'
 #########################################
 # Shorten common commands               #
@@ -24,24 +25,24 @@ alias vim="nvim"
 alias mkdir="nocorrect mkdir -pv"
 alias hosts="sudo vi /private/etc/hosts"
 alias h="history"
-alias t="nocorrect touch"
-alias touch="nocorrect touch"
-alias v="vim"
+alias t="touch"
+alias touch="touch"
+alias v="nvim"
+alias vi="nvim"
 alias c="clear"
 alias ll="ls -lh"
 alias l.='ls -d .* --color=auto'
 alias lal="ls -lah"
 alias gcc="gcc -Wall -Wextra -Werror"
-alias less="vimpager"
 alias norm="norminette"
-alias rm="rm -i"
-alias mv="mv -i"
-alias cp="cp -i"
+alias rm="rm"
+alias mv="mv"
+alias cp="cp"
 alias ct="column -t"
 alias grep="grep --color=always"
 alias pj="vim package.json"
 alias wpc="vim webpack.config.js"
-alias rg="ranger"
+alias mc="ranger"
 
 #########################################
 # WEBSITES                              #
@@ -54,7 +55,7 @@ alias repl="open https://repl.it"
 # IP / Speedtest                        #
 #########################################
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
-alias ip='curl ipinfo.io/ip'
+alias myip='curl ipinfo.io/ip'
 
 #########################################
 # GIT                                   #
@@ -84,7 +85,10 @@ alias stfu="osascript -e 'set volume output muted true'"
 alias gdp="cd ~/Desktop"
 alias gdc="cd ~/Documents"
 alias gdl="cd ~/Downloads"
+alias gsj="cd ~/Subjects"
 alias wchelp="echo 'l   w   c\n\nl - число строк\nw - число слов\nc - число символов'"
 alias ex="chmod +x"
 alias todo="sh todo.sh"
 alias neofetch="neofetch --ascii ~/.config/neofetch/picture"
+alias newC="~/newCProj.sh"
+alias steam="open ~/Desktop/.hidden"
