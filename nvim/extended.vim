@@ -23,3 +23,10 @@ tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
 
 map <leader>tt :terminal<cr>
+
+autocmd bufnewfile *.c :Stdheader
+autocmd bufnewfile *.h :Stdheader
+autocmd Bufwritepre,filewritepre *.c :Stdheader
+autocmd Bufwritepre,filewritepre *.h :Stdheader
+autocmd bufwritepost,filewritepost *.c :Stdheader
+autocmd bufwritepost,filewritepost *.h :Stdheader
