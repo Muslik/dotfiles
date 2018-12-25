@@ -26,7 +26,10 @@ map <leader>tt :terminal<cr>
 
 autocmd bufnewfile *.c :Stdheader
 autocmd bufnewfile *.h :Stdheader
+autocmd bufnewfile Makefile :Stdheader
 autocmd Bufwritepre,filewritepre *.c :Stdheader
 autocmd Bufwritepre,filewritepre *.h :Stdheader
+autocmd Bufwritepre,filewritepre Makefile :Stdheader
 autocmd bufwritepost,filewritepost *.c :Stdheader
 autocmd bufwritepost,filewritepost *.h :Stdheader
+autocmd bufwritepost,filewritepost Makefile :Stdheader
