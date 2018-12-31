@@ -15,7 +15,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'valloric/youcompleteme'
+Plug 'valloric/youcompleteme', {'do': './install.py --tern-completer'}
 Plug 'SirVer/ultisnips'
 Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'

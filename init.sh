@@ -38,8 +38,6 @@ git dotfiles --global core.excludesfile ~/.global_ignore
 
 touch ~/.hushlogin
 
-cd ~/nvim
-
 echo 'set runtimepath+=~/dotfiles/nvim
 source ~/dotfiles/nvim/plugins.vim
 source ~/dotfiles/nvim/extended.vim
