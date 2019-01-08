@@ -113,3 +113,14 @@ function react-app()
 {
 	~/dotfiles/script.sh "${1:=reactApp}"
 }
+
+function vol()
+{
+	osascript -e "set volume output volume $1"
+	clear
+}
+
+function kill()
+{
+	echo "Иди нахер!"
+}

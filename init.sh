@@ -34,6 +34,7 @@ ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/rc.conf ~/.config/ranger/rc.conf
+ln -s ~/dotfiles/qutebrowser/ ~/.qutebrowser
 git dotfiles --global core.excludesfile ~/.global_ignore
 
 touch ~/.hushlogin
