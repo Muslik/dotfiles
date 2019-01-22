@@ -1,7 +1,7 @@
 #Installing 42 brew
 curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh
 
-#Installing brew plugins
+#INSTALLING BREW PLUGINS
 echo "INSTALLING BREW PLUGINS"
 brew install neofetch
 brew install neovim
@@ -26,6 +26,8 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 curl https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Jellybeans.itermcolors > Jellybeans.itermcolors
 open Jellybeans.itermcolors
 
+mkdir -p ~/.config/{nvim,neofetch,ranger}
+
 #SYMLINKS
 echo "SYMLINKING FILES"
 ln -s ~/dotfiles/oh-my-zsh ~/.oh-my-zsh
@@ -35,7 +37,9 @@ ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/rc.conf ~/.config/ranger/rc.conf
 ln -s ~/dotfiles/qutebrowser/ ~/.qutebrowser
-git dotfiles --global core.excludesfile ~/.global_ignore
+ln -s ~/dotfiles/neofetch/config.conf ~/.config/neofetch/config.conf
+ln -s ~/dotfiles/neofetch/picture ~/.config/neofetch/picture
+git config --global core.excludesfile ~/.global_ignore
 
 touch ~/.hushlogin
 
