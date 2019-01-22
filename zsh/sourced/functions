@@ -106,13 +106,6 @@ function repeat()
         eval "$@";
     done
 }
-#########################################
-# REACT TEMPLATE                        #
-#########################################
-function react-app()
-{
-	~/dotfiles/script.sh "${1:=reactApp}"
-}
 
 function vol()
 {
@@ -120,7 +113,13 @@ function vol()
 	clear
 }
 
-function kill()
+function tmux-session()
 {
-	echo "Иди нахер!"
+	sh ~/dotfiles/tmux_save.sh $1
 }
+# function preexec()
+# {
+#     if [ -f $1 ] && [[ "$(file $1)" == *"ASCII text"* ]] || [[ "$(file $1)" == *"empty"* ]]; then
+#         vim $1
+#     fi
+# }

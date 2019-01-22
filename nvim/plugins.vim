@@ -9,12 +9,14 @@ call plug#begin()
 "" Plug install packages
 "*****************************************************************************
 Plug 'rhysd/vim-clang-format'
+Plug 'vim-scripts/bnf.vim'
 Plug 'pbondoer/vim-42header'
 Plug 'w0rp/ale'
 Plug 'ryanoasis/vim-devicons'
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'sjl/vitality.vim'
 Plug 'valloric/youcompleteme', {'do': './install.py --tern-completer'}
 Plug 'SirVer/ultisnips'
 Plug 'ervandew/supertab'
@@ -53,6 +55,7 @@ Plug 'mattn/emmet-vim'
 Plug 'othree/xml.vim'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'arnaud-lb/vim-php-namespace'
+Plug 'chriskempson/base16-vim'
 call plug#end()
 
 "*****************************************************************************

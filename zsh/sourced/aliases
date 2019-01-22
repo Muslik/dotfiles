@@ -19,31 +19,31 @@ alias ssource='source ~/.zshrc'
 #########################################
 # Shorten common commands               #
 #########################################
+alias ex="chmod +x"
+alias bc="bc -l"
 alias q="~/ && clear"
-alias top="vtop"
-alias vim="nvim"
-alias lvim="vim -c \"normal '0\""
-alias mkdir="nocorrect mkdir -pv"
-alias hosts="sudo vi /private/etc/hosts"
-alias h="history"
-alias t="touch"
-alias touch="touch"
+alias top="htop"
 alias v="nvim"
 alias vi="nvim"
+alias vim="nvim"
+alias lvim="vim -c \"normal '0\""
+alias mkdir="mkdir -p"
+alias hosts="sudo vi /private/etc/hosts"
+alias h="history"
+alias hs="history | grep"
+alias t="touch"
 alias c="clear"
 alias ll="ls -lh"
 alias l.='ls -d .* --color=auto'
 alias lal="ls -lah"
 alias gcc="gcc -Wall -Wextra -Werror"
 alias norm="norminette"
-alias rm="rm"
-alias mv="mv"
-alias cp="cp"
 alias ct="column -t"
 alias grep="grep --color=always"
-alias pj="vim package.json"
-alias wpc="vim webpack.config.js"
 alias mc="ranger"
+alias neofetch="neofetch --ascii ~/.config/neofetch/picture"
+alias neo=neofetch
+bindkey -s 'qq' ~/./lockscreen^M
 
 #########################################
 # WEBSITES                              #
@@ -83,15 +83,15 @@ alias stfu="osascript -e 'set volume output muted true'"
 #  ██║     ██║  ██║   ██║   ██║  ██║███████║
 #  ╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝
 #
+alias ..="cd .."
+alias ...="cd ../../../"
+alias ....="cd ../../../../"
+alias steam="open ~/Desktop/.hidden"
 alias gdp="cd ~/Desktop"
 alias gdc="cd ~/Documents"
 alias gdl="cd ~/Downloads"
 alias gsj="cd ~/Subjects"
 alias wchelp="echo 'l   w   c\n\nl - число строк\nw - число слов\nc - число символов'"
-alias ex="chmod +x"
 alias todo="sh todo.sh"
-alias neofetch="neofetch --ascii ~/.config/neofetch/picture"
-alias newC="~/newCProj.sh"
-alias steam="open ~/Desktop/.hidden"
 alias qb="open ~/Applications/qutebrowser.app"
 alias dspace="df -h"

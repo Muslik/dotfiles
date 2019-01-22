@@ -48,6 +48,8 @@ set mouse=a
 
 " Map esc key to jj
 imap jj <Esc>
+imap df <Esc>
+imap jk <Esc>
 
 " Map leader key.
 let mapleader=","
@@ -118,10 +120,6 @@ map k gk
 map <space> /
 map <c-space> ?
 
-"" Buffer nav
-noremap <leader>q :bp<CR>
-noremap <leader>w :bn<CR>
-
 "" Close buffer
 noremap <leader>bd :bd<CR>
 
@@ -152,10 +150,6 @@ nnoremap <silent> <Right> :vertical resize +5<cr>
 nnoremap <silent> <Left> :vertical resize -5<cr>
 nnoremap <silent> <Up> :resize +5<cr>
 nnoremap <silent> <Down> :resize -5<cr>
-
-"" Vmap for maintain Visual Mode after shifting > and <
-vmap < <gv
-vmap > >gv
 
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>e :FZF -m<CR>
@@ -207,8 +201,15 @@ set incsearch
 set noerrorbells
 set novisualbell
 
-" Add a bit extra margin to the left
-"set foldcolumn=1
+" Open new split panes to right and bottom
+set splitright
+set splitbelow
+
+" Auto resize Vim splits to active split
+set winwidth=104
+set winheight=5
+set winminheight=5
+set winheight=999
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
@@ -227,8 +228,7 @@ syntax enable
 
 set background=dark
 set termguicolors
-let ayucolor="dark"
-colorscheme ayu
+colorscheme base16-tomorrow-night
 highlight Normal ctermbg=None
 
 " Enable 256 colors support for terminal
@@ -249,3 +249,5 @@ autocmd BufReadPost *
 			\ if line("'\"") > 0 && line("'\"") <= line("$") |
 			\   exe "normal! g`\"" |
 			\ endif
+autocmd BufLeave,FocusLost * silent! wall
+set sj=-50
