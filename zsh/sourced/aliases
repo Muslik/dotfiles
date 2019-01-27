@@ -14,6 +14,7 @@ alias zshaliases="nvim ~/dotfiles/zsh/sourced/aliases"
 alias zshfunctions="nvim ~/dotfiles/zsh/sourced/functions"
 alias vimconfig="nvim ~/dotfiles/vim/vimrc"
 alias nvimconfig="nvim ~/dotfiles/nvim/init.vim"
+alias nvimplugins="vim ~/dotfiles/nvim/plugins.vim"
 alias tmuxconfig="nvim ~/.tmux.conf"
 alias ssource='source ~/.zshrc'
 #########################################
