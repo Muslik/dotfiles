@@ -117,9 +117,3 @@ function tmux-session()
 {
 	sh ~/dotfiles/tmux_save.sh $1
 }
-# function preexec()
-# {
-#     if [ -f $1 ] && [[ "$(file $1)" == *"ASCII text"* ]] || [[ "$(file $1)" == *"empty"* ]]; then
-#         vim $1
-#     fi
-# }
