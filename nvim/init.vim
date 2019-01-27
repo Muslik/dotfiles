@@ -24,56 +24,25 @@
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Add header directories
+set path+=include;includes;include/headers;includes/headers;
+
 " Sets how many lines of history VIM has to remember
 set history=500
 
 " Enable filetype plugins
 filetype plugin indent on
-filetype plugin on
-
-" Enable line numbering
-set number
-
-" Set relative number instead of default numbers
-set relativenumber
-
-" Set to auto read when a file is changed from the outside
-set autoread
-
-"Disable vim status bar
-set laststatus=0
-
-" Mouse support
-set mouse=a
-
-" Map esc key to jj
-imap jj <Esc>
-imap df <Esc>
-imap jk <Esc>
-
-" Map leader key.
-let mapleader=","
+set number								" enable line numbers
+set relativenumber 						" set relative number
+set autoread							" read open files again when changed outside Vim
+set autowrite							" write a modified buffer on each :next
+set laststatus=0						" disable vim status bar
+set mouse=a								" enable mouse support
+let mapleader=","						" map leader key to ,
 let g:mapleader=","
-
-" Fast saving
-nmap <leader>w :w<CR>
-"
-" Fast quitting
-nmap <leader>q :q<CR>
-
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
-
-" File encoding
-set encoding=utf-8
+set encoding=utf-8						" file encoding
 set fileencoding=utf-8
 set fileencodings=utf-8
-
-"Map Ctrl + S to save in any mode
-noremap <silent> <C-S>          :update<CR>
-vnoremap <silent> <C-S>         <C-C>:update<CR>
-inoremap <silent> <C-S>         <C-O>:update<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -102,8 +71,9 @@ map 0 ^
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " NERD TREE
-map <leader>nn :NERDTreeTabsToggle<CR>
-"
+map <leader>nn :NERDTreeToggle<CR>
+" FZF
+map <leader>f  :FZF<CR>
 " Tagbar
 nmap <silent> <F4> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
@@ -111,14 +81,30 @@ let g:tagbar_autofocus = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------------
+"  some additional hot keys
+"-------------------------------------------------------------------------------
+"    ,w     -  write file without confirmation
+"    ,q     -  qute  file without confirmation
+"    :W     -  save with Sudo
+"    Ctrl+S -  save in any mode
+"    df		-  <ESC>
+"-------------------------------------------------------------------------------
+nmap <leader>w :w<CR>
+nmap <leader>q :q<CR>
+imap df <Esc>
+command W w !sudo tee % > /dev/null
+noremap <silent> <C-S>          :update<CR>
+vnoremap <silent> <C-S>         <C-C>:update<CR>
+inoremap <silent> <C-S>         <C-O>:update<CR>
 
 " Treat long lines as break lines (useful when moving around in them)
 map j gj
 map k gk
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <c-space> ?
+" map <space> /
+" map <c-space> ?
 
 "" Close buffer
 noremap <leader>bd :bd<CR>
@@ -179,23 +165,13 @@ au TabLeave * let g:lasttab = tabpagenr()
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
-
-" Fix backspace indent
-set backspace=indent,eol,start
-
-" Ignore case when searching
-set ignorecase
-
-" When searching try to be smart about cases
-set smartcase
-
-" Don't redraw while executing macros (good performance config)
-set lazyredraw
-
-" Makes search act like search in modern browsers
-set incsearch
+set so=7					  	" middle cursor when it's 7 lines before bottom(after top)
+set sj=-50						" "
+set backspace=indent,eol,start	" fix backspace indent
+set ignorecase					" ignore case when searching
+set smartcase 					" when searching try to be smart about cases
+set lazyredraw 					" don't redraw while executing macros (good performance config)
+set incsearch 					" makes search act like search in modern browsers
 
 " No annoying sound on errors
 set noerrorbells
@@ -250,4 +226,3 @@ autocmd BufReadPost *
 			\   exe "normal! g`\"" |
 			\ endif
 autocmd BufLeave,FocusLost * silent! wall
-set sj=-50

@@ -8,26 +8,23 @@ call plug#begin()
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
-Plug 'rhysd/vim-clang-format'
-Plug 'vim-scripts/bnf.vim'
+Plug 'vim-scripts/bnf.vim', {'for': ['bnf']}
 Plug 'pbondoer/vim-42header'
 Plug 'w0rp/ale'
-Plug 'ryanoasis/vim-devicons'
-Plug 'JamshedVesuna/vim-markdown-preview'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle'}
+Plug 'JamshedVesuna/vim-markdown-preview', {'for': ['md']}
+Plug 'pangloss/vim-javascript', {'for': ['js', 'jsx']}
+Plug 'mxw/vim-jsx', {'for': ['jsx']}
 Plug 'sjl/vitality.vim'
 Plug 'valloric/youcompleteme', {'do': './install.py --tern-completer'}
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'Raimondi/delimitMate'
 Plug 'majutsushi/tagbar'
-Plug 'Yggdroot/indentLine'
 Plug 'sheerun/vim-polyglot'
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -39,22 +36,15 @@ let g:make = 'gmake'
 if exists('make')
 	let g:make = 'make'
 endif
-Plug 'honza/vim-snippets'
-Plug 'cocopon/iceberg.vim'
 Plug 'chriskempson/base16-vim'
-Plug 'nanotech/jellybeans.vim'
-Plug 'ayu-theme/ayu-vim'
-Plug 'altercation/vim-colors-solarized'
 Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
-Plug 'ludwig/split-manpage.vim'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'gorodinskiy/vim-coloresque'
-Plug 'tpope/vim-haml'
+Plug 'ludwig/split-manpage.vim', {'for': ['c', 'cpp', 'h']}
+Plug 'hail2u/vim-css3-syntax', { 'for': ['css'] }
+Plug 'gorodinskiy/vim-coloresque', {'for': ['css', 'html', 'less', 'sass', 'scss']}
+Plug 'tpope/vim-haml', {'for': ['scss', 'sass', 'haml']}
 Plug 'mattn/emmet-vim'
-Plug 'othree/xml.vim'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'arnaud-lb/vim-php-namespace'
-Plug 'chriskempson/base16-vim'
+Plug 'jelera/vim-javascript-syntax', {'for': ['html', 'js', 'jsx']}
+Plug 'arnaud-lb/vim-php-namespace', {'for': ['php']}
 call plug#end()
 
 "*****************************************************************************
@@ -64,6 +54,12 @@ call plug#end()
 let g:ale_sign_error = '●' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
+let g:ale_c_gcc_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers'
+let g:ale_c_clangtidy_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers'
+let g:ale_c_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers'
+let g:ale_c_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers'
+let g:ale_cpp_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I./include/headers -std=c++11'
+let g:ale_cpp_clangcheck_options = '-Wall -Wextra -Werror -I../includes -I./includes -I./include/headers -std=c++11'
 
 "*****************************************************************************
 " EMMET
@@ -75,7 +71,7 @@ let g:user_emmet_settings = {
 \      'extends' : 'jsx',
 \  },
 \}
-autocmd FileType html,css,javascript.jsx EmmetInstall
+autocmd FileType html,css,js,jsx EmmetInstall
 autocmd FileType js,html,css,javascript.jsx setlocal shiftwidth=2 tabstop=2
 
 "*****************************************************************************
@@ -91,9 +87,7 @@ let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
 " better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsExpandTrigger = "<Leader>e"
 let g:UltiSnipsEditSplit="vertical"
 
 "*****************************************************************************
