@@ -1,7 +1,11 @@
+# CHANGE THIS VARIABLES TO YOURS
+# =====================================
 export EDITOR=vim
+export EMAIL=dzhabulya@gmail.com
+export NAME=Dzhabrail
+# =====================================
+
 export LANG=en_US.UTF-8
-export DISPLAY=':0.0'
-# export CFLAGS=-DNO_TRUE_COLOURS=1 # Execute this line _only_ if your terminal doesn't support true colours
 export CC=clang CXX=clang++
 ZSH=$HOME/dotfiles/oh-my-zsh
 ZSH_THEME=""
@@ -47,7 +51,6 @@ setopt share_history
 # Load Homebrew config script
 source $HOME/.brewconfig.zsh
 
-eval $(thefuck --alias)
 if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
 neofetch --ascii ~/.config/neofetch/picture
 fpath+=('/Volumes/Storage/cache/dmorgil/Library/.brew/lib/node_modules/pure-prompt/functions')
