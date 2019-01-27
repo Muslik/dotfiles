@@ -16,7 +16,10 @@ Plug 'JamshedVesuna/vim-markdown-preview', {'for': ['md']}
 Plug 'pangloss/vim-javascript', {'for': ['js', 'jsx']}
 Plug 'mxw/vim-jsx', {'for': ['jsx']}
 Plug 'sjl/vitality.vim'
-Plug 'valloric/youcompleteme', {'do': './install.py --tern-completer'}
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'zchee/deoplete-clang', { 'do': 'brew install llvm' }
+Plug 'zchee/libclang-python3'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
@@ -47,6 +50,9 @@ Plug 'jelera/vim-javascript-syntax', {'for': ['html', 'js', 'jsx']}
 Plug 'arnaud-lb/vim-php-namespace', {'for': ['php']}
 call plug#end()
 
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#clang#libclang_path = "/usr/local/Cellar/llvm/7.0.1/lib/libclang.dylib"
+call deoplete#custom#var('clangx', 'clang_binary', '/usr/local/bin/clang')
 "*****************************************************************************
 " ALE
 "*****************************************************************************
@@ -82,10 +88,6 @@ let vim_markdown_preview_github=1
 ""*****************************************************************************
 "" ULTISNIPS
 ""*****************************************************************************
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<Leader>e"
 let g:UltiSnipsEditSplit="vertical"
