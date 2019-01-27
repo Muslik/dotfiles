@@ -1,10 +1,18 @@
-#Installing 42 brew
+def="\033[39m"
+red="\033[31m"
+green="\033[32m"
+yellow="\033[33m"
+blue="\033[34m"
+magenta="\033[35m"
+
+echo $blue"\nInstalling 42 brew $def\n"
 curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh
 
 #INSTALLING BREW PLUGINS
-echo "INSTALLING BREW PLUGINS"
+echo $green"\nINSTALLING BREW PLUGINS $def\n"
 brew install neofetch
 brew install neovim
+brew install vim
 brew install ranger
 brew install npm
 
@@ -22,14 +30,10 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 #INSTALLING AUTO SUGGESTIONS
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
-#INSTALLING ITERM2 THEME
-curl https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Jellybeans.itermcolors > Jellybeans.itermcolors
-open Jellybeans.itermcolors
-
 mkdir -p ~/.config/{nvim,neofetch,ranger}
 
 #SYMLINKS
-echo "SYMLINKING FILES"
+echo $magenta"\nSYMLINKING FILES $def\n"
 ln -s ~/dotfiles/oh-my-zsh ~/.oh-my-zsh
 ln -s ~/dotfiles/global_ignore ~/
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
@@ -52,6 +56,8 @@ source ~/dotfiles/nvim/my_configs.vim
 catch
 endtry' > ~/.config/nvim/init.vim
 
-echo "Installed Nvim configuration successfully! Enjoy :-)"
+echo $yellow"Installed Nvim configuration successfully! Enjoy :-) $def\n"
+
+echo $red"Now do: vim ~/.zshrc and change top variables to yours $def\n"
 
 echo "DONE"
