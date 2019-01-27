@@ -16,6 +16,9 @@ brew install vim
 brew install ranger
 brew install npm
 
+# Installing brew plugins from Brewfile
+#brew bundle
+
 #REMOVE OLD CONFIGS
 rm -rf ~/.vim ~/.vimrc ~/.zshrc ~/.config/nvim/init.vim ~/.config/ranger/rc.conf
 
