@@ -89,9 +89,12 @@ let vim_markdown_preview_github=1
 "" ULTISNIPS
 ""*****************************************************************************
 " better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<Leader>e"
+let g:UltiSnipsSnippetsDir = "~/dotfiles/nvim/snips"
+let g:UltiSnipsSnippetDirectories = ["UltiSnips", "snips"]
 let g:UltiSnipsEditSplit="vertical"
-
+let g:UltiSnipsExpandTrigger='<leader>e'
+let g:UltiSnipsJumpForwardTrigger='<leader>r'
+let g:UltiSnipsJumpBackwardTrigger='<leader>w'
 "*****************************************************************************
 " NERD TREE
 "*****************************************************************************
