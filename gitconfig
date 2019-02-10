@@ -7,14 +7,14 @@
 # ╚═════╝ ╚═╝   ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝     ╚═╝ ╚═════╝
 
 [core]
-	editor 		 = $EDITOR
+	editor 		 = nvim
 	excludesfile = ~/.global_ignore
 	autocrlf 	 = input
 	safecrlf 	 = true
 	quotepath 	 = off
 [user]
-	email 		 = $EMAIL
-	name 		 = $NAME
+	email 		 = dzhabulya@gmail.com
+	name 		 = Dzhabrail
 [merge]
 	tool 		 = vimdiff
 [alias]

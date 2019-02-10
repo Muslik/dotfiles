@@ -41,6 +41,7 @@ ln -s ~/dotfiles/oh-my-zsh ~/.oh-my-zsh
 ln -s ~/dotfiles/global_ignore ~/
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
+ln -s ~/dotfiles/zshenv ~/.zshenv
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/rc.conf ~/.config/ranger/rc.conf
 ln -s ~/dotfiles/qutebrowser/ ~/.qutebrowser

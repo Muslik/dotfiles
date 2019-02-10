@@ -16,9 +16,6 @@ Plug 'JamshedVesuna/vim-markdown-preview', {'for': ['md']}
 Plug 'pangloss/vim-javascript', {'for': ['js', 'jsx']}
 Plug 'mxw/vim-jsx', {'for': ['jsx']}
 Plug 'sjl/vitality.vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-Plug 'zchee/deoplete-clang', { 'do': 'brew install llvm' }
 Plug 'zchee/libclang-python3'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -29,6 +26,7 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'Raimondi/delimitMate'
 Plug 'majutsushi/tagbar'
 Plug 'sheerun/vim-polyglot'
+Plug 'Valloric/YouCompleteMe'
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 else
@@ -50,9 +48,6 @@ Plug 'jelera/vim-javascript-syntax', {'for': ['html', 'js', 'jsx']}
 Plug 'arnaud-lb/vim-php-namespace', {'for': ['php']}
 call plug#end()
 
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#clang#libclang_path = "/usr/local/Cellar/llvm/7.0.1/lib/libclang.dylib"
-call deoplete#custom#var('clangx', 'clang_binary', '/usr/local/bin/clang')
 "*****************************************************************************
 " ALE
 "*****************************************************************************
@@ -60,12 +55,12 @@ call deoplete#custom#var('clangx', 'clang_binary', '/usr/local/bin/clang')
 let g:ale_sign_error = '●' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
-let g:ale_c_gcc_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers'
-let g:ale_c_clangtidy_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers'
-let g:ale_c_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers'
-let g:ale_c_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers'
-let g:ale_cpp_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I./include/headers -std=c++11'
-let g:ale_cpp_clangcheck_options = '-Wall -Wextra -Werror -I../includes -I./includes -I./include/headers -std=c++11'
+let g:ale_c_gcc_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers -I../libft/includes -I./libft/includes'
+let g:ale_c_clangtidy_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers -I../libft/includes -I./libft/includes'
+let g:ale_c_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers -I../libft/includes -I./libft/includes'
+let g:ale_c_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers -I../libft/includes -I./libft/includes'
+let g:ale_cpp_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I./include/headers -I../libft/includes -std=c++11'
+let g:ale_cpp_clangcheck_options = '-Wall -Wextra -Werror -I../includes -I./includes -I./include/headers -I../libft/includes -std=c++11'
 
 "*****************************************************************************
 " EMMET

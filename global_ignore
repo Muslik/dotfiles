@@ -60,3 +60,12 @@ dkms.conf
 
 # Personal
 temp_dirs
+
+# JS
+node_modules/
+.npm
+
+#LOGS
+logs
+*.log
+npm-debug.log*
