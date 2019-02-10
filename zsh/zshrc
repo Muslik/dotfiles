@@ -41,7 +41,7 @@ setopt share_history
 
 
 if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
-neofetch --ascii ~/.config/neofetch/picture
+#neofetch --ascii ~/.config/neofetch/picture
 
 #PURE THEME
 autoload -U promptinit; promptinit

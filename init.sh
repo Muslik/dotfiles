@@ -47,6 +47,7 @@ ln -s ~/dotfiles/rc.conf ~/.config/ranger/rc.conf
 ln -s ~/dotfiles/qutebrowser/ ~/.qutebrowser
 ln -s ~/dotfiles/neofetch/config.conf ~/.config/neofetch/config.conf
 ln -s ~/dotfiles/neofetch/picture ~/.config/neofetch/picture
+ln -s ~/dotfiles/spacemacs ~/.spacemacs
 git config --global core.excludesfile ~/.global_ignore
 
 touch ~/.hushlogin
