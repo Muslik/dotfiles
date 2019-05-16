@@ -39,10 +39,10 @@ SAVEHIST=1000
 setopt inc_append_history
 setopt share_history
 
-
-if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
+# if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
 #neofetch --ascii ~/.config/neofetch/picture
 
 #PURE THEME
 autoload -U promptinit; promptinit
 prompt pure
+export PATH="/usr/local/opt/libxml2/bin:$PATH"

@@ -32,13 +32,17 @@ set history=500
 
 " Enable filetype plugins
 filetype plugin indent on
+
+set smarttab
+set cindent
+set omnifunc=syntaxcomplete#Complete
 set number								" enable line numbers
 set relativenumber 						" set relative number
 set autoread							" read open files again when changed outside Vim
 set autowrite							" write a modified buffer on each :next
-set laststatus=0						" disable vim status bar
+set laststatus=2						" disable vim status bar
 set mouse=a								" enable mouse support
-let mapleader=","						" map leader key to ,
+let mapleader=","						" map leader key to Space
 let g:mapleader=","
 set encoding=utf-8						" file encoding
 set fileencoding=utf-8
@@ -48,7 +52,6 @@ set fileencodings=utf-8
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set softtabstop=0
 " Be smart when using tabs ;)
 set smarttab
 
@@ -58,6 +61,8 @@ set tabstop=4
 
 " Use tabs instead of spaces
 set noexpandtab
+
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
@@ -71,11 +76,11 @@ map 0 ^
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " NERD TREE
-map <leader>nn :NERDTreeToggle<CR>
+map <leader>n :NERDTreeToggle<CR>
 " FZF
-map <leader>f  :FZF<CR>
+map ; :FZF<CR>
 " Tagbar
-nmap <silent> <F4> :TagbarToggle<CR>
+nmap <leader>t :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -102,8 +107,6 @@ inoremap <silent> <C-S>         <C-O>:update<CR>
 map j gj
 map k gk
 
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-" map <space> /
 " map <c-space> ?
 
 "" Close buffer
@@ -226,3 +229,12 @@ autocmd BufReadPost *
 			\   exe "normal! g`\"" |
 			\ endif
 autocmd BufLeave,FocusLost * silent! wall
+
+augroup project
+		autocmd!
+    autocmd BufRead,BufNewFile *.h,*.c set filetype=c
+augroup END
+
+let &path.="src/include,/usr/include/AL,includes,include,"
+"='-I'.substitute(&path, ',', '\n-I', 'g')<cr>p
+let g:ycm_global_ycm_extra_conf = '~/dotfiles/.ycm_extra_conf.py'

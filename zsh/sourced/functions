@@ -16,7 +16,7 @@ function mkd()  {
 # WEATHER                               #
 #########################################
 weather() {
-	curl ru.wttr.in/${1:Москва}
+	curl -s ru.wttr.in/${1:Москва} | grep -v "igor"
 }
 
 #########################################
@@ -123,7 +123,11 @@ function mostused()
 	history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n ${1:-10}
 }
 
-function norminette()
+function cdp()
 {
-	
+	TEMP_PWD=`pwd`
+	while ! [ -d .git ]; do
+		cd ..
+	done
+	OLDPWD=$TEMP_PWD
 }

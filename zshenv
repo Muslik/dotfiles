@@ -7,8 +7,6 @@ export NAME=Dzhabrail
 
 export LANG=en_US.UTF-8
 export CC=clang CXX=clang++
-
-# Load Homebrew config script
-source $HOME/.brewconfig.zsh
+export ZSH_COMPDUMP=/tmp/zcompdump-$USER
 
 fpath+=('/Volumes/Storage/cache/dmorgil/Library/.brew/lib/node_modules/pure-prompt/functions')

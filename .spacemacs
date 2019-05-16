@@ -36,12 +36,22 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+	 asm
+	 php
      helm
-     auto-completion
+	 ruby
+	 html
+	 react
+	 python
+	 markdown
      javascript
+	 emacs-lisp
+	 shell-scripts
+     auto-completion
      (c-c++ :variables c-c++-enable-clang-support t)
 	 games
      emacs-lisp
+	 gnus
      git
      (shell :variables
             shell-default-height 30
@@ -56,11 +66,12 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
-     all-the-icons
-	 multiple-cursors
-     doom-themes
-	 evil-mc
-	 ycmd
+	  all-the-icons
+	  multiple-cursors
+	  doom-themes
+	  evil-mc
+	  magit
+	  ycmd
      )
 ;    Updated: 2019/02/25 23:23:46 by dmorgil          ###   ########.fr        ;
    dotspacemacs-frozen-packages '()
@@ -308,6 +319,7 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  ; Remap esc to this
   (setq-default evil-escape-key-sequence "df")
   )
 
@@ -318,29 +330,78 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (setq backward-delete-char-untabify-method 'hungry)
+  ; YCMD COMPLETITION
   (require 'ycmd)
-  (setq ycmd-parse-conditions '(save new-line mode-enabled idle-change))
-  (setq-default tab-always-indent t)
-  (add-hook 'c++-mode-hook 'ycmd-mode)
-  (setq ycmd-server-command '("python3" "/Users/dmorgil/.ycmd/ycmd" "--options_file" "/Users/dmorgil/.ycmd/ycmd/default_settings.json"))
+  (setq ycmd-server-command '("python3" "/Users/Dzhab/.ycmd/ycmd" "--options_file" "/Users/Dzhab/.ycmd/ycmd/default_settings.json"))
   (setq ycmd-force-semantic-completion t)
-  (c-set-offset 'substatement-open 0)
+  (add-hook 'c++-mode-hook 'ycmd-mode)
+  ; YCMD CHECK WHILE TYPING INSTEAD OF ON SAVE
+  (setq ycmd-parse-conditions '(save new-line mode-enabled idle-change))
+  ; INDENT WITH TABS
+  (setq backward-delete-char-untabify-method 'hungry)
+  (setq-default tab-always-indent t)
   (setq-default indent-tabs-mode t)
-	(setq-default tab-width 4)                ; tabs four spaces wide
+  (setq-default tab-width 4)                ; tabs four spaces wide
+  ; Disable indent after brackets
+  (c-set-offset 'substatement-open 0)
+  ; default offset in C set to tab-width
   (defvaralias 'c-basic-offset 'tab-width)
   (global-set-key (kbd "C-c m c") 'mc/edit-lines)
-  (global-set-key (kbd "S-<left>") 'shrink-window-horizontally)
-  (global-set-key (kbd "S-<right>") 'enlarge-window-horizontally)
-  (global-set-key (kbd "S-<down>") 'shrink-window)
-  (global-set-key (kbd "S-<up>") 'enlarge-window)
+  ; Resize windows with S+arrow keys
+  (global-set-key (kbd "S-<right>") 'shrink-window-horizontally)
+  (global-set-key (kbd "S-<left>") 'enlarge-window-horizontally)
+  (global-set-key (kbd "S-<up>") 'shrink-window)
+  (global-set-key (kbd "S-<down>") 'enlarge-window)
   (setq make-backup-files nil) ; stop creating backup~ files
   (setq auto-save-default nil) ; stop creating #autosave# files
+  (setq-default dotspacemacs-configuration-layers
+				'((auto-completion :variables
+                                   auto-completion-enable-snippets-in-popup t)))
+  ; JS
+  (setq-default
+   ;; js2-mode
+   js2-basic-offset 2
+   ;; web-mode
+   css-indent-offset 2
+   web-mode-markup-indent-offset 2
+   web-mode-css-indent-offset 2
+   web-mode-code-indent-offset 2
+   web-mode-attr-indent-offset 2)
+  (with-eval-after-load 'web-mode
+	(add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+	(add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+	(add-to-list 'web-mode-indentation-params '("lineup-calls" . nil)))
+  ; Tabs works as tab
   (define-key text-mode-map (kbd "TAB") 'self-insert-command)
   (local-set-key (kbd "TAB") 'self-insert-command)
   (add-hook 'c-mode-common-hook 'dotspacemacs/user-config)
-  )
+  ; EMAIL SETUP
+  (setq gnus-secondary-select-methods
+		'(
+		  (nnimap "gmail"
+				  (nnimap-address
+				   "imap.gmail.com")
+				  (nnimap-server-port 993)
+				  (nnimap-stream ssl))
+		  ))
 
+  ;; Send email via Gmail:
+  (setq message-send-mail-function 'smtpmail-send-it
+		smtpmail-default-smtp-server "smtp.gmail.com")
+
+  ;; Archive outgoing email in Sent folder on imap.gmail.com:
+  (setq gnus-message-archive-method '(nnimap "imap.gmail.com")
+		gnus-message-archive-group "[Gmail]/Sent Mail")
+
+  ;; set return email address based on incoming email address
+  (setq gnus-posting-styles
+		'(((header "to" "dzhabulya@gmail.com")
+		   (address "dzhabulya@gmail.com"))))
+
+  ;; store email in ~/gmail directory
+  (setq nnml-directory "~/gmail")
+  (setq message-directory "~/gmail")
+  )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (custom-set-variables
@@ -354,7 +415,7 @@ you should place your code here."
  '(neo-show-hidden-files nil)
  '(package-selected-packages
    (quote
-    (helm-gtags ggtags typit mmt sudoku pacmacs 2048-game slack emojify alert oauth2 log4e gntp ht websocket circe flycheck-ycmd company-ycmd ycmd request-deferred deferred memoize doom-themes all-the-icons web-beautify smeargle orgit magit-gitflow livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link flycheck-pos-tip pos-tip flycheck evil-magit magit-popup magit transient git-commit with-editor lv company-tern dash-functional tern coffee-mode disaster company-c-headers cmake-mode clang-format xterm-color shell-pop multi-term helm-company helm-c-yasnippet fuzzy eshell-z eshell-prompt-extras esh-help company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (yasnippet-snippets x86-lookup spotlight counsel swiper ivy nasm-mode yapfify rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements phpunit phpcbf php-extras php-auto-yasnippets mmm-mode minitest markdown-toc markdown-mode live-py-mode insert-shebang hy-mode helm-pydoc gh-md fish-mode drupal-mode php-mode cython-mode company-shell company-anaconda chruby bundler inf-ruby anaconda-mode pythonic web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data helm-gtags ggtags typit mmt sudoku pacmacs 2048-game slack emojify alert oauth2 log4e gntp ht websocket circe flycheck-ycmd company-ycmd ycmd request-deferred deferred memoize doom-themes all-the-icons web-beautify smeargle orgit magit-gitflow livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link flycheck-pos-tip pos-tip flycheck evil-magit magit-popup magit transient git-commit with-editor lv company-tern dash-functional tern coffee-mode disaster company-c-headers cmake-mode clang-format xterm-color shell-pop multi-term helm-company helm-c-yasnippet fuzzy eshell-z eshell-prompt-extras esh-help company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

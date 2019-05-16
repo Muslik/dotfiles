@@ -1,3 +1,7 @@
+GPATH
+GRTAGS
+GTAGS
+.clang_complete
 # MAC OS
 .DS_Store
 

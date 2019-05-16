@@ -9,24 +9,29 @@ call plug#begin()
 "" Plug install packages
 "*****************************************************************************
 Plug 'vim-scripts/bnf.vim', {'for': ['bnf']}
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'pbondoer/vim-42header'
 Plug 'w0rp/ale'
 Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle'}
 Plug 'JamshedVesuna/vim-markdown-preview', {'for': ['md']}
-Plug 'pangloss/vim-javascript', {'for': ['js', 'jsx']}
-Plug 'mxw/vim-jsx', {'for': ['jsx']}
+Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'Valloric/YouCompleteMe'
 Plug 'sjl/vitality.vim'
 Plug 'zchee/libclang-python3'
+Plug 'tpope/vim-repeat'
 Plug 'SirVer/ultisnips'
+
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
 Plug 'tpope/vim-commentary'
+Plug 'majutsushi/tagbar'
+Plug 'Valloric/YouCompleteMe'
+
 Plug 'tpope/vim-surround'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'Raimondi/delimitMate'
-Plug 'majutsushi/tagbar'
-Plug 'sheerun/vim-polyglot'
-Plug 'Valloric/YouCompleteMe'
+Plug 'jiangmiao/auto-pairs'
+
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 else
@@ -44,8 +49,8 @@ Plug 'hail2u/vim-css3-syntax', { 'for': ['css'] }
 Plug 'gorodinskiy/vim-coloresque', {'for': ['css', 'html', 'less', 'sass', 'scss']}
 Plug 'tpope/vim-haml', {'for': ['scss', 'sass', 'haml']}
 Plug 'mattn/emmet-vim'
-Plug 'jelera/vim-javascript-syntax', {'for': ['html', 'js', 'jsx']}
 Plug 'arnaud-lb/vim-php-namespace', {'for': ['php']}
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 "*****************************************************************************
@@ -72,9 +77,6 @@ let g:user_emmet_settings = {
 \      'extends' : 'jsx',
 \  },
 \}
-autocmd FileType html,css,js,jsx EmmetInstall
-autocmd FileType js,html,css,javascript.jsx setlocal shiftwidth=2 tabstop=2
-
 "*****************************************************************************
 " MARKDOWN"
 "*****************************************************************************
@@ -102,3 +104,4 @@ let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 35
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+
