@@ -23,7 +23,7 @@ for file in $HOME/dotfiles/zsh/sourced/*; do
 done
 
 bindkey -v
-bindkey -M viins 'jj' vi-cmd-mode
+bindkey -M viins 'df' vi-cmd-mode
 function zle-line-init zle-keymap-select {
     RPS2=$RPS1
     zle reset-prompt
@@ -40,9 +40,27 @@ setopt inc_append_history
 setopt share_history
 
 
-if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
+# if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
 #neofetch --ascii ~/.config/neofetch/picture
 
 #PURE THEME
+eval "$(rbenv init -)"
+fpath=($fpath "/Users/dmorgil/.zfunctions")
+
+echo -n "Занято ";
+df -h | grep $(whoami) | cut -d " " -f 8 | xargs echo -n;
+echo -n " из "; df -h | grep $(whoami) | cut -d " " -f 6 | xargs echo -n;
+echo -n ". Cache: ";
+if [[ -f ~/Library/*42* ]]; then
+	du -h -c ~/Library/*42* | tail -1 | cut -f 1; #Valera a.k.a. bbaelor- 30.04.2018
+else
+	echo "0B";
+fi
+
+~/dotfiles/./prompttmux.sh
+# Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
-prompt pure
+prompt spaceship
+fpath=($fpath "/Users/dmorgil/.zfunctions")
+fpath=($fpath "/Users/dmorgil/.zfunctions")
+fpath=($fpath "/Users/dmorgil/.zfunctions")

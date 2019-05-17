@@ -1,5 +1,10 @@
 # MAC OS
+resources/
 .DS_Store
+GPATH
+GRTAGS
+GTAGS
+.clang_complete
 
 # IntelliJ IDEA
 .idea/

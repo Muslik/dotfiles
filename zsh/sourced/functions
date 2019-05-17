@@ -41,7 +41,6 @@ so() {
     open $url;
   fi
 }
-
 #########################################
 # GOOGLE                                #
 #########################################
@@ -56,7 +55,6 @@ google() {
 		open $url;
 	fi
 }
-
 #########################################
 # PLAYGROUND              				#
 #########################################
@@ -70,7 +68,6 @@ pl () {
 function gpl() {
     cd ~/Personal\ Projects/Playground
 }
-
 
 function gpj() {
   if [ $@ ]; then
@@ -123,7 +120,24 @@ function mostused()
 	history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n ${1:-10}
 }
 
-function norminette()
+function free()
 {
-	
+du -d1 -h $1 2>/dev/null| perl -e 'sub h{%h=(K=>10,M=>20,G=>30);($n,$u)=shift=~/([0-9.]+)(\D)/;
+return $n*2**$h{$u}}print sort{h($b)<=>h($a)}<>;'
+}
+function norm()
+{
+	rbenv global system && norminette $@ && rbenv global 2.6.1
+}
+funciton askTmux() {
+if tmux info &> /dev/null; then
+	echo
+else
+	read -p "Activate TMUX? " -n 1 -r
+	echo
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then
+		tmux
+	fi
+fi
 }

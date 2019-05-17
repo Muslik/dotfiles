@@ -9,25 +9,28 @@
 #########################################
 # Quick dotfiles                        #
 #########################################
-alias zshconfig="nvim ~/dotfiles/zsh/zshrc"
-alias zshaliases="nvim ~/dotfiles/zsh/sourced/aliases"
-alias zshfunctions="nvim ~/dotfiles/zsh/sourced/functions"
-alias vimconfig="nvim ~/dotfiles/vim/vimrc"
-alias nvimconfig="nvim ~/dotfiles/nvim/init.vim"
+alias zshconfig="vim ~/dotfiles/zsh/zshrc"
+alias zshaliases="vim ~/dotfiles/zsh/sourced/aliases"
+alias zshfunctions="vim ~/dotfiles/zsh/sourced/functions"
+alias vimconfig="vim ~/dotfiles/vim/vimrc"
+alias emacs="~/Applications/Emacs.app/Contents/MacOS/Emacs"
+alias nvimconfig="vim ~/dotfiles/nvim/init.vim"
 alias nvimplugins="vim ~/dotfiles/nvim/plugins.vim"
-alias tmuxconfig="nvim ~/.tmux.conf"
+alias tmuxconfig="vim ~/.tmux.conf"
 alias ssource='source ~/.zshrc'
 #########################################
 # Shorten common commands               #
 #########################################
+alias phpstorm="open ~/Applications/storm.app"
+alias calc="~/dotfiles/./calc"
 alias ex="chmod +x"
+alias e="emacs"
 alias bc="bc -l"
 alias q="~/ && clear"
 alias top="htop"
 alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
-alias emacs="emacs-26.1"
 alias lvim="vim -c \"normal '0\""
 alias mkdir="mkdir -p"
 alias hosts="sudo vi /private/etc/hosts"
@@ -39,19 +42,17 @@ alias ll="ls -lh"
 alias l.='ls -d .* --color=auto'
 alias lal="ls -lah"
 alias gcc="gcc -Wall -Wextra -Werror"
-alias norminette="/usr/bin/norminette"
-alias norm="norminette"
 alias ct="column -t"
 alias grep="grep --color=always"
 alias mc="ranger"
 alias neofetch="neofetch --ascii ~/.config/neofetch/picture"
 alias neo=neofetch
-bindkey -s 'qq' ~/./lockscreen^M
 
 #########################################
 # WEBSITES                              #
 #########################################
 alias vk="open https://www.vk.com"
+alias slack="open https://21born2code.slack.com/messages"
 alias telegram="open https://web.telegram.org/"
 alias repl="open https://repl.it"
 
@@ -98,3 +99,5 @@ alias wchelp="echo 'l   w   c\n\nl - число строк\nw - число сл�
 alias todo="sh todo.sh"
 alias qb="open ~/Applications/qutebrowser.app"
 alias dspace="df -h"
+alias minecraft="java -jar ~/Desktop/.Tlauncher.jar"
+alias freemem="rm -rf ~/Library/*42_cache* && rm -rf ~/.Trash/* 2>/dev/null"
