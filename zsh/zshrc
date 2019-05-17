@@ -39,7 +39,6 @@ SAVEHIST=1000
 setopt inc_append_history
 setopt share_history
 
-
 # if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
 #neofetch --ascii ~/.config/neofetch/picture
 
@@ -61,6 +60,4 @@ fi
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
 prompt spaceship
-fpath=($fpath "/Users/dmorgil/.zfunctions")
-fpath=($fpath "/Users/dmorgil/.zfunctions")
 fpath=($fpath "/Users/dmorgil/.zfunctions")

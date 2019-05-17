@@ -8,8 +8,8 @@
 
 [core]
 	editor 		 = nvim
-	excludesfile = ~/.global_ignore
-	autocrlf 	 = input
+	excludesfile = /Users/dzhab/.global_ignore
+	autocrlf = false
 	safecrlf 	 = true
 	quotepath 	 = off
 [user]
