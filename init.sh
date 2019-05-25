@@ -9,7 +9,6 @@ magenta="\033[35m"
 echo $green"\nINSTALLING BREW PLUGINS $def\n"
 brew install neofetch
 brew install neovim
-brew install vim
 brew install ranger
 brew install npm
 
@@ -35,7 +34,7 @@ mkdir -p ~/.config/{nvim,neofetch,ranger}
 #SYMLINKS
 echo $magenta"\nSYMLINKING FILES $def\n"
 ln -s ~/dotfiles/oh-my-zsh ~/.oh-my-zsh
-ln -s ~/dotfiles/global_ignore ~/
+ln -s ~/dotfiles/global_ignore ~/.globl_ignore
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/zshenv ~/.zshenv
@@ -57,7 +56,7 @@ source ~/dotfiles/nvim/my_configs.vim
 catch
 endtry' > ~/.config/nvim/init.vim
 
-echo $yellow"Installed Nvim configuration successfully! Enjoy :-) $def\n"
+echo $yellow"Configuration installed successfully! Enjoy :-) $def\n"
 
 echo $red"Now do: vim ~/.zshrc and change top variables to yours $def\n"
 

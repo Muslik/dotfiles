@@ -12,6 +12,7 @@ Plug 'vim-scripts/bnf.vim', {'for': ['bnf']}
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'pbondoer/vim-42header'
 Plug 'w0rp/ale'
+Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
 Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle'}
 Plug 'JamshedVesuna/vim-markdown-preview', {'for': ['md']}
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
@@ -21,7 +22,6 @@ Plug 'sjl/vitality.vim'
 Plug 'zchee/libclang-python3'
 Plug 'tpope/vim-repeat'
 Plug 'SirVer/ultisnips'
-
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
 Plug 'tpope/vim-commentary'
@@ -60,12 +60,8 @@ call plug#end()
 let g:ale_sign_error = '●' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
-let g:ale_c_gcc_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers -I../libft/includes -I./libft/includes'
-let g:ale_c_clangtidy_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers -I../libft/includes -I./libft/includes'
-let g:ale_c_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers -I../libft/includes -I./libft/includes'
-let g:ale_c_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I include -I libft -I./include/headers -I../libft/includes -I./libft/includes'
-let g:ale_cpp_clang_options = '-Wall -Wextra -Werror -I../includes -I./includes -I./include/headers -I../libft/includes -std=c++11'
-let g:ale_cpp_clangcheck_options = '-Wall -Wextra -Werror -I../includes -I./includes -I./include/headers -I../libft/includes -std=c++11'
+let g:ale_c_parse_makefile = 1
+let g:ale_c_parse_compile_commands = 1
 
 "*****************************************************************************
 " EMMET
@@ -82,16 +78,6 @@ let g:user_emmet_settings = {
 "*****************************************************************************
 let vim_markdown_preview_github=1
 
-""*****************************************************************************
-"" ULTISNIPS
-""*****************************************************************************
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsSnippetsDir = "~/dotfiles/nvim/snips"
-let g:UltiSnipsSnippetDirectories = ["UltiSnips", "snips"]
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsExpandTrigger='<leader>e'
-let g:UltiSnipsJumpForwardTrigger='<leader>r'
-let g:UltiSnipsJumpBackwardTrigger='<leader>w'
 "*****************************************************************************
 " NERD TREE
 "*****************************************************************************

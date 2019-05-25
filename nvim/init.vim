@@ -137,12 +137,6 @@ noremap <leader>h <C-w>h
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-" resize panes
-nnoremap <silent> <Right> :vertical resize +5<cr>
-nnoremap <silent> <Left> :vertical resize -5<cr>
-nnoremap <silent> <Up> :resize +5<cr>
-nnoremap <silent> <Down> :resize -5<cr>
-
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>e :FZF -m<CR>
 

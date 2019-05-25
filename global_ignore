@@ -1,9 +1,10 @@
+# MAC OS
+resources/
+.DS_Store
 GPATH
 GRTAGS
 GTAGS
 .clang_complete
-# MAC OS
-.DS_Store
 
 # IntelliJ IDEA
 .idea/
