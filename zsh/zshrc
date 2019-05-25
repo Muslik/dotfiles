@@ -46,3 +46,5 @@ setopt share_history
 autoload -U promptinit; promptinit
 prompt pure
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
+alias mf-gen="/bin/sh ~/42-utilities/update.sh; python3 ~/42-utilities/mf-gen.py"
+alias proto-list="/bin/sh ~/42-utilities/update.sh; sh ~/42-utilities/proto-list.sh"

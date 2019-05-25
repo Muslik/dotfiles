@@ -61,14 +61,14 @@ google() {
 # PLAYGROUND              				#
 #########################################
 pl () {
-	rm -rf ~/Personal\ Projects/Playground
-	~/Personal\ Projects
+	rm -rf ~/Personal_Projects/Playground
+	~/Personal_Projects
 	mkdir Playground
 	Playground
 }
 
 function gpl() {
-    cd ~/Personal\ Projects/Playground
+    cd ~/Personal_Projects/Playground
 }
 
 

@@ -1,0 +1,22 @@
+snippet log "log"
+console.log($1)
+endsnippet
+
+snippet fn "function"
+function $1($2) {
+	$3
+}$4
+endsnippet
+
+snippet rcc "react-class-component"
+class  $1 extends Component {
+	constructor(props) {
+		super(props);
+	}
+	render() {
+		return (
+			<div> Hello world </div>
+			   )
+	}
+}
+endsnippet
