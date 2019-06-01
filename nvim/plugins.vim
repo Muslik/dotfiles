@@ -27,6 +27,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
 Plug 'tpope/vim-commentary'
 Plug 'majutsushi/tagbar'
 Plug 'Valloric/YouCompleteMe'
+Plug 'alexlafroscia/postcss-syntax.vim'
 
 Plug 'tpope/vim-surround'
 Plug 'bronson/vim-trailing-whitespace'
@@ -77,7 +78,19 @@ let g:user_emmet_settings = {
 " MARKDOWN"
 "*****************************************************************************
 let vim_markdown_preview_github=1
+""*****************************************************************************
+"" ULTISNIPS
+""*****************************************************************************
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsSnippetsDir = "~/dotfiles/nvim/snips"
+let g:UltiSnipsSnippetDirectories = ["UltiSnips", "snips"]
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsExpandTrigger='<leader>e'
+let g:UltiSnipsJumpForwardTrigger='<leader>n'
+let g:UltiSnipsJumpBackwardTrigger='<leader>p'
 
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 "*****************************************************************************
 " NERD TREE
 "*****************************************************************************

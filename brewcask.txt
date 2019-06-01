@@ -1,0 +1,10 @@
+alfred
+discord
+emacs
+google-chrome
+iterm2
+phpstorm
+postman
+qutebrowser
+slack
+spectacle

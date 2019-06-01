@@ -6,7 +6,7 @@
 /*   By: dmorgil <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 15:04:02 by dmorgil           #+#    #+#             */
-/*   Updated: 2019/05/16 16:06:06 by dmorgil          ###   ########.fr       */
+/*   Updated: 2019/05/17 22:23:43 by dmorgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int check_tier(double tier) {
 
 	if(modf(tier, &temp))
 		return (0);
-	else if (tier < 0 || tier > 5)
+	else if (tier < 0 || tier > 7)
 		return (0);
 	return (1);
 }
@@ -126,10 +126,10 @@ int main() {
 	}
 	while (!check_mark(mark));
 	do {
-		printf("\e[34mEnter project tier [0-5]: \e[0m");
+		printf("\e[34mEnter project tier [0-7]: \e[0m");
 		scanf("%lf", &tier);
 		if (!check_tier(tier))
-			printf("\e[31mError. Tier must be an integer value between 0 and 5\e[0m\n");
+			printf("\e[31mError. Tier must be an integer value between 0 and 7\e[0m\n");
 	}
 	while (!check_tier(tier));
 	printf("\e[32mYOUR FINAL LEVEL ==> %.2lf\e[0m\n", calculate(level, mark, tier));

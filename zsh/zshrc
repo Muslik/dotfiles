@@ -42,10 +42,6 @@ setopt share_history
 # if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
 #neofetch --ascii ~/.config/neofetch/picture
 
-#PURE THEME
-eval "$(rbenv init -)"
-fpath=($fpath "/Users/dmorgil/.zfunctions")
-
 echo -n "Занято ";
 df -h | grep $(whoami) | cut -d " " -f 8 | xargs echo -n;
 echo -n " из "; df -h | grep $(whoami) | cut -d " " -f 6 | xargs echo -n;
@@ -61,3 +57,5 @@ fi
 autoload -U promptinit; promptinit
 prompt spaceship
 fpath=($fpath "/Users/dmorgil/.zfunctions")
+#dseditgroup -o edit -a dmorgil -t user admin
+#dseditgroup -o edit -a dmorgil -t user wheel

@@ -1,4 +1,4 @@
-sudo nvram SystemAudioVolume=" "
+# sudo nvram SystemAudioVolume=" "
 defaults write com.apple.universalaccess reduceTransparency -bool true
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
