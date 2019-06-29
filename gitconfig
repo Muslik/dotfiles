@@ -9,7 +9,7 @@
 [core]
 	editor 		 = nvim
 	excludesfile = /Users/dzhab/.global_ignore
-	autocrlf = false
+	autocrlf 	 = false
 	safecrlf 	 = true
 	quotepath 	 = off
 [user]

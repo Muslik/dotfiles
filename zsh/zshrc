@@ -40,26 +40,8 @@ setopt inc_append_history
 setopt share_history
 
 # if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
-#neofetch --ascii ~/.config/neofetch/picture
+neofetch --ascii ~/.config/neofetch/picture
 
-#PURE THEME
-eval "$(rbenv init -)"
-fpath=($fpath "/Users/dmorgil/.zfunctions")
-
-echo -n "Занято ";
-df -h | grep $(whoami) | cut -d " " -f 8 | xargs echo -n;
-echo -n " из "; df -h | grep $(whoami) | cut -d " " -f 6 | xargs echo -n;
-echo -n ". Cache: ";
-if [[ -f ~/Library/*42* ]]; then
-	du -h -c ~/Library/*42* | tail -1 | cut -f 1; #Valera a.k.a. bbaelor- 30.04.2018
-else
-	echo "0B";
-fi
-
-~/dotfiles/./prompttmux.sh
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
 prompt pure
-export PATH="/usr/local/opt/libxml2/bin:$PATH"
-alias mf-gen="/bin/sh ~/42-utilities/update.sh; python3 ~/42-utilities/mf-gen.py"
-alias proto-list="/bin/sh ~/42-utilities/update.sh; sh ~/42-utilities/proto-list.sh"
