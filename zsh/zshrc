@@ -1,3 +1,4 @@
+unset -f precmd
 ZSH=$HOME/dotfiles/oh-my-zsh
 ZSH_THEME=""
 ZSH_CUSTOM=$HOME/dotfiles/zsh/zsh-custom
@@ -43,8 +44,9 @@ setopt share_history
 #neofetch --ascii ~/.config/neofetch/picture
 
 echo -n "Занято ";
-df -h | grep $(whoami) | cut -d " " -f 8 | xargs echo -n;
-echo -n " из "; df -h | grep $(whoami) | cut -d " " -f 6 | xargs echo -n;
+df -h | grep $(whoami) | awk 'BEGIN { FS=" " }; { print $3 }' | xargs echo -n;
+echo -n " из ";
+df -h | grep $(whoami) | awk 'BEGIN { FS=" " }; { print $2 }' | xargs echo -n;
 echo -n ". Cache: ";
 if [[ -f ~/Library/*42* ]]; then
 	du -h -c ~/Library/*42* | tail -1 | cut -f 1; #Valera a.k.a. bbaelor- 30.04.2018
@@ -53,9 +55,12 @@ else
 fi
 
 ~/dotfiles/./prompttmux.sh
-# Set Spaceship ZSH as a prompt
-autoload -U promptinit; promptinit
-prompt spaceship
 fpath=($fpath "/Users/dmorgil/.zfunctions")
 #dseditgroup -o edit -a dmorgil -t user admin
 #dseditgroup -o edit -a dmorgil -t user wheel
+
+  # Set Spaceship ZSH as a prompt
+  autoload -U promptinit; promptinit
+  prompt spaceship
+
+# sudo launchctl unload -w /Library/LaunchDaemons/fr.42.macreport.plist

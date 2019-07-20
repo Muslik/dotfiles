@@ -1,4 +1,7 @@
 # MAC OS
+__pycache__/
+.clang-complete
+.ycm_extra_conf.py
 resources/
 .DS_Store
 GPATH

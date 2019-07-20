@@ -31,8 +31,8 @@ alias q="~/ && clear"
 alias top="htop"
 alias emacs="~/Applications/Emacs.app/Contents/MacOS/Emacs"
 alias v="nvim"
-alias vi="nvim"
 alias vim="nvim"
+alias vi="vim"
 alias lvim="vim -c \"normal '0\""
 alias mkdir="mkdir -p"
 alias hosts="sudo vi /private/etc/hosts"
@@ -105,4 +105,10 @@ alias minecraft="java -jar ~/Desktop/.Tlauncher.jar"
 alias freemem="rm -rf ~/Library/*42_cache* && rm -rf ~/.Trash/* 2>/dev/null"
 alias ter="trans -b :en+ru"
 alias tre="trans -b :ru+en"
-alias boss="~/dotfiles/./.boss"
+alias boss="~/dotfiles/.boss"
+
+alias usergroups="dscacheutil -q group -a name admin"
+
+alias rinstall='~/dotfiles/boss.sh'
+
+alias rremove="brew cask list | xargs brew cask uninstall && sudo ~/dotfiles/.unroot.sh"

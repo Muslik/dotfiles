@@ -1,12 +1,10 @@
 bat
 cmake
-fish
 fzf
 htop
 httpd
 mongodb
 mysql
-neofetch
 neovim
 node
 php
@@ -14,3 +12,4 @@ ranger
 sl
 tmux
 valgrind
+heroku
