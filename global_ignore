@@ -13,6 +13,7 @@ GTAGS
 .idea/
 .idea
 
+*.pyc
 # Prerequisites
 *.d
 

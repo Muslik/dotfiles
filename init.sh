@@ -8,6 +8,8 @@ magenta="\033[35m"
 #INSTALLING BREW PLUGINS
 echo $green"\nINSTALLING BREW PLUGINS $def\n"
 brew install neofetch
+brew install git
+brew install 
 brew install neovim
 brew install ranger
 brew install npm
@@ -34,7 +36,7 @@ mkdir -p ~/.config/{nvim,neofetch,ranger}
 #SYMLINKS
 echo $magenta"\nSYMLINKING FILES $def\n"
 ln -s ~/dotfiles/oh-my-zsh ~/.oh-my-zsh
-ln -s ~/dotfiles/global_ignore ~/.globl_ignore
+ln -s ~/dotfiles/global_ignore ~/.global_ignore
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/zshenv ~/.zshenv
@@ -46,6 +48,9 @@ ln -s ~/dotfiles/neofetch/picture ~/.config/neofetch/picture
 git config --global core.excludesfile ~/.global_ignore
 
 touch ~/.hushlogin
+
+npm install -g prompt-pure
+npm install -g browser-sync
 
 echo 'set runtimepath+=~/dotfiles/nvim
 source ~/dotfiles/nvim/plugins.vim

@@ -41,6 +41,7 @@ setopt inc_append_history
 setopt share_history
 
 # if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
+<<<<<<< HEAD
 #neofetch --ascii ~/.config/neofetch/picture
 
 echo -n "Занято ";
@@ -64,3 +65,10 @@ fpath=($fpath "/Users/dmorgil/.zfunctions")
   prompt spaceship
 
 # sudo launchctl unload -w /Library/LaunchDaemons/fr.42.macreport.plist
+=======
+neofetch --ascii ~/.config/neofetch/picture
+
+# Set Spaceship ZSH as a prompt
+autoload -U promptinit; promptinit
+prompt pure
+>>>>>>> 825bb073353751fde507f5b363329df7ae77e016
