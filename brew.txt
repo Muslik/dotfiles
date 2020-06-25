@@ -1,15 +1,10 @@
 bat
+git
 cmake
 fzf
 htop
-httpd
-mongodb
-mysql
 neovim
 node
-php
 ranger
-sl
 tmux
-valgrind
 heroku

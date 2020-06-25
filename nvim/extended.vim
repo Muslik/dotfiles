@@ -14,22 +14,4 @@ try
 catch
 endtry
 
-" Terminal
-tnoremap <Esc> <C-\><C-n>
-
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
-
 map <leader>tt :terminal<cr>
-
-autocmd bufnewfile *.c :Stdheader
-autocmd bufnewfile *.h :Stdheader
-autocmd bufnewfile Makefile :Stdheader
-autocmd Bufwritepre,filewritepre *.c :Stdheader
-autocmd Bufwritepre,filewritepre *.h :Stdheader
-autocmd Bufwritepre,filewritepre Makefile :Stdheader
-autocmd bufwritepost,filewritepost *.c :Stdheader
-autocmd bufwritepost,filewritepost *.h :Stdheader
-autocmd bufwritepost,filewritepost Makefile :Stdheader

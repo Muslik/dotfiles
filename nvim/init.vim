@@ -63,6 +63,7 @@ set tabstop=4
 set expandtab
 
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
 autocmd FileType php setlocal shiftwidth=2 tabstop=2
 autocmd FileType css setlocal shiftwidth=2 tabstop=2
@@ -125,14 +126,15 @@ nnoremap <S-Tab> gT
 nnoremap <silent> <S-t> :tabnew<CR>
 
 "" Split
-noremap <Leader>H :<C-u>split<CR>
-noremap <Leader>V :<C-u>vsplit<CR>
+noremap ss :<C-u>split<CR>
+noremap sc :<C-u>close<CR>
+noremap sv :<C-u>vsplit<CR>
 
 "" Switching windows
-noremap <leader>j <C-w>j
-noremap <leader>k <C-w>k
-noremap <leader>l <C-w>l
-noremap <leader>h <C-w>h
+noremap sj <C-w>j
+noremap sk <C-w>k
+noremap sl <C-w>l
+noremap sh <C-w>h
 
 "" Move visual block
 vnoremap J :m '>+1<CR>gv=gv
@@ -182,12 +184,6 @@ set novisualbell
 set splitright
 set splitbelow
 
-" Auto resize Vim splits to active split
-set winwidth=104
-set winheight=5
-set winminheight=5
-set winheight=999
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -205,12 +201,18 @@ syntax enable
 
 set background=dark
 set termguicolors
-colorscheme base16-tomorrow-night
-highlight Normal ctermbg=None
+colorscheme jellybeans
+let g:lightline = { 'colorscheme': 'jellybeans' }
+highlight Error guibg=None
+
 
 " Enable 256 colors support for terminal
 set t_Co=256
 set guioptions=egmrti
+
+if (has("termguicolors"))
+ set termguicolors
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Useful Options
@@ -233,6 +235,3 @@ augroup project
     autocmd BufRead,BufNewFile *.h,*.c set filetype=c
 augroup END
 
-let &path.="src/include,/usr/include/AL,includes,include,"
-"='-I'.substitute(&path, ',', '\n-I', 'g')<cr>p
-let g:ycm_global_ycm_extra_conf = '~/dotfiles/.ycm_extra_conf.py'

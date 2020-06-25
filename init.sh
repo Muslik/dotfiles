@@ -7,12 +7,7 @@ magenta="\033[35m"
 
 #INSTALLING BREW PLUGINS
 echo $green"\nINSTALLING BREW PLUGINS $def\n"
-brew install neofetch
-brew install git
-brew install 
-brew install neovim
-brew install ranger
-brew install npm
+cat brew.txt | xargs brew install
 
 # Installing brew plugins from Brewfile
 #brew bundle
@@ -36,13 +31,11 @@ mkdir -p ~/.config/{nvim,neofetch,ranger}
 #SYMLINKS
 echo $magenta"\nSYMLINKING FILES $def\n"
 ln -s ~/dotfiles/oh-my-zsh ~/.oh-my-zsh
-ln -s ~/dotfiles/global_ignore ~/.global_ignore
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/zshenv ~/.zshenv
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/rc.conf ~/.config/ranger/rc.conf
-ln -s ~/dotfiles/qutebrowser/ ~/.qutebrowser
 ln -s ~/dotfiles/neofetch/config.conf ~/.config/neofetch/config.conf
 ln -s ~/dotfiles/neofetch/picture ~/.config/neofetch/picture
 git config --global core.excludesfile ~/.global_ignore

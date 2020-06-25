@@ -23,9 +23,9 @@ weather() {
 # BROWSER SYNC                          #
 #########################################
 function bs () {
-	files="${1:=*.html,css/*.css,js/*.js}";
-	echo $files
-		browser-sync start -s -f $files --no-notify
+    files="${1:=*.html,css/*.css,js/*.js}";
+    echo $files
+        browser-sync start -s -f $files --no-notify
 }
 #########################################
 # STACK OVERFLOW                        #
@@ -59,14 +59,14 @@ google() {
 # PLAYGROUND              				#
 #########################################
 pl () {
-	rm -rf ~/Personal_Projects/Playground
-	~/Personal_Projects
+	rm -rf ~/Projects/Playground
+	~/Projects
 	mkdir Playground
 	Playground
 }
 
 function gpl() {
-    cd ~/Personal_Projects/Playground
+    cd ~/Projects/Playground
 }
 
 function gpj() {
@@ -75,21 +75,6 @@ function gpj() {
   else
     cd ~/Projects
   fi
-}
-
-#########################################
-# C 									#
-#########################################
-function run() {
-	gcc $@
-	./a.out
-}
-
-#########################################
-# COPY SITE                             #
-#########################################
-copysite () {
-	wget -r -k -l 7 -p -E -nc ~/Sites/Copied "$1";
 }
 
 #########################################
@@ -104,17 +89,6 @@ function repeat()
     done
 }
 
-function vol()
-{
-	osascript -e "set volume output volume $1"
-	clear
-}
-
-function tmux-session()
-{
-	sh ~/dotfiles/tmux_save.sh $1
-}
-
 function mostused()
 {
 	history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n ${1:-10}
@@ -125,10 +99,7 @@ function free()
 	du -d1 -h $1 2>/dev/null| perl -e 'sub h{%h=(K=>10,M=>20,G=>30);($n,$u)=shift=~/([0-9.]+)(\D)/;
 		return $n*2**$h{$u}}print sort{h($b)<=>h($a)}<>;'
 }
-function norm()
-{
-	rbenv global system && norminette $@ && rbenv global 2.6.1
-}
+
 function cdp()
 {
 	TEMP_PWD=`pwd`
@@ -136,4 +107,11 @@ function cdp()
 		cd ..
 	done
 	OLDPWD=$TEMP_PWD
+}
+
+function ide()
+{
+    tmux split-window -v -p 30;
+    tmux split-window -h -p 66;
+    tmux split-window -h -p 50;
 }
