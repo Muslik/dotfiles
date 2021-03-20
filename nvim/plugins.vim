@@ -8,10 +8,8 @@ call plug#begin()
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
-Plug 'w0rp/ale'
-Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle'}
+Plug 'haishanh/night-owl.vim'
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'tpope/vim-repeat'
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
@@ -22,6 +20,7 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -40,24 +39,16 @@ Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
 Plug 'ludwig/split-manpage.vim', {'for': ['c', 'cpp', 'h']}
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css'] }
 Plug 'gorodinskiy/vim-coloresque', {'for': ['css', 'html', 'less', 'sass', 'scss']}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-haml', {'for': ['scss', 'sass', 'haml']}
-Plug 'mattn/emmet-vim'
+Plug 'chriskempson/base16-vim'
+Plug 'daviesjamie/vim-base16-lightline'
 Plug 'airblade/vim-gitgutter'
+Plug 'leafgarland/typescript-vim'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'herringtondarkholme/yats.vim'
 call plug#end()
-
-"*****************************************************************************
-" ALE
-"*****************************************************************************
-
-let g:ale_sign_error = '❗️' " Less aggressive than the default '>>'
-let g:ale_sign_warning = '⚡️'
-let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
-let g:ale_c_parse_makefile = 1
-let g:ale_c_parse_compile_commands = 1
-let g:ale_fixers = {}
-let g:ale_fixers.javascript = ['eslint']
-let g:ale_fix_on_save = 1
-let g:ale_javascript_eslint_suppress_missing_config = 1
 
 "*****************************************************************************
 " EMMET
@@ -88,3 +79,11 @@ let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 35
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+
+
+"*****************************************************************************
+" COC NVIM
+"*****************************************************************************
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+let g:vim_jsx_pretty_colorful_config = 1

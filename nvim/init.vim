@@ -63,9 +63,11 @@ set tabstop=4
 set expandtab
 
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2
+autocmd FileType tpescriptreact setlocal shiftwidth=2 tabstop=2
+autocmd FileType typescript.tsx setlocal shiftwidth=2 tabstop=2
 autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
-autocmd FileType php setlocal shiftwidth=2 tabstop=2
 autocmd FileType css setlocal shiftwidth=2 tabstop=2
 autocmd FileType scss setlocal shiftwidth=2 tabstop=2
 
@@ -82,11 +84,39 @@ map 0 ^
 
 " NERD TREE
 map <leader>n :NERDTreeToggle<CR>
+" Automaticaly close nvim if NERDTree is only thing left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " FZF
 map ; :FZF<CR>
 " Tagbar
 nmap <leader>t :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
+
+" COC NVIM
+let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_prev = '<s-tab>'
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <leader>do <Plug>(coc-codeaction)
+nmap <leader>rn <Plug>(coc-rename)
+
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
@@ -95,7 +125,7 @@ let g:tagbar_autofocus = 1
 "  some additional hot keys
 "-------------------------------------------------------------------------------
 "    ,w     -  write file without confirmation
-"    ,q     -  qute  file without confirmation
+"    ,q     -  quit  file without confirmation
 "    :W     -  save with Sudo
 "    Ctrl+S -  save in any mode
 "    df		-  <ESC>
@@ -112,18 +142,26 @@ inoremap <silent> <C-S>         <C-O>:update<CR>
 map j gj
 map k gk
 
-" map <c-space> ?
-
 "" Close buffer
 noremap <leader>bd :bd<CR>
+
+"" Prev buffer
+noremap <leader>bp :bp<CR>
+
+"" Next buffer
+noremap <leader>bn :bn<CR>
 
 "" Clean search (highlight)
 nnoremap <silent> <leader><space> :noh<cr>
 
 "" Tabs
-nnoremap <Tab> gt
-nnoremap <S-Tab> gT
+" nnoremap <Tab> gt
+" nnoremap <S-Tab> gT
 nnoremap <silent> <S-t> :tabnew<CR>
+nnoremap <leader>tn :tabnew<cr>
+nnoremap <leader>to :tabonly<cr>
+nnoremap <leader>tc :tabclose<cr>
+nnoremap <leader>tm :tabmove<cr>
 
 "" Split
 noremap ss :<C-u>split<CR>
@@ -141,7 +179,6 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>e :FZF -m<CR>
 
 " 2 spaces down
 nnoremap 2o o<CR>
@@ -151,13 +188,6 @@ nnoremap 2O O<Esc>O
 
 nnoremap n nzzzv
 nnoremap N Nzzzv
-"
-" Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
-map <leader>t<leader> :tabnext
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -175,8 +205,9 @@ set ignorecase					" ignore case when searching
 set smartcase 					" when searching try to be smart about cases
 set lazyredraw 					" don't redraw while executing macros (good performance config)
 set incsearch 					" makes search act like search in modern browsers
+set cursorline                  " enabled cursor line
 
-" No annoying sound on errors
+"No annoying sound on errors
 set noerrorbells
 set novisualbell
 
@@ -195,34 +226,27 @@ set noswapfile
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Enable syntax highlighting
 syntax enable
 
 set background=dark
 set termguicolors
-colorscheme jellybeans
-let g:lightline = { 'colorscheme': 'jellybeans' }
+colorscheme base16-default-dark
+let g:lightline = { 'colorscheme': 'base16' }
+
 highlight Error guibg=None
-
-
-" Enable 256 colors support for terminal
-set t_Co=256
-set guioptions=egmrti
-
-if (has("termguicolors"))
- set termguicolors
-endif
+highlight Comment cterm=italic gui=italic
+highlight CursorLine guibg=#01121F
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Useful Options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"" Copy/Paste/Cut
+"" Copy/Paste/Cut in system clipboard
 if has('unnamedplus')
   set clipboard=unnamed,unnamedplus
 endif
 
+autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
 			\ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -235,3 +259,57 @@ augroup project
     autocmd BufRead,BufNewFile *.h,*.c set filetype=c
 augroup END
 
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
+" Go Vim
+let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
+let g:go_def_mapping_enabled = 0
+
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_extra_types = 1
+
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+
+augroup completion_preview_close
+  autocmd!
+  if v:version > 703 || v:version == 703 && has('patch598')
+    autocmd CompleteDone * if !&previewwindow && &completeopt =~ 'preview' | silent! pclose | endif
+  endif
+augroup END
+
+augroup go
+
+  au!
+
+  au FileType go nmap <leader>r  <Plug>(go-run)
+  au FileType go nmap <leader>t  <Plug>(go-test)
+  au FileType go nmap <Leader>gt <Plug>(go-coverage-toggle)
+  au FileType go nmap <Leader>i <Plug>(go-info)
+  au FileType go nmap <C-g> :GoDecls<cr>
+  au FileType go nmap <leader>dr :GoDeclsDir<cr>
+  au FileType go imap <C-g> <esc>:<C-u>GoDecls<cr>
+
+augroup END
+
+" turn terminal to normal mode with escape
+tnoremap <Esc> <C-\><C-n>
+" start terminal in insert mode
+au BufEnter * if &buftype == 'terminal' | :startinsert | endif
+" open terminal on ctrl+n
+function! OpenTerminal()
+  split term://zsh
+  resize 20
+endfunction
+nnoremap <c-n> :call OpenTerminal()<CR>

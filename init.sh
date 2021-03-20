@@ -26,7 +26,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 #INSTALLING AUTO SUGGESTIONS
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
-mkdir -p ~/.config/{nvim,neofetch,ranger}
+mkdir -p ~/.config/{nvim,ranger,alacritty}
 
 #SYMLINKS
 echo $magenta"\nSYMLINKING FILES $def\n"
@@ -35,9 +35,8 @@ ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/zshenv ~/.zshenv
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/alacritty.yml ~/.config/alacritty/alacritty.yml
 ln -s ~/dotfiles/rc.conf ~/.config/ranger/rc.conf
-ln -s ~/dotfiles/neofetch/config.conf ~/.config/neofetch/config.conf
-ln -s ~/dotfiles/neofetch/picture ~/.config/neofetch/picture
 git config --global core.excludesfile ~/.global_ignore
 
 touch ~/.hushlogin

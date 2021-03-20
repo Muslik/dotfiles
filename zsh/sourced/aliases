@@ -15,7 +15,8 @@ alias zshfunctions="vim ~/dotfiles/zsh/sourced/functions"
 alias vimconfig="vim ~/dotfiles/vim/vimrc"
 alias nvimconfig="vim ~/dotfiles/nvim/init.vim"
 alias nvimplugins="vim ~/dotfiles/nvim/plugins.vim"
-alias tmuxconfig="vim ~/.tmux.conf"
+alias tmuxconfig="vim ~/dotfiles/tmux.conf"
+alias alconfig="vim ~/dotfiles/alacritty.yml"
 alias ssource='source ~/.zshrc'
 #########################################
 # Shorten common commands               #
@@ -38,19 +39,16 @@ alias c="clear"
 alias ll="ls -lh"
 alias l.='ls -d .* --color=auto'
 alias lal="ls -lAh"
-alias gcc="gcc -Wall -Wextra -Werror"
 alias ct="column -t"
 alias grep="grep --color=always"
 alias mc="ranger"
-alias neofetch="neofetch --ascii ~/.config/neofetch/picture"
-alias neo=neofetch
 
 #########################################
 # WEBSITES                              #
 #########################################
 alias vk="open https://www.vk.com"
-alias slack="open https://21born2code.slack.com/messages"
 alias telegram="open https://web.telegram.org/"
+alias jsbin="open 'https://jsbin.com/?js,console'"
 alias repl="open https://repl.it"
 
 #########################################
@@ -69,7 +67,7 @@ alias ga="git add "
 alias gl="git log --pretty=format:'%C(Yellow)%h%Creset %ad | %s%d [%C(Green)%an%Creset]' --graph --date=short"
 alias gb="git branch"
 alias gbnm="git branch --no-merged"
-alias go="git checkout"
+alias gc="git checkout"
 
 #########################################
 # MY OWN COMMANDS                       #

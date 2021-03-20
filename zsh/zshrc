@@ -35,7 +35,7 @@ zle -N zle-keymap-select
 
 #HISTORY
 HISTFILE=~/.zsh_history
-SAVEHIST=1000
+SAVEHIST=10000
 setopt inc_append_history
 setopt share_history
 
@@ -44,6 +44,3 @@ if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
 prompt pure
-
-export PATH="$PATH:/Users/dzhab/Projects/flutterSDK/bin:/Users/dzhab/Library/Android/sdk/tools/bin"
-export PATH="PATH=/usr/local/opt/inetutils/libexec/gnubin:$PATH"
