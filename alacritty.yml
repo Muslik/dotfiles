@@ -10,8 +10,18 @@ window:
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: true
 
-  # Startup Mode (changes require restart)
-  startup_mode: Fullscreen
+  #   # Startup Mode (changes require restart)
+  #
+  # Values for `startup_mode`:
+  #   - Windowed
+  #   - Maximized
+  #   - Fullscreen
+  #
+  # Values for `startup_mode` (macOS only):
+  #   - SimpleFullscreen
+  #startup_mode: Windowed
+  startup_mode: windowed
+background_opacity: 1
 
 # Sample Font configuration for font: Monoid.
 # Feel free to use different font configuration family & face for each sections
@@ -22,19 +32,19 @@ font:
   # UI for powerline & tmux bottom bar.
   normal:
     # Font name
-    family: Menlo Nerd Font
+    family: Fira Code
     # Font face
     style: Regular
 
   # Bold font face
-  # bold:
-  #   family: Menlo Nerd Font
-  #   style: Bold
+  bold:
+    family: Fira Code
+    style: Bold
 
   # Italic font face
-  # italic:
-  #   family: Menlo Nerd Font
-  #   style: Italic
+  italic:
+    family: Fira Code
+    style: Italic
 
   # Bold italic font face
   # Note: Since i don't have a font italic version of this font, I just specified

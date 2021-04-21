@@ -37,11 +37,14 @@ alias hs="history | grep"
 alias t="touch"
 alias c="clear"
 alias ll="ls -lh"
+alias lt="du -sh * | sort -h"
+alias mnt='mount | grep -E ^/dev | column -t'
 alias l.='ls -d .* --color=auto'
 alias lal="ls -lAh"
 alias ct="column -t"
 alias grep="grep --color=always"
 alias mc="ranger"
+alias yota="sudo sysctl -w net.inet.ip.ttl=65"
 
 #########################################
 # WEBSITES                              #
@@ -70,8 +73,15 @@ alias gbnm="git branch --no-merged"
 alias gc="git checkout"
 
 #########################################
+# asciinema                             #
+#########################################
+alias record="asciinema rec"
+alias recordAuth="asciinema auth"
+
+#########################################
 # MY OWN COMMANDS                       #
 #########################################
+alias mail="neomutt"
 alias now='date +"%T | %d-%m-%Y"'
 alias stfu="osascript -e 'set volume output muted true'"
 

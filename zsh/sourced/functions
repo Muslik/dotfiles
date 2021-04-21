@@ -4,6 +4,11 @@
 #  ██╔══╝  ██║   ██║██║╚██╗██║██║        ██║   ██║██║   ██║██║╚██╗██║╚════██║
 #  ██║     ╚██████╔╝██║ ╚████║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║███████║
 #  ╚═╝      ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+#
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
+NC='\033[0m'
 
 #########################################
 # CREATE DIR AND ENTER IT               #
@@ -31,18 +36,16 @@ function bs () {
 # PLAYGROUND              				#
 #########################################
 pl () {
-	rm -rf ~/Projects/Playground
-	~/Projects
-	mkdir Playground
-	Playground
-}
-
-gpl () {
-  if [ $@ ]; then
-    cd ~/Projects/Playground$@
-  else
-    cd ~/Projects/Playground
-  fi
+    if [ $@ ]; then
+        if [ -d ~/Projects/Playground/$@ ]; then
+            cd ~/Projects/Playground/$@
+        else
+            mkdir ~/Projects/Playground/$@
+            cd ~/Projects/Playground/$@
+        fi
+    else
+        cd ~/Projects/Playground
+    fi
 }
 
 gpj () {
@@ -70,6 +73,15 @@ function mostused()
 	history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n ${1:-10}
 }
 
+function cl() {
+    DIR="$*";
+        if [ $# -lt 1 ]; then
+                DIR=$HOME;
+    fi;
+    builtin cd "${DIR}" && \
+        ls -F
+}
+
 function free()
 {
 	du -d1 -h $1 2>/dev/null| perl -e 'sub h{%h=(K=>10,M=>20,G=>30);($n,$u)=shift=~/([0-9.]+)(\D)/;
@@ -81,4 +93,11 @@ function ide()
     tmux split-window -v -p 30;
     tmux split-window -h -p 66;
     tmux split-window -h -p 50;
+}
+
+battery() {
+    condition=$(system_profiler SPPowerDataType | grep "Condition" | awk '{print $2}')
+    cycles=$(system_profiler SPPowerDataType | grep "Cycle Count" | awk '{print $3}')
+    charge_status=$(system_profiler SPPowerDataType | grep "State of Charge" | awk '{print $5}')
+    print "Condition: ${condition}\nCycles: ${cycles}\nCharge: ${charge_status}%"
 }

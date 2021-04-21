@@ -62,6 +62,7 @@ set tabstop=4
 " Use tabs instead of spaces
 set expandtab
 
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
 autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2
 autocmd FileType tpescriptreact setlocal shiftwidth=2 tabstop=2
@@ -232,6 +233,12 @@ set background=dark
 set termguicolors
 colorscheme base16-default-dark
 let g:lightline = { 'colorscheme': 'base16' }
+
+" Transparent background
+highlight Normal ctermbg=none
+highlight NonText ctermbg=none
+highlight Normal guibg=none
+highlight NonText guibg=none
 
 highlight Error guibg=None
 highlight Comment cterm=italic gui=italic

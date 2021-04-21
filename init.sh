@@ -26,6 +26,9 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 #INSTALLING AUTO SUGGESTIONS
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
+# Tmux Plugin Manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 mkdir -p ~/.config/{nvim,ranger,alacritty}
 
 #SYMLINKS

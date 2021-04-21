@@ -8,3 +8,5 @@ node
 ranger
 tmux
 heroku
+highlight
+spotify-tui
