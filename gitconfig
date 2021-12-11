@@ -1,0 +1,44 @@
+#
+# ██████╗ ██╗████████╗ ██████╗ ██████╗ ███╗   ██╗███████╗██╗ ██████╗
+#██╔════╝ ██║╚══██╔══╝██╔════╝██╔═══██╗████╗  ██║██╔════╝██║██╔════╝
+#██║  ███╗██║   ██║   ██║     ██║   ██║██╔██╗ ██║█████╗  ██║██║  ███╗
+#██║   ██║██║   ██║   ██║     ██║   ██║██║╚██╗██║██╔══╝  ██║██║   ██║
+#╚██████╔╝██║   ██║   ╚██████╗╚██████╔╝██║ ╚████║██║     ██║╚██████╔╝
+# ╚═════╝ ╚═╝   ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝     ╚═╝ ╚═════╝
+
+[core]
+	editor 		 = nvim
+	excludesfile = /Users/dzhab/.global_ignore
+	autocrlf 	 = false
+	safecrlf 	 = true
+	quotepath 	 = off
+[user]
+	email 		 = dzhabulya@gmail.com
+	name 		 = Dzhabrail
+[merge]
+	tool 		 = vimdiff
+[alias]
+	co 			 = checkout
+	cm 			 = commit
+	st 			 = status
+	br 			 = branch
+	hist 		 = log --pretty=format:'%C(Yellow)%h%Creset %ad | %s%d [%C(Green)%an%Creset]' --graph --date=short
+	type 		 = cat-file -t
+	dump 		 = cat-file -p
+	lg1 		 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	lg2 		 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[delta]
+    line-numbers = true
+    syntax-theme = Monokai Extended
+    navigate = true
+
+[interactive]
+    diffFilter = delta --color-only
+[pull]
+	rebase = false

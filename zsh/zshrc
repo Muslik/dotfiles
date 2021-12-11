@@ -1,0 +1,51 @@
+ZSH_THEME=""
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
+ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=red')
+
+#SOURCING
+for file in $HOME/dotfiles/zsh/sourced/*; do
+	source "$file"
+done
+
+# PLUGINS
+antigen use oh-my-zsh
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen apply
+
+# AUTO CD
+setopt auto_cd
+
+#TYPO CORRECTION
+unsetopt correct_all
+
+bindkey -v
+bindkey -M viins 'jj' vi-cmd-mode
+function zle-line-init zle-keymap-select {
+    RPS2=$RPS1
+    zle reset-prompt
+}
+bindkey "^?" backward-delete-char
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+#HISTORY
+HISTFILE=~/.zsh_history
+SAVEHIST=10000
+ZSH_TMUX_AUTOSTART=false
+setopt inc_append_history
+setopt share_history
+
+if [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]
+then
+   ZSH_TMUX_AUTOSTART=true
+fi
+
+if [ "$ZSH_TMUX_AUTOSTART" = true ] && [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
+
+# Set Spaceship ZSH as a prompt
+autoload -U promptinit; promptinit
+prompt pure
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
