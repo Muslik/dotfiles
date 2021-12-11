@@ -1,0 +1,95 @@
+#   █████╗ ██╗     ██╗ █████╗ ███████╗███████╗███████╗
+#  ██╔══██╗██║     ██║██╔══██╗██╔════╝██╔════╝██╔════╝
+#  ███████║██║     ██║███████║███████╗█████╗  ███████╗
+#  ██╔══██║██║     ██║██╔══██║╚════██║██╔══╝  ╚════██║
+#  ██║  ██║███████╗██║██║  ██║███████║███████╗███████║
+#  ╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+#
+
+#########################################
+# Quick dotfiles                        #
+#########################################
+alias zshconfig="vim ~/dotfiles/zsh/zshrc"
+alias zshaliases="vim ~/dotfiles/zsh/sourced/aliases"
+alias zshfunctions="vim ~/dotfiles/zsh/sourced/functions"
+alias nvimconfig="vim ~/dotfiles/nvim/init.lua"
+alias nvimplugins="vim ~/dotfiles/nvim/lua/plugins.lua"
+alias tmuxconfig="vim ~/dotfiles/tmux.conf"
+alias alconfig="vim ~/dotfiles/alacritty/alacritty.yml"
+alias kconfig="vim ~/dotfiles/kitty/kitty.conf"
+alias ssource='exec zsh'
+#########################################
+# Shorten common commands               #
+#########################################
+alias ex="chmod +x"
+alias cat="bat"
+alias bc="bc -l"
+alias q="~/ && clear"
+alias top="bpytop"
+alias v="nvim"
+alias vi="nvim"
+alias vim="nvim"
+alias mkdir="mkdir -p"
+alias hosts="sudo vi /private/etc/hosts"
+alias h="history"
+alias hs="history | grep"
+alias t="touch"
+alias c="clear"
+alias ls="ls -G"
+alias la="ls -la"
+alias ll="ls -lh"
+alias lt="du -sh * | sort -h"
+alias mnt='mount | grep -E ^/dev | column -t'
+alias lal="ls -lAh"
+alias ct="column -t"
+alias grep="grep --color=always"
+alias mc="ranger"
+alias yota="sudo sysctl -w net.inet.ip.ttl=65"
+alias lg="lazygit"
+
+#########################################
+# IP / Speedtest                        #
+#########################################
+alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
+alias myip='curl ipinfo.io/ip'
+
+#########################################
+# GIT                                   #
+#########################################
+alias gs="git status"
+alias gcm="git commit"
+alias gignore="vim .gitignore"
+alias ga="git add "
+alias gl="git log --pretty=format:'%C(Yellow)%h%Creset %ad | %s%d [%C(Green)%an%Creset]' --graph --date=short"
+alias gb="git branch"
+alias gbnm="git branch --no-merged"
+alias gc="git checkout"
+
+#########################################
+# asciinema                             #
+#########################################
+alias record="asciinema rec"
+alias recordAuth="asciinema auth"
+
+#########################################
+# MY OWN COMMANDS                       #
+#########################################
+alias now='date +"%T | %d-%m-%Y"'
+alias stfu="osascript -e 'set volume output muted true'"
+alias colors="curl -s https://gist.githubusercontent.com/HaleTom/89ffe32783f89f403bba96bd7bcd1263/raw/ | bash"
+
+#  ██████╗  █████╗ ████████╗██╗  ██╗███████╗
+#  ██╔══██╗██╔══██╗╚══██╔══╝██║  ██║██╔════╝
+#  ██████╔╝███████║   ██║   ███████║███████╗
+#  ██╔═══╝ ██╔══██║   ██║   ██╔══██║╚════██║
+#  ██║     ██║  ██║   ██║   ██║  ██║███████║
+#  ╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝
+#
+alias ..="cd .."
+alias ...="cd ../../../"
+alias ....="cd ../../../../"
+alias gdp="cd ~/Desktop"
+alias gdf="cd ~/dotfiles";
+alias gwk="cd ~/Projects/work"
+alias gdc="cd ~/Documents"
+alias gdl="cd ~/Downloads"
