@@ -8,7 +8,6 @@ for file in $HOME/dotfiles/zsh/sourced/*; do
 done
 
 # PLUGINS
-antigen use oh-my-zsh
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen apply
