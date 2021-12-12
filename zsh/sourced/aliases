@@ -46,6 +46,7 @@ alias grep="grep --color=always"
 alias mc="ranger"
 alias yota="sudo sysctl -w net.inet.ip.ttl=65"
 alias lg="lazygit"
+alias mux="tmuxinator"
 
 #########################################
 # IP / Speedtest                        #

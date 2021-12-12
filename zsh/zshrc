@@ -41,7 +41,7 @@ then
    ZSH_TMUX_AUTOSTART=true
 fi
 
-if [ "$ZSH_TMUX_AUTOSTART" = true ] && [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
+if [ "$ZSH_TMUX_AUTOSTART" = true ] && [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux new-session -As main; fi
 
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
