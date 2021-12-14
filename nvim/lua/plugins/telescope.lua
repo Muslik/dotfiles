@@ -60,6 +60,7 @@ require('telescope').setup {
 
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('projects')
+require('telescope').load_extension('node_modules')
 
 
 -- Implement delta as previewer for diffs

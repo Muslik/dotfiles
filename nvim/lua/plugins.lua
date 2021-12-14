@@ -53,7 +53,8 @@ use {'nvim-telescope/telescope.nvim',
   requires = {
     {'nvim-lua/popup.nvim'},
     {'nvim-lua/plenary.nvim'},
-    {'nvim-telescope/telescope-fzf-native.nvim'}
+    {'nvim-telescope/telescope-fzf-native.nvim'},
+    {'nvim-telescope/telescope-node-modules.nvim'}
   }
 }
 use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
@@ -91,6 +92,11 @@ use {
 use { 'glepnir/galaxyline.nvim', after = 'nvim-gps', config = "require('plugins.galaxyline')" }
 
 -- Snippets & Language & Syntax
+use({
+    "vuki656/package-info.nvim",
+    requires = "MunifTanjim/nui.nvim",
+    config = "require('plugins.package-info')"
+})
 use { 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')" }
 use { 'mattn/emmet-vim', config = "require('plugins.emmet')"}
 use 'pangloss/vim-javascript'

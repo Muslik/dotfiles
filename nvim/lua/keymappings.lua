@@ -45,8 +45,8 @@ map('n', '<Left>', ':vertical resize -10<CR>')
 map('n', '<Right>', ':vertical resize +10<CR>')
 
 -- Move visual block
-map('v', 'J', ':m+1<CR>gv=gv')
-map('v', 'K', ':m-2<CR>gv=gv')
+map('v', 'J', ":m '>+1<CR>gv=gv")
+map('v', 'K', ":m '<-2<CR>gv=gv")
 
 -- 2 spaces down/up
 map('n', '2o', 'o<CR>')
@@ -56,7 +56,7 @@ map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 
 -- Nvim Tree
-map('n', '<leader>n', ':NvimTreeToggle<CR>')
+map('n', '<leader>nn', ':NvimTreeToggle<CR>')
 map('n', '<leader>tf', ':NvimTreeFocus<CR>')
 map('n', '<leader>ff', ':NvimTreeFindFile<CR>')
 
@@ -76,6 +76,13 @@ map('t', '<C-t>', '<CMD>lua require("FTerm").toggle()<CR>')
 
 -- LAZY GIT
 map('n', '<leader>lg', ':LazyGit<CR>')
+
+-- Plugins
+map('n', '<leader>ns', '<cmd>lua require("package-info").show()<cr>')
+map('n', '<leader>nd', '<cmd>lua require("package-info").delete()<cr>')
+map('n', '<leader>np', '<cmd>lua require("package-info").change_version()<cr>')
+map('n', '<leader>ni', '<cmd>lua require("package-info").install()<cr>')
+map('n', '<leader>nr', '<cmd>lua require("package-info").reinstall()<cr>')
 
 map('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')

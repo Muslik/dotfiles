@@ -6,6 +6,7 @@ local gps       = require("nvim-gps")
 local condition = require('galaxyline.condition')
 local fileinfo  = require('galaxyline.provider_fileinfo')
 local vcs       = require('galaxyline.provider_vcs')
+local package   = require("package-info")
 
 gl.short_line_list = {'NvimTree', 'help', ''}
 
@@ -68,7 +69,9 @@ gls.left[3] = { GitIcon = {
   separator = ' ',
 
 	provider = function ()
-		return icons.git
+		local branch = vcs.get_git_branch()
+    if (branch == nil) then return nil end
+    return icons.git
 	end,
 }}
 
@@ -118,8 +121,20 @@ gls.left[8] = {
     end,
     condition = function()
       return gps.is_available()
-    end
+    end,
+    separator = '  '
   }
+}
+
+gls.left[9] = {
+  PackageInfoStatus = {
+    provider = function()
+      return package.get_status()
+    end,
+    condition = function()
+      return string.len(package.get_status()) > 1
+    end,
+  },
 }
 
 gls.right[0] = { DiagnosticError = {

@@ -14,6 +14,8 @@ local server_opts = {
 	efm = require("lsp/efm-ls"),
   sumneko_lua = require("lsp/sumneko-lua"),
 	tsserver = require('lsp/tsserver'),
+  jsonls = require('lsp/jsonls'),
+  ls_emmet = require('lsp/ls_emmet')
 }
 
 local servers = { "bashls", "cssls", "dockerls", "efm", "graphql", "html", "jsonls", "sumneko_lua", "tsserver", "yamlls", "diagnosticls" };
@@ -76,3 +78,4 @@ disable_virtual_text()
 install_servers()
 setup_servers()
 config_diagnostic_signs()
+require('lsp/custom-servers');

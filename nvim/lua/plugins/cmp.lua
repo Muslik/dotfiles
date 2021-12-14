@@ -1,10 +1,9 @@
-local luasnip = require 'luasnip'
+local luasnip = require('luasnip')
 local lspkind = require('lspkind')
 local cmp = require 'cmp'
 local utils = require 'utils'
 local t = utils.t
 local fn = vim.fn
-local api = vim.api
 
 local source_mapping = {
 	buffer = "[Buffer]",
@@ -26,30 +25,29 @@ cmp.setup {
 		['<C-n>'] = cmp.mapping.select_next_item(),
 		['<C-d>'] = cmp.mapping.scroll_docs(-4),
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
-		['<C-Space>'] = cmp.mapping.complete(),
-		['<C-e>'] = cmp.mapping.close(),
+		['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+		['<C-e>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
 		['<CR>'] = cmp.mapping.confirm {
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
 		},
-		['<Tab>'] = function(fallback)
-			if luasnip.expand_or_jumpable() then
-				fn.feedkeys(t '<Plug>luasnip-expand-or-jump', '')
-			elseif fn.pumvisible() == 1 then
-				fn.feedkeys(t '<C-n>', 'n')
-			else
-				fallback()
-			end
-		end,
-		['<S-Tab>'] = function(fallback)
-			if luasnip.jumpable(-1) then
-				fn.feedkeys(t '<Plug>luasnip-jump-prev', '')
-			elseif fn.pumvisible() == 1 then
-				fn.feedkeys(t '<C-p>', 'n')
-			else
-				fallback()
-			end
-		end,
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" })
 	},
 	formatting = {
 		format = function(entry, vim_item)
