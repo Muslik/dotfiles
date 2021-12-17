@@ -78,11 +78,11 @@ map('t', '<C-t>', '<CMD>lua require("FTerm").toggle()<CR>')
 map('n', '<leader>lg', ':LazyGit<CR>')
 
 -- Plugins
-map('n', '<leader>ns', '<cmd>lua require("package-info").show()<cr>')
-map('n', '<leader>nd', '<cmd>lua require("package-info").delete()<cr>')
-map('n', '<leader>np', '<cmd>lua require("package-info").change_version()<cr>')
-map('n', '<leader>ni', '<cmd>lua require("package-info").install()<cr>')
-map('n', '<leader>nr', '<cmd>lua require("package-info").reinstall()<cr>')
+-- map('n', '<leader>ns', '<cmd>PackageInfoShow<cr>')
+-- map('n', '<leader>nd', '<cmd>PackageInfoDelete<cr>')
+-- map('n', '<leader>np', '<cmd>PackageInfoChangeVersion<cr>')
+-- map('n', '<leader>ni', '<cmd>PackageInfoInstall<cr>')
+-- map('n', '<leader>nr', '<cmd>PackageInfoReinstall<cr>')
 
 map('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
