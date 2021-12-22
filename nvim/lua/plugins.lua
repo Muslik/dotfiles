@@ -41,6 +41,7 @@ use 'folke/tokyonight.nvim'
 use 'pacokwon/onedarkhc.vim'
 use 'joshdick/onedark.vim'
 use 'bluz71/vim-nightfly-guicolors'
+use 'iandwelker/rose-pine-vim'
 
 -- Treesitter
 use {'nvim-treesitter/nvim-treesitter',
@@ -66,11 +67,12 @@ use 'neovim/nvim-lspconfig'
 -- LSP Cmp
 use {'hrsh7th/nvim-cmp', event = 'InsertEnter', config = "require('plugins.cmp')"}
 use {'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp'}
-use {'hrsh7th/cmp-buffer', after = 'cmp-nvim-lsp' }
-use {'hrsh7th/cmp-path', after = 'cmp-buffer' }
-use { 'hrsh7th/cmp-calc', after = 'cmp-path' }
-use {'tzachar/cmp-tabnine', run='./install.sh', config = "require('plugins.tabnine')", after = 'cmp-calc'}
-use {'David-Kunz/cmp-npm', requires = 'nvim-lua/plenary.nvim', config = "require('plugins.cmp-npm')", after = 'cmp-tabnine'}
+use {'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp'}
+use {'hrsh7th/cmp-buffer', after = 'nvim-cmp' }
+use {'hrsh7th/cmp-path', after = 'nvim-cmp' }
+use { 'hrsh7th/cmp-calc', after = 'nvim-cmp' }
+use {'tzachar/cmp-tabnine', run='./install.sh', config = "require('plugins.tabnine')", after = 'nvim-cmp'}
+use {'David-Kunz/cmp-npm', requires = 'nvim-lua/plenary.nvim', config = "require('plugins.cmp-npm')", after = 'nvim-cmp'}
 use { 'L3MON4D3/LuaSnip', config = "require('plugins.luasnip')" }
 use { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }
 
@@ -102,7 +104,6 @@ use { 'mattn/emmet-vim', config = "require('plugins.emmet')"}
 use 'pangloss/vim-javascript'
 use 'David-Kunz/jester'
 use { 'windwp/nvim-autopairs', config = "require('plugins.autopairs')"}
-use { 'windwp/nvim-ts-autotag', config = "require('plugins.ts-autotag')"}
 use { 'norcalli/nvim-colorizer.lua', ft = {'css', 'scss', 'sass', 'html'}, config = "require('plugins.colorizer')"}
 use 'rafamadriz/friendly-snippets'
 use { 'fatih/vim-go', run = ':GoUpdateBinaries', ft = {'go'} }
