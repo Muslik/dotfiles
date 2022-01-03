@@ -30,9 +30,8 @@ use 'wbthomason/packer.nvim'
 
 use 'nvim-lua/plenary.nvim'
 use 'nathom/filetype.nvim'
-use "kyazdani42/nvim-web-devicons"
+use {'kyazdani42/nvim-web-devicons', config = "require('plugins.web-devicons')"}
 use {'glepnir/dashboard-nvim', config = "require('plugins.dashboard')"}
-
 
 -- Themes
 use { 'xolox/vim-colorscheme-switcher', requires = { 'xolox/vim-misc' }}
@@ -81,7 +80,25 @@ use 'williamboman/nvim-lsp-installer'
 use 'onsails/lspkind-nvim'
 use {'SmiteshP/nvim-gps', config = "require('plugins.gps')"}
 
+-- ORG MODE
+use {
+  'nvim-orgmode/orgmode',
+  config = "require('plugins.orgmode')",
+}
+use {
+  'akinsho/org-bullets.nvim',
+  config = "require('plugins.orgbullets')"
+}
+use {
+  'lukas-reineke/headlines.nvim',
+  config = function()
+    require('headlines').setup()
+  end,
+}
+
 -- General
+use {'kevinhwang91/rnvimr', config = "require('plugins.rnvimr')"}
+use "lukas-reineke/indent-blankline.nvim"
 use 'tpope/vim-surround'
 use {'numToStr/Comment.nvim', config = "require('plugins.comment')"}
 use 'JoosepAlviste/nvim-ts-context-commentstring'

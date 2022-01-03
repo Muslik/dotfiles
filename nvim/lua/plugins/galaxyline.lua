@@ -126,7 +126,7 @@ gls.left[8] = {
   }
 }
 
-gls.left[9] = {
+gls.left[8] = {
   PackageInfoStatus = {
     provider = function()
       return package.get_status()
@@ -184,7 +184,7 @@ gls.right[3] = { DiagnosticHint = {
 
 gls.right[4] = { DiagnosticInfo = {
 	highlight = {colors.cyan, colors.bg, 'bold'},
-  separator = '| ',
+  separator = '',
 
 	provider = function ()
 		local icon = icons.info .. ' '
@@ -198,23 +198,23 @@ gls.right[4] = { DiagnosticInfo = {
 	end,
 }}
 
-gls.right[5] = { LineInfo = {
-	highlight = {colors.fg, colors.bg},
+-- gls.right[5] = { LineInfo = {
+-- 	highlight = {colors.fg, colors.bg},
+--
+-- 	provider = function ()
+-- 		local cursor = vim.api.nvim_win_get_cursor(0)
+-- 		return cursor[1]..'·'..vim.api.nvim_buf_line_count(0)..':'..cursor[2]..' '
+-- 	end,
+-- }}
 
-	provider = function ()
-		local cursor = vim.api.nvim_win_get_cursor(0)
-		return cursor[1]..'·'..vim.api.nvim_buf_line_count(0)..':'..cursor[2]..' '
-	end,
-}}
-
-gls.right[6] = { FileEF = {
-	highlight = {colors.fg, colors.bg},
-
-	provider = function ()
-		local encode      = fileinfo.get_file_encode()
-		return encode
-	end,
-}}
+-- gls.right[6] = { FileEF = {
+-- 	highlight = {colors.fg, colors.bg},
+--
+-- 	provider = function ()
+-- 		local encode      = fileinfo.get_file_encode()
+-- 		return encode
+-- 	end,
+-- }}
 
 gls.short_line_left[0] = { FileIcon = { -- {{{2
 	condition = condition.buffer_not_empty,

@@ -1,8 +1,10 @@
 local actions    = require('telescope.actions')
 local previewers = require('telescope.previewers')
 local builtin    = require('telescope.builtin')
+
 require('telescope').setup {
   defaults = {
+    layout_strategy = "center",
     preview = {
       timeout = 1000,
     },
@@ -48,6 +50,11 @@ require('telescope').setup {
         ["<C-a>"] = actions.cycle_previewers_prev,
       }
     }
+  },
+  pickers = {
+    lsp_code_actions = {
+      theme = "cursor",
+    },
   },
   extensions = {
     fzf = {

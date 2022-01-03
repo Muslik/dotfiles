@@ -12,7 +12,7 @@ local eslint = {
 }
 
 local prettier = {
-  formatCommand = './node_modules/.bin/prettier --stdin-filepath ${INPUT}',
+  formatCommand = './node_modules/.bin/prettier --stdin-filepath ${INPUT} || prettier --stdin-filepath ${INPUT}',
   formatStdin = true,
 }
 

@@ -15,7 +15,7 @@ local server_opts = {
   sumneko_lua = require("lsp/sumneko-lua"),
 	tsserver = require('lsp/tsserver'),
   jsonls = require('lsp/jsonls'),
-  ls_emmet = require('lsp/ls_emmet')
+  ls_emmet = require('lsp/ls_emmet'),
 }
 
 local servers = { "bashls", "cssls", "dockerls", "efm", "graphql", "html", "jsonls", "sumneko_lua", "tsserver", "yamlls", "diagnosticls" };
@@ -43,7 +43,7 @@ end
 
 local function setup_servers()
   lsp_installer.on_server_ready(function(server)
-		local opts = server_opts[server.name] or {}
+    local opts = server_opts[server.name] or {}
     opts.capabilities = capabilities;
     server:setup(opts)
   end)

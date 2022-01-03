@@ -1,16 +1,46 @@
 local luasnip = require('luasnip')
-local lspkind = require('lspkind')
-local cmp = require 'cmp'
-local utils = require 'utils'
-local t = utils.t
-local fn = vim.fn
+local cmp = require('cmp')
 
 local source_mapping = {
   buffer = "[Buffer]",
   nvim_lsp = "[LSP]",
+  luasnip = "[Snippet]",
   nvim_lua = "[NVIM_LUA]",
   cmp_tabnine = "[TN]",
   path = "[Path]",
+}
+
+local check_backspace = function()
+  local col = vim.fn.col "." - 1
+  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+end
+
+local kind_icons = {
+  Text = "",
+  Method = "m",
+  Function = "",
+  Constructor = "",
+  Field = "",
+  Variable = "",
+  Class = "",
+  Interface = "",
+  Module = "",
+  Property = "",
+  Unit = "",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "",
+  Event = "",
+  Operator = "",
+  TypeParameter = "",
 }
 
 -- nvim-cmp setup
@@ -23,8 +53,8 @@ cmp.setup {
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-e>'] = cmp.mapping({
       i = cmp.mapping.abort(),
@@ -35,23 +65,38 @@ cmp.setup {
       select = true,
     },
     ["<Tab>"] = cmp.mapping(function(fallback)
-      if luasnip.expand_or_jumpable() then
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expandable() then
+        luasnip.expand()
+      elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
+      elseif check_backspace() then
+        fallback()
       else
         fallback()
       end
-    end, { "i", "s" }),
+    end, {
+        "i",
+        "s",
+      }),
     ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if luasnip.jumpable(-1) then
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
         luasnip.jump(-1)
       else
         fallback()
       end
-    end, { "i", "s" })
+    end, {
+        "i",
+        "s",
+      }),
   },
   formatting = {
+    fields = { "kind", "abbr", "menu" },
     format = function(entry, vim_item)
-      vim_item.kind = lspkind.presets.default[vim_item.kind]
+      vim_item.kind = string.format("%s ", kind_icons[vim_item.kind])
       local menu = source_mapping[entry.source.name]
       if entry.source.name == 'cmp_tabnine' then
         if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
@@ -63,6 +108,9 @@ cmp.setup {
       return vim_item
     end
   },
+  documentation = {
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  },
   sources = {
     { name = 'nvim_lsp' },
     { name = 'nvim_lua' },
@@ -72,7 +120,8 @@ cmp.setup {
     { name = 'luasnip' },
     { name = "path" },
     { name = 'cmp_tabnine' },
-  },
+    { name = 'orgmode' }
+  }
 }
 require("cmp").setup({
   map_cr = true, --  map <CR> on insert mode

@@ -19,6 +19,9 @@ require'nvim-tree'.setup {
     cmd  = "code",
     args = {"."}
   },
+  git = {
+    ignore = false,
+  },
   view = {
     width = 50
   },

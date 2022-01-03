@@ -1,6 +1,6 @@
 local map = VimConfig.utils.map;
 
-map('i', 'jj', '<Esc>')
+map('i', 'jk', '<Esc>')
 -- Alternate way to save
 map('n', '<leader>w', ':w<CR>')
 -- Alternate way to quit
@@ -18,14 +18,13 @@ map('', 'k', 'gk')
 map('n', '<leader>bd', ':bd<CR>')
 map('n', '<leader>bp', ':bp<CR>')
 map('n', '<leader>bn', ':bn<CR>')
-map('n', ',<leader>', ':noh<CR>')
+map('n', '<leader>,', ':noh<CR>')
 
 -- Tabs
 map('n', '<S-t>', ':tabnew<CR>')
 map('n', '<leader>tn', ':tabnew<CR>')
 map('n', '<leader>to', ':tabonly<CR>')
 map('n', '<leader>tc', ':tabclose<CR>')
-map('n', '<leader>tm', ':tabmove<CR>')
 
 -- Split
 map('n', 'ss', ':split<CR>')
@@ -64,10 +63,10 @@ map('n', '<leader>ff', ':NvimTreeFindFile<CR>')
 map('', '<leader>z', ':Goyo<CR>')
 
 -- FZF
-map('n', '<space>g', ':GFiles<CR>')
+map('n', '<space>g', ':Telescope git_files<CR>')
 map('n', '<space><space>', ':Files<CR>')
-map('n', '<space>hh', ':Hist<CR>')
-map('n', '<space>bb', ':Buffers<CR>')
+map('n', '<space>hh', ':Telescope oldfiles<CR>')
+map('n', '<space>bb', ':Telescope buffers<CR>')
 map('n', '<space>s', ':Ag<CR>')
 
 -- FTERM
@@ -77,6 +76,9 @@ map('t', '<C-t>', '<CMD>lua require("FTerm").toggle()<CR>')
 -- LAZY GIT
 map('n', '<leader>lg', ':LazyGit<CR>')
 
+-- PASTE W/O YANKING
+map('v', 'p', '"_dP')
+
 -- Plugins
 -- map('n', '<leader>ns', '<cmd>PackageInfoShow<cr>')
 -- map('n', '<leader>nd', '<cmd>PackageInfoDelete<cr>')
@@ -84,14 +86,13 @@ map('n', '<leader>lg', ':LazyGit<CR>')
 -- map('n', '<leader>ni', '<cmd>PackageInfoInstall<cr>')
 -- map('n', '<leader>nr', '<cmd>PackageInfoReinstall<cr>')
 
-map('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
 map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
 map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
 map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+map('n', '<leader>ca', ':Telescope lsp_code_actions<CR>')
+map('n', 'gr', ':Telescope lsp_references<CR>')
 map('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
 map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
 map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
