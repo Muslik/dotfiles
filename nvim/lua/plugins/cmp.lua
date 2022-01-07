@@ -7,7 +7,6 @@ local source_mapping = {
   orgmode = "[Org]",
   luasnip = "[Snippet]",
   nvim_lua = "[NVIM_LUA]",
-  cmp_tabnine = "[TN]",
   path = "[Path]",
 }
 
@@ -99,12 +98,6 @@ cmp.setup {
     format = function(entry, vim_item)
       vim_item.kind = string.format("%s ", kind_icons[vim_item.kind])
       local menu = source_mapping[entry.source.name]
-      if entry.source.name == 'cmp_tabnine' then
-        if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-          menu = entry.completion_item.data.detail .. ' ' .. menu
-        end
-        vim_item.kind = ''
-      end
       vim_item.menu = menu
       return vim_item
     end
@@ -120,7 +113,6 @@ cmp.setup {
     { name = 'npm', keyword_length = 4 },
     { name = 'luasnip' },
     { name = "path" },
-    { name = 'cmp_tabnine' },
     { name = 'orgmode' }
   }
 }

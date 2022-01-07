@@ -9,26 +9,21 @@ local function copy(args)
 end
 
 ls.snippets = {
-  javascript = {
-    s("af", {
-      f(copy, 2),
-      t("const "),
-      i(1),
-      t(" = ("),
-      i(2),
-      t({ ") => " }),
-      i(0),
-    }),
-  },
   typescriptreact = {
     s("rfc", {
-      t({"import React from 'react';"}),
-      -- Linebreak
-      t({"type Props = {}", "\t"}),
-      t("export const "),
-      i(1),
-      t({" = ({}: Props) => {", "\t"}),
-      t("return (<>Hello</>)")
+      t({ "import React from 'react';", "\t" }),
+      t({ "", "type Props = {}", "\t" }),
+      t({"", "export const "}),
+      i(1, "Component"),
+      t({ " = ({"}),
+      i(2),
+      t({"}: Props) => {", "\t" }),
+      i(3),
+      t({"", "\t"}),
+      t("return <div>"),
+      f(copy, 1),
+      t("</div>", "\t"),
+      t({ "", "}" }),
     })
   }
 }

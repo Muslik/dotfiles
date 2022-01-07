@@ -1,11 +1,11 @@
 local cmd = vim.cmd
 
-function org_mode()
+function Org_mode()
   vim.fn.execute("cd ~/Documents/org-notes")
   require'telescope.builtin'.find_files({cwd = '~/Documents/org-notes', prompt_title = "Select note", results_title = "Notes"})
 end
 
-cmd([[command Notes lua org_mode()]])
+cmd([[command Notes lua Org_mode()]])
 cmd([[command Postman tabnew .http]])
 cmd([[command Jest lua require"jester".run({cmd = "npx jest -t '$result' -- $file"})]])
 cmd([[command JestWatch lua require"jester".run({cmd = "npx jest --watch -t '$result' -- $file"})]])

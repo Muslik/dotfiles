@@ -34,8 +34,7 @@ use {'kyazdani42/nvim-web-devicons', config = "require('plugins.web-devicons')"}
 use {'glepnir/dashboard-nvim', config = "require('plugins.dashboard')"}
 
 -- Themes
-use { 'xolox/vim-colorscheme-switcher', requires = { 'xolox/vim-misc' }}
-use 'flazz/vim-colorschemes'
+use 'marko-cerovac/material.nvim'
 use 'folke/tokyonight.nvim'
 use 'pacokwon/onedarkhc.vim'
 use 'joshdick/onedark.vim'
@@ -97,7 +96,6 @@ use {
 }
 
 -- General
-use {'kevinhwang91/rnvimr', config = "require('plugins.rnvimr')"}
 use "lukas-reineke/indent-blankline.nvim"
 use 'tpope/vim-surround'
 use {'numToStr/Comment.nvim', config = "require('plugins.comment')"}
