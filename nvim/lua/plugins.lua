@@ -102,7 +102,7 @@ use "lukas-reineke/indent-blankline.nvim"
 use 'tpope/vim-surround'
 use {'numToStr/Comment.nvim', config = "require('plugins.comment')"}
 use 'JoosepAlviste/nvim-ts-context-commentstring'
-use {'numtostr/FTerm.nvim', config = "require('plugins.fterm')"}
+use {"akinsho/toggleterm.nvim", config = "require('plugins.toggleterm')"}
 use { 'junegunn/goyo.vim', config = "require('plugins.goyo')"}
 use {
   'junegunn/fzf.vim',
@@ -130,7 +130,6 @@ use 'simrat39/rust-tools.nvim'
 use {'kyazdani42/nvim-tree.lua', config = "require('plugins.tree')"}
 
 -- Git
-use 'kdheepak/lazygit.nvim'
 use {'lewis6991/gitsigns.nvim',
   requires = { 'nvim-lua/plenary.nvim' },
   config = "require('plugins.gitsigns')",

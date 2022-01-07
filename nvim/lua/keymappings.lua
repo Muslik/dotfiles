@@ -69,12 +69,8 @@ map('n', '<space>hh', ':Telescope oldfiles<CR>')
 map('n', '<space>bb', ':Telescope buffers<CR>')
 map('n', '<space>s', ':Ag<CR>')
 
--- FTERM
-map('n', '<C-t>', '<CMD>lua require("FTerm").toggle()<CR>')
-map('t', '<C-t>', '<CMD>lua require("FTerm").toggle()<CR>')
-
--- LAZY GIT
-map('n', '<leader>lg', ':LazyGit<CR>')
+-- ToggleTerm
+map('n', '<leader>lg', '<cmd>lua Lazygit_toggle()<CR>')
 
 -- PASTE W/O YANKING
 map('v', 'p', '"_dP')

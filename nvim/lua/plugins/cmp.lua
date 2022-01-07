@@ -4,6 +4,7 @@ local cmp = require('cmp')
 local source_mapping = {
   buffer = "[Buffer]",
   nvim_lsp = "[LSP]",
+  orgmode = "[Org]",
   luasnip = "[Snippet]",
   nvim_lua = "[NVIM_LUA]",
   cmp_tabnine = "[TN]",
