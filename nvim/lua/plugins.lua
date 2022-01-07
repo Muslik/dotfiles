@@ -116,13 +116,12 @@ use({
 })
 use { 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')" }
 use { 'mattn/emmet-vim', config = "require('plugins.emmet')"}
-use 'pangloss/vim-javascript'
 use 'David-Kunz/jester'
 use { 'windwp/nvim-autopairs', config = "require('plugins.autopairs')"}
 use { 'norcalli/nvim-colorizer.lua', ft = {'css', 'scss', 'sass', 'html'}, config = "require('plugins.colorizer')"}
 use 'rafamadriz/friendly-snippets'
 use { 'fatih/vim-go', run = ':GoUpdateBinaries', ft = {'go'} }
-use 'simrat39/rust-tools.nvim'
+use { 'simrat39/rust-tools.nvim', ft = 'rust'}
 
 -- Nvim Tree
 use {'kyazdani42/nvim-tree.lua', config = "require('plugins.tree')"}
