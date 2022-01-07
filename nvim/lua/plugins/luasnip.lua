@@ -9,7 +9,45 @@ local function copy(args)
 end
 
 ls.snippets = {
+  typescript = {
+    s("acf", {
+      t("const "),
+      i(1, "name"),
+      t(" = async ("),
+      i(2, "args"),
+      t({ ") => {", "\t" }),
+      i(0),
+      t({"", "}"})
+    }),
+    s("cf", {
+      t("const "),
+      i(1, "name"),
+      t(" = ("),
+      i(2, "args"),
+      t({ ") => {", "\t" }),
+      i(0),
+      t({"", "}"})
+    }),
+  },
   typescriptreact = {
+    s("acf", {
+      t("const "),
+      i(1, "name"),
+      t(" = async ("),
+      i(2, "args"),
+      t({ ") => {", "\t" }),
+      i(0),
+      t({"", "}"})
+    }),
+    s("cf", {
+      t("const "),
+      i(1, "name"),
+      t(" = ("),
+      i(2, "args"),
+      t({ ") => {", "\t" }),
+      i(0),
+      t({"", "}"})
+    }),
     s("rfc", {
       t({ "import React from 'react';", "\t" }),
       t({ "", "type Props = {}", "\t" }),
