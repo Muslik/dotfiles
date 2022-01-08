@@ -5,7 +5,6 @@ local gls = gl.section
 local gps       = require("nvim-gps")
 local condition = require('galaxyline.condition')
 local fileinfo  = require('galaxyline.provider_fileinfo')
-local vcs       = require('galaxyline.provider_vcs')
 local package   = require("package-info")
 
 gl.short_line_list = {'NvimTree', 'help', ''}
@@ -64,56 +63,7 @@ gls.left[2] = { FileName = {
   separator = '|'
 }}
 
-gls.left[3] = { GitIcon = {
-	highlight = {colors.orange, colors.bg},
-  separator = ' ',
-
-	provider = function ()
-		local branch = vcs.get_git_branch()
-    if (branch == nil) then return nil end
-    return icons.git
-	end,
-}}
-
-gls.left[4] = { Git = {
-	condition = condition.check_git_workspace,
-	highlight = {colors.white, colors.bg},
-  separator = ' ',
-
-	provider = function ()
-		local branch = vcs.get_git_branch()
-		if (branch == nil) then branch = '???' end
-		return branch
-	end,
-}}
-
-gls.left[5] = {
-    DiffAdd = {
-        provider = 'DiffAdd',
-        condition = condition.check_git_workspace,
-        icon = icons.gitAdd .. ' ',
-        highlight = {colors.green, colors.bg, 'bold'}
-    }
-}
-gls.left[6] =  {
-    DiffModified = {
-        provider = 'DiffModified',
-        condition = condition.check_git_workspace,
-        icon = ' 柳 ',
-        highlight = {colors.blue, colors.bg}
-    }
-}
-gls.left[7] = {
-    DiffRemove = {
-        provider = 'DiffRemove',
-        condition = condition.check_git_workspace,
-        icon = icons.gitRemove .. ' ',
-        highlight = {colors.red, colors.bg},
-        separator = '|'
-    }
-}
-
-gls.left[8] = {
+gls.left[3] = {
   nvimGPS = {
     highlight = {colors.white, colors.bg},
     provider = function()
@@ -126,7 +76,7 @@ gls.left[8] = {
   }
 }
 
-gls.left[8] = {
+gls.left[4] = {
   PackageInfoStatus = {
     provider = function()
       return package.get_status()
@@ -198,23 +148,23 @@ gls.right[4] = { DiagnosticInfo = {
 	end,
 }}
 
--- gls.right[5] = { LineInfo = {
--- 	highlight = {colors.fg, colors.bg},
---
--- 	provider = function ()
--- 		local cursor = vim.api.nvim_win_get_cursor(0)
--- 		return cursor[1]..'·'..vim.api.nvim_buf_line_count(0)..':'..cursor[2]..' '
--- 	end,
--- }}
+gls.right[5] = { LineInfo = {
+	highlight = {colors.fg, colors.bg},
 
--- gls.right[6] = { FileEF = {
--- 	highlight = {colors.fg, colors.bg},
---
--- 	provider = function ()
--- 		local encode      = fileinfo.get_file_encode()
--- 		return encode
--- 	end,
--- }}
+	provider = function ()
+		local cursor = vim.api.nvim_win_get_cursor(0)
+		return cursor[1]..'·'..vim.api.nvim_buf_line_count(0)..':'..cursor[2]..' '
+	end,
+}}
+
+gls.right[6] = { FileEF = {
+	highlight = {colors.fg, colors.bg},
+
+	provider = function ()
+		local encode      = fileinfo.get_file_encode()
+		return encode
+	end,
+}}
 
 gls.short_line_left[0] = { FileIcon = { -- {{{2
 	condition = condition.buffer_not_empty,
