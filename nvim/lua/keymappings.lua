@@ -59,6 +59,10 @@ map('n', '<leader>nn', ':NvimTreeToggle<CR>')
 map('n', '<leader>tf', ':NvimTreeFocus<CR>')
 map('n', '<leader>ff', ':NvimTreeFindFile<CR>')
 
+-- VIM WIKI
+map('n', '<leader>vw', '<cmd>Telescope vimwiki<CR>')
+map('n', '<leader>vg', '<cmd>Telescope vimwiki live_grep<CR>')
+
 -- Zen mode
 map('', '<leader>z', ':Goyo<CR>')
 

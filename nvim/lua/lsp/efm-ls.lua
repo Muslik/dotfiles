@@ -37,11 +37,9 @@ local format_config = {
 
 return {
   cmd = {'efm-langserver'},
+  -- cmd = {'efm-langserver', '-logfile', '/tmp/efm.log', '-loglevel', '5'},
   init_options = { documentFormatting = true, codeAction = true },
   root_dir = loop.cwd,
   filetypes = tbl_keys(format_config),
   settings = { languages = format_config },
-  on_attach = function(client)
-    client.resolved_capabilities.document_formatting = false
-  end
 }

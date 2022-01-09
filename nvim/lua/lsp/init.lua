@@ -40,11 +40,18 @@ local function install_servers()
   end
 end
 
+local function on_attach(client)
+  if client.name ~= 'efm' then
+    client.resolved_capabilities.document_formatting = false
+  end
+end
+
 
 local function setup_servers()
   lsp_installer.on_server_ready(function(server)
     local opts = server_opts[server.name] or {}
     opts.capabilities = capabilities;
+    opts.on_attach = on_attach
     server:setup(opts)
   end)
 end

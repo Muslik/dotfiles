@@ -1,3 +1,4 @@
+require('impatient')
 local fn = vim.fn
 local cmd = vim.cmd
 
@@ -44,6 +45,7 @@ use 'iandwelker/rose-pine-vim'
 -- Treesitter
 use {'nvim-treesitter/nvim-treesitter',
   config = "require('plugins.treesitter')",
+  commit = "8ada8faf2fd5a74cc73090ec856fa88f34cd364b",
   run = ':TSUpdate'}
 
 -- Telescope
@@ -56,6 +58,7 @@ use {'nvim-telescope/telescope.nvim',
     {'nvim-telescope/telescope-node-modules.nvim'}
   }
 }
+use { 'ElPiloto/telescope-vimwiki.nvim' }
 use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 use {'ahmedkhalf/project.nvim', config = "require('plugins.project')"}
 
@@ -79,23 +82,29 @@ use 'williamboman/nvim-lsp-installer'
 use 'onsails/lspkind-nvim'
 use {'SmiteshP/nvim-gps', config = "require('plugins.gps')"}
 
--- ORG MODE
+-- VIM WIKI
 use {
-  'nvim-orgmode/orgmode',
-  config = "require('plugins.orgmode')",
-}
-use {
-  'akinsho/org-bullets.nvim',
-  config = "require('plugins.orgbullets')"
+  'vimwiki/vimwiki',
+  config = function()
+    vim.g.vimwiki_list = {
+      {
+        path = '~/Documents/wiki/',
+        syntax = 'markdown',
+        ext = '.md',
+      }
+    }
+    vim.g.vimwiki_global_ext = 0
+  end
 }
 use {
   'lukas-reineke/headlines.nvim',
   config = function()
     require('headlines').setup()
-  end,
+  end
 }
 
 -- General
+use 'lewis6991/impatient.nvim'
 use "lukas-reineke/indent-blankline.nvim"
 use 'tpope/vim-surround'
 use {'numToStr/Comment.nvim', config = "require('plugins.comment')"}
@@ -120,7 +129,7 @@ use 'David-Kunz/jester'
 use { 'windwp/nvim-autopairs', config = "require('plugins.autopairs')"}
 use { 'norcalli/nvim-colorizer.lua', ft = {'css', 'scss', 'sass', 'html'}, config = "require('plugins.colorizer')"}
 use 'rafamadriz/friendly-snippets'
-use { 'fatih/vim-go', run = ':GoUpdateBinaries', ft = {'go'} }
+use { 'fatih/vim-go', run = ':GoUpdateBinaries', ft = 'go' }
 use { 'simrat39/rust-tools.nvim', ft = 'rust'}
 
 -- Nvim Tree

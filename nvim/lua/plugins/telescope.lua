@@ -68,7 +68,7 @@ require('telescope').setup {
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('projects')
 require('telescope').load_extension('node_modules')
-
+require('telescope').load_extension('vimwiki')
 
 -- Implement delta as previewer for diffs
 

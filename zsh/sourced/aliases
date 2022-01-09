@@ -93,5 +93,5 @@ alias gdp="cd ~/Desktop"
 alias gdf="cd ~/dotfiles";
 alias gwk="cd ~/Projects/work"
 alias gdc="cd ~/Documents"
-alias gns="cd ~/Documents/org-notes"
+alias gns="cd ~/Documents/wiki"
 alias gdl="cd ~/Downloads"

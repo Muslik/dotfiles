@@ -4,7 +4,6 @@ local cmp = require('cmp')
 local source_mapping = {
   buffer = "[Buffer]",
   nvim_lsp = "[LSP]",
-  orgmode = "[Org]",
   luasnip = "[Snippet]",
   nvim_lua = "[NVIM_LUA]",
   path = "[Path]",
@@ -113,7 +112,6 @@ cmp.setup {
     { name = 'buffer' },
     { name = 'npm', keyword_length = 4 },
     { name = "path" },
-    { name = 'orgmode' }
   }
 }
 require("cmp").setup({
