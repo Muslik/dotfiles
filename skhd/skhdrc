@@ -1,0 +1,92 @@
+# open terminal
+cmd - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
+
+# Navigation
+# cycle through stack windows
+alt - h : yabai -m window --focus west
+alt - j : yabai -m window --focus stack.next || yabai -m window --focus south 
+alt - k : yabai -m window --focus stack.prev || yabai -m window --focus north 
+alt - l : yabai -m window --focus east
+
+# Create new space
+alt - c : yabai -m space --create
+alt - x : yabai -m space --destroy
+
+# shift window in current workspace or move float windows
+# Move float windows
+alt + shift - h : yabai -m window --swap west || yabai -m window --move rel:-50:0
+alt + shift - j : yabai -m window --swap south || yabai -m window --move rel:0:50 
+alt + shift - k : yabai -m window --swap north || yabai -m window --move rel:0:-50 
+alt + shift - l : yabai -m window --swap east || yabai -m window --move rel:50:0
+
+# Set insertion point for focused container
+
+shift + lctrl + alt - h : yabai -m window --insert west
+shift + lctrl + alt - j : yabai -m window --insert south
+shift + lctrl + alt - k : yabai -m window --insert north
+shift + lctrl + alt - l : yabai -m window --insert east
+
+# set insertion point in focused container
+alt - b : yabai -m space --focus recent
+
+# Float / Unfloat window
+shift + alt - space : yabai -m window --toggle float
+
+alt - e : yabai -m space --layout bsp
+alt - f : yabai -m space --layout float
+alt - s : yabai -m space --layout stack
+
+# Switch space
+alt - 1 : yabai -m space --focus 1
+alt - 2 : yabai -m space --focus 2
+alt - 3 : yabai -m space --focus 3
+alt - 4:  yabai -m space --focus 4
+alt - 5 : yabai -m space --focus 5
+alt - 6 : yabai -m space --focus 6
+alt - 7 : yabai -m space --focus 7
+alt - 8 : yabai -m space --focus 8
+alt - 9 : yabai -m space --focus 9
+alt - 0 : yabai -m space --focus 10
+
+# close focused window
+alt - w : yabai -m window --close
+
+# Move focus container to workspace
+shift + alt - m : yabai -m window --space last; yabai -m space --focus last
+shift + alt - p : yabai -m window --space prev; yabai -m space --focus prev
+shift + alt - n : yabai -m window --space next; yabai -m space --focus next
+shift + alt - 1 : yabai -m window --space 1; yabai -m space --focus 1
+shift + alt - 2 : yabai -m window --space 2; yabai -m space --focus 2
+shift + alt - 3 : yabai -m window --space 3; yabai -m space --focus 3
+shift + alt - 4 : yabai -m window --space 4; yabai -m space --focus 4
+shift + alt - 5 : yabai -m window --space 5; yabai -m space --focus 5
+shift + alt - 6 : yabai -m window --space 6; yabai -m space --focus 6
+shift + alt - 7 : yabai -m window --space 7; yabai -m space --focus 7
+shift + alt - 8 : yabai -m window --space 8; yabai -m space --focus 8
+shift + alt - 9 : yabai -m window --space 9; yabai -m space --focus 9
+shift + alt - 0 : yabai -m window --space 0; yabai -m space --focus 10
+
+# Resize windows
+lctrl + alt - h : ([[ $(yabai -m query --windows --window | jq '."split-type"') == "\"none\"" ]] && yabai -m window --resize left:-50:0) || (yabai -m window --resize left:-50:0; yabai -m window --resize right:-50:0)
+lctrl + alt - j : ([[ $(yabai -m query --windows --window | jq '."split-type"') == "\"none\"" ]] && yabai -m window --resize bottom:0:50) || (yabai -m window --resize bottom:0:50; yabai -m window --resize top:0:50)
+lctrl + alt - k : ([[ $(yabai -m query --windows --window | jq '."split-type"') == "\"none\"" ]] && yabai -m window --resize top:0:-50) || (yabai -m window --resize top:0:-50; yabai -m window --resize bottom:0:-50)
+lctrl + alt - l : ([[ $(yabai -m query --windows --window | jq '."split-type"') == "\"none\"" ]] && yabai -m window --resize right:50:0) || (yabai -m window --resize right:50:0; yabai -m window --resize left:50:0)
+
+# Zoom
+alt - z : yabai -m window --toggle zoom-parent
+
+# Equalize size of windows
+lctrl + alt - e : yabai -m space --balance
+
+# Enable / Disable gaps in current workspace
+lctrl + alt - g : yabai -m space --toggle padding; yabai -m space --toggle gap
+
+shift + alt - tab : yabai -m window --focus "$(yabai -m query --windows --space | jq -re "[sort_by(.id, .frame) | .[] | select(.role == \"AXWindow\" and .subrole == \"AXStandardWindow\") | .id] | nth(index($(yabai -m query --windows --window | jq -re ".id")) - 1)")"
+
+# Rotate windows clockwise and anticlockwise
+alt - r         : yabai -m space --rotate 270
+shift + alt - r : yabai -m space --rotate 90
+
+# Rotate on X and Y Axis
+shift + alt - x : yabai -m space --mirror x-axis
+shift + alt - y : yabai -m space --mirror y-axis

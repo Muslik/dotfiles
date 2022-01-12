@@ -80,6 +80,23 @@ function free()
 		return $n*2**$h{$u}}print sort{h($b)<=>h($a)}<>;'
 }
 
+function wmtoggle()
+{
+  SERVICES=$(brew services)
+  YABAI_STATUS=$(echo $SERVICES | grep yabai | awk '{print $2}')
+  if [[ $YABAI_STATUS == 'started' ]]; then
+    brew services stop yabai;
+    brew services stop skhd;
+    brew services stop spacebar;
+    echo "WM stopped"
+  else
+    brew services start spacebar;
+    brew services start yabai;
+    brew services start skhd;
+    echo "WM started"
+  fi
+}
+
 function ide()
 {
     tmux split-window -v -p 30;

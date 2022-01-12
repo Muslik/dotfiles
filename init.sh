@@ -15,9 +15,15 @@ curl -L git.io/antigen > ~/dotfiles/zsh/sourced/antigen.zsh
 echo $green"\nINSTALLING BREW PLUGINS: $def\n"
 brew bundle --file BrewFile
 
+sudo yabai --install-sa
+sudo yabai --load-sa
+brew services start yabai
+brew services start skhd
+brew services start spacebar
+
 #REMOVE OLD CONFIGS
 echo $green"\nSETUP CONFIGS: $def\n"
-rm -rf ~/.zshrc ~/.zshenv ~/.config/{alacritty,ranger,nvim,kitty}
+rm -rf ~/.zshrc ~/.zshenv ~/.config/{alacritty,ranger,nvim,kitty,yabai,skhd,spacebar}
 
 #SYMLINKS
 echo $magenta"\nSYMLINKING FILES $def\n"
@@ -29,6 +35,9 @@ ln -s ~/dotfiles/ranger ~/.config/ranger
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/dotfiles/zshenv ~/.zshenv
+ln -s ~/dotfiles/yabai ~/.config/yabai
+ln -s ~/dotfiles/skhd ~/.config/skhd
+ln -s ~/dotfiles/spacebar ~/.config/spacebar
 
 git config --global core.excludesfile ~/.global_ignore
 
