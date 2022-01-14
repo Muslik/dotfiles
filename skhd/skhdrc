@@ -1,5 +1,9 @@
-# open terminal
-cmd - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
+# Aplications
+cmd - return  : open -a kitty.app
+cmd + alt - t : open -a telegram.app
+cmd + alt - m : open -a music.app
+cmd + alt - s : open -a slack.app
+cmd + alt - b : open -a Google\ Chrome.app
 
 # Navigation
 # cycle through stack windows
@@ -30,7 +34,7 @@ shift + lctrl + alt - l : yabai -m window --insert east
 alt - b : yabai -m space --focus recent
 
 # Float / Unfloat window
-shift + alt - space : yabai -m window --toggle float
+shift + alt - space : yabai -m window --toggle float; yabai -m window --grid 4:4:1:1:2:2
 
 alt - e : yabai -m space --layout bsp
 alt - f : yabai -m space --layout float
@@ -67,13 +71,13 @@ shift + alt - 9 : yabai -m window --space 9; yabai -m space --focus 9
 shift + alt - 0 : yabai -m window --space 0; yabai -m space --focus 10
 
 # Resize windows
-lctrl + alt - h : ([[ $(yabai -m query --windows --window | jq '."split-type"') == "\"none\"" ]] && yabai -m window --resize left:-50:0) || (yabai -m window --resize left:-50:0; yabai -m window --resize right:-50:0)
+lctrl + alt - h : ([[ $(yabai -m query --windows --window | jq '."split-type"') == "\"none\"" ]] && yabai -m window --resize right:-50:0) || (yabai -m window --resize left:-50:0; yabai -m window --resize right:-50:0)
 lctrl + alt - j : ([[ $(yabai -m query --windows --window | jq '."split-type"') == "\"none\"" ]] && yabai -m window --resize bottom:0:50) || (yabai -m window --resize bottom:0:50; yabai -m window --resize top:0:50)
-lctrl + alt - k : ([[ $(yabai -m query --windows --window | jq '."split-type"') == "\"none\"" ]] && yabai -m window --resize top:0:-50) || (yabai -m window --resize top:0:-50; yabai -m window --resize bottom:0:-50)
+lctrl + alt - k : ([[ $(yabai -m query --windows --window | jq '."split-type"') == "\"none\"" ]] && yabai -m window --resize bottom:0:-50) || (yabai -m window --resize top:0:-50; yabai -m window --resize bottom:0:-50)
 lctrl + alt - l : ([[ $(yabai -m query --windows --window | jq '."split-type"') == "\"none\"" ]] && yabai -m window --resize right:50:0) || (yabai -m window --resize right:50:0; yabai -m window --resize left:50:0)
 
 # Zoom
-alt - z : yabai -m window --toggle zoom-parent
+alt - z : yabai -m window --toggle zoom-fullscreen
 
 # Equalize size of windows
 lctrl + alt - e : yabai -m space --balance

@@ -49,9 +49,6 @@ yabai -m config right_padding                20
 yabai -m config window_gap                   20
 
 # float system preferences
-yabai -m rule --add app="^Telegram$" manage=off
-yabai -m rule --add app="^Music$" manage=off
-yabai -m rule --add app="^Slack$" manage=off
 yabai -m rule --add app='^System Information$' manage=off
 yabai -m rule --add app='^System Preferences$' manage=off
 yabai -m rule --add title='Preferences$' manage=off

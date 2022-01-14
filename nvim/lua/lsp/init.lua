@@ -18,7 +18,7 @@ local server_opts = {
   ls_emmet = require('lsp/ls_emmet'),
 }
 
-local servers = { "bashls", "cssls", "dockerls", "efm", "graphql", "html", "jsonls", "sumneko_lua", "tsserver", "yamlls", "diagnosticls" };
+local servers = { "bashls", "cssls", "dockerls", "efm", "html", "jsonls", "sumneko_lua", "tsserver", "yamlls" };
 
 local function disable_virtual_text()
 	lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {

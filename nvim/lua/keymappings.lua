@@ -67,11 +67,11 @@ map('n', '<leader>vg', '<cmd>Telescope vimwiki live_grep<CR>')
 map('', '<leader>z', ':Goyo<CR>')
 
 -- FZF
-map('n', '<space>g', ':Telescope git_files<CR>')
-map('n', '<space><space>', ':Files<CR>')
-map('n', '<space>hh', ':Telescope oldfiles<CR>')
-map('n', '<space>bb', ':Telescope buffers<CR>')
-map('n', '<space>s', ':Ag<CR>')
+map('n', '<leader>gg', ':GitFiles<CR>')
+map('n', '<leader><leader>', ':Files<CR>')
+map('n', '<leader>hh', ':History<CR>')
+map('n', '<leader>bb', ':Buffer<CR>')
+map('n', '<leader>s', ':Ag<CR>')
 
 -- ToggleTerm
 map('n', '<leader>lg', '<cmd>lua Lazygit_toggle()<CR>')
