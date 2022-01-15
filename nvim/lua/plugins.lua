@@ -35,6 +35,10 @@ use {'kyazdani42/nvim-web-devicons', config = "require('plugins.web-devicons')"}
 use {'glepnir/dashboard-nvim', config = "require('plugins.dashboard')"}
 
 -- Themes
+use({
+	"catppuccin/nvim",
+	as = "catppuccin"
+})
 use 'marko-cerovac/material.nvim'
 use 'folke/tokyonight.nvim'
 use 'pacokwon/onedarkhc.vim'

@@ -1,5 +1,5 @@
 VimConfig = {
-  colorscheme = 'nightfly',
+  colorscheme = 'catppuccin',
   icons = require('icons'),
   utils = require('utils'),
 }
