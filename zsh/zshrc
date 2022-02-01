@@ -8,8 +8,8 @@ for file in $HOME/dotfiles/zsh/sourced/*; do
 done
 
 # PLUGINS
-antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
 antigen apply
 
 # AUTO CD

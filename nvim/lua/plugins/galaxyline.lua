@@ -5,7 +5,7 @@ local gls = gl.section
 local gps       = require("nvim-gps")
 local condition = require('galaxyline.condition')
 local fileinfo  = require('galaxyline.provider_fileinfo')
-local package   = require("package-info")
+-- local package   = require("package-info")
 
 gl.short_line_list = {'NvimTree', 'help', ''}
 
@@ -63,36 +63,36 @@ gls.left[2] = { FileName = {
   separator = '|'
 }}
 
-gls.left[3] = {
-  nvimGPS = {
-    highlight = {colors.white, colors.bg},
-    provider = function()
-      return gps.get_location()
-    end,
-    condition = function()
-      return gps.is_available()
-    end,
-    separator = '  '
-  }
-}
+-- gls.left[3] = {
+--   nvimGPS = {
+--     highlight = {colors.white, colors.bg},
+--     provider = function()
+--       return gps.get_location()
+--     end,
+--     condition = function()
+--       return gps.is_available()
+--     end,
+--     separator = '  '
+--   }
+-- }
 
-gls.left[4] = {
-  PackageInfoStatus = {
-    provider = function()
-      return package.get_status()
-    end,
-    condition = function()
-      return string.len(package.get_status()) > 1
-    end,
-  },
-}
+--gls.left[4] = {
+ -- PackageInfoStatus = {
+  --  provider = function()
+   --   return package.get_status()
+    --end,
+    --condition = function()
+     -- return string.len(package.get_status()) > 1
+    --end,
+ -- },
+--}
 
 gls.right[0] = { DiagnosticError = {
 	highlight = {colors.red, colors.bg, 'bold'},
 
 	provider = function ()
 		local icon = icons.error .. ' '
-		local count = vim.lsp.diagnostic.get_count(0, 'Error')
+    local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
 
 		if count == 0 then
 			return
@@ -107,7 +107,7 @@ gls.right[1] = { DiagnosticWarn = {
 
 	provider = function ()
 		local icon = icons.warningTriangle .. ' '
-		local count = vim.lsp.diagnostic.get_count(0, 'Warning')
+    local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
 
 		if count == 0 then
 			return
@@ -122,8 +122,8 @@ gls.right[3] = { DiagnosticHint = {
 
 	provider = function ()
 		local icon = icons.lightbulbOutline .. ' '
-		local count = vim.lsp.diagnostic.get_count(0, 'Hint')
-
+    local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
+    
 		if count == 0 then
 			return
 		else
@@ -138,7 +138,7 @@ gls.right[4] = { DiagnosticInfo = {
 
 	provider = function ()
 		local icon = icons.info .. ' '
-		local count = vim.lsp.diagnostic.get_count(0, 'Information')
+    local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
 
 		if count == 0 then
 			return

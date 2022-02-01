@@ -95,3 +95,5 @@ alias gwk="cd ~/Projects/work"
 alias gdc="cd ~/Documents"
 alias gns="cd ~/Documents/wiki"
 alias gdl="cd ~/Downloads"
+
+alias min="open /Applications/Min.app"

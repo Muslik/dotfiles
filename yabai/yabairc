@@ -49,8 +49,10 @@ yabai -m config right_padding                20
 yabai -m config window_gap                   20
 
 # float system preferences
-yabai -m rule --add app='^System Information$' manage=off
-yabai -m rule --add app='^System Preferences$' manage=off
+yabai -m rule --add app='^zoom' manage=off
+yabai -m rule --add app='^bin' manage=off
+yabai -m rule --add app='^Finder' manage=off
+yabai -m rule --add app='^System' manage=off
 yabai -m rule --add title='Preferences$' manage=off
 
 # float settings windows
