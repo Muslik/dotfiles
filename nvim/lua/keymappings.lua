@@ -74,7 +74,7 @@ map('n', '<leader>bb', ':Buffer<CR>')
 map('n', '<leader>s', ':Ag<CR>')
 
 -- ToggleTerm
-map('n', '<leader>lg', '<cmd>lua Lazygit_toggle()<CR>')
+map('n', '<leader>lg', '<cmd>lua Git:toggle()<CR>')
 
 -- PASTE W/O YANKING
 map('v', 'p', '"_dP')

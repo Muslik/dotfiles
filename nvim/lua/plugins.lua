@@ -83,7 +83,6 @@ use { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }
 -- LSP Addons
 use 'williamboman/nvim-lsp-installer'
 use 'onsails/lspkind-nvim'
-use {'SmiteshP/nvim-gps', config = "require('plugins.gps')"}
 
 -- VIM WIKI
 use {
@@ -108,11 +107,11 @@ use {
 
 -- General
 use 'lewis6991/impatient.nvim'
-use {"lukas-reineke/indent-blankline.nvim",
+use {'lukas-reineke/indent-blankline.nvim',
   config = function()
-    require("indent_blankline").setup({
-      buftype_exclude = { "terminal" },
-      filetype_exclude = { "dashboard" },
+    require('indent_blankline').setup({
+      buftype_exclude = { 'terminal' },
+      filetype_exclude = { 'dashboard' },
     })
   end
 }
@@ -120,7 +119,6 @@ use 'tpope/vim-surround'
 use {'numToStr/Comment.nvim', config = "require('plugins.comment')"}
 use 'JoosepAlviste/nvim-ts-context-commentstring'
 use {"akinsho/toggleterm.nvim", config = "require('plugins.toggleterm')"}
-use { 'junegunn/goyo.vim', config = "require('plugins.goyo')"}
 use {
   'junegunn/fzf.vim',
   requires = {{'junegunn/fzf', run = 'fzf#install()'}}
@@ -128,11 +126,6 @@ use {
 -- use { 'glepnir/galaxyline.nvim', after = 'nvim-gps', config = "require('plugins.galaxyline')" }
 
 -- Snippets & Language & Syntax
--- use({
---     "vuki656/package-info.nvim",
---     requires = "MunifTanjim/nui.nvim",
---     config = "require('plugins.package-info')"
--- })
 use { 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')" }
 use { 'mattn/emmet-vim', config = "require('plugins.emmet')"}
 use 'David-Kunz/jester'

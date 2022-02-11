@@ -26,8 +26,5 @@ spacebar -m config space_icon_strip                    �
 spacebar -m config clock_icon                  
 spacebar -m config dnd_icon                    
 spacebar -m config clock_format                "%d.%m.%Y %R"
-spacebar -m config right_shell                 on
-spacebar -m config right_shell_icon            
-spacebar -m config right_shell_command         "whoami"
 
 echo "spacebar configuration loaded.."
