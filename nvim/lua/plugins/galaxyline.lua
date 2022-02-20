@@ -47,6 +47,7 @@ gls.left[2] = { FileName = {
 }}
 
 gls.right[4] = { LineInfo = {
+	condition = condition.buffer_not_empty,
 	highlight = {colors.blue, bg},
 
 	provider = function ()
@@ -133,14 +134,4 @@ gls.short_line_left[1] = { FileName = {
 	condition = condition.buffer_not_empty,
 	highlight = {fg, bg},
 	provider  = 'FileName',
-}}
-
-gls.short_line_right[1] = { LineInfo = {
-	highlight = {fg, bg},
-
-	provider = function ()
-		local cursor = vim.api.nvim_win_get_cursor(0)
-
-		return cursor[1]..'·'..vim.api.nvim_buf_line_count(0)..':'..cursor[2]..' '
-	end,
 }}
