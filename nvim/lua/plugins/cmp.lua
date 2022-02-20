@@ -44,6 +44,13 @@ local kind_icons = {
 
 -- nvim-cmp setup
 cmp.setup {
+  map_cr = true, --  map <CR> on insert mode
+  map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
+  auto_select = true, -- automatically select the first item
+  map_char = { -- modifies the function or method delimiter by filetypes
+    all = '(',
+    tex = '{'
+  },
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -114,12 +121,3 @@ cmp.setup {
     { name = "path" },
   }
 }
-require("cmp").setup({
-  map_cr = true, --  map <CR> on insert mode
-  map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
-  auto_select = true, -- automatically select the first item
-  map_char = { -- modifies the function or method delimiter by filetypes
-    all = '(',
-    tex = '{'
-  }
-})

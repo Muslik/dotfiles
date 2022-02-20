@@ -18,7 +18,7 @@ local server_opts = {
   ls_emmet = require('lsp/ls_emmet'),
 }
 
-local servers = { "bashls", "cssls", "dockerls", "efm", "html", "jsonls", "sumneko_lua", "tsserver", "yamlls" };
+local servers = { "bashls", "cssls", "dockerls", "efm", "html", "jsonls", "sumneko_lua", "tsserver", "yamlls", "rust_analyzer" };
 
 local function disable_virtual_text()
 	lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
@@ -41,6 +41,9 @@ local function install_servers()
 end
 
 local function on_attach(client)
+  if client.name == 'rust_analyzer' then
+    client.resolved_capabilities.document_formatting = false
+  end
   if client.name ~= 'efm' then
     client.resolved_capabilities.document_formatting = false
   end

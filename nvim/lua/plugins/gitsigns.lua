@@ -24,12 +24,12 @@ require('gitsigns').setup {
     ['n <leader>ghp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
     ['n <leader>gm']  = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>',
   },
-  watch_index = {
-    interval = 700,
+  watch_gitdir = {
+    interval = 1000,
     follow_files = true
   },
   attach_to_untracked = true,
-  current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
   current_line_blame_opts = {
     virt_text = true,
     virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
@@ -50,7 +50,9 @@ require('gitsigns').setup {
     row = 0,
     col = 1
   },
-  use_internal_diff = true,  -- If vim.diff or luajit is present
+  diff_opts = {
+    internal = true,  -- If vim.diff or luajit is present
+  },
   yadm = {
     enable = false
   },

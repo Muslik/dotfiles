@@ -38,6 +38,7 @@ ln -s ~/dotfiles/zshenv ~/.zshenv
 ln -s ~/dotfiles/yabai ~/.config/yabai
 ln -s ~/dotfiles/skhd ~/.config/skhd
 ln -s ~/dotfiles/spacebar ~/.config/spacebar
+ln -s ~/dotfiles/gitui ~/.config/gitui
 
 git config --global core.excludesfile ~/.global_ignore
 

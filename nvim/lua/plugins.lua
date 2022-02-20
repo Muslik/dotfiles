@@ -123,7 +123,7 @@ use {
   'junegunn/fzf.vim',
   requires = {{'junegunn/fzf', run = 'fzf#install()'}}
 }
--- use { 'glepnir/galaxyline.nvim', after = 'nvim-gps', config = "require('plugins.galaxyline')" }
+use { 'glepnir/galaxyline.nvim', config = "require('plugins.galaxyline')" }
 
 -- Snippets & Language & Syntax
 use { 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')" }
@@ -133,7 +133,6 @@ use { 'windwp/nvim-autopairs', config = "require('plugins.autopairs')"}
 use { 'norcalli/nvim-colorizer.lua', ft = {'css', 'scss', 'sass', 'html'}, config = "require('plugins.colorizer')"}
 use 'rafamadriz/friendly-snippets'
 use { 'fatih/vim-go', run = ':GoUpdateBinaries', ft = 'go' }
-use { 'simrat39/rust-tools.nvim', ft = 'rust'}
 
 -- Nvim Tree
 use {'kyazdani42/nvim-tree.lua', config = "require('plugins.tree')"}
@@ -142,6 +141,4 @@ use {'kyazdani42/nvim-tree.lua', config = "require('plugins.tree')"}
 use {'lewis6991/gitsigns.nvim',
   requires = { 'nvim-lua/plenary.nvim' },
   config = "require('plugins.gitsigns')",
-  event = "BufRead"
 }
-use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
