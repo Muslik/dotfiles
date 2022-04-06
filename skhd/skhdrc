@@ -3,7 +3,7 @@ cmd - return  : open -a kitty.app
 cmd + alt - t : open -a telegram.app
 cmd + alt - m : open -a music.app
 cmd + alt - s : open -a slack.app
-cmd + alt - b : open -a Google\ Chrome.app
+cmd + alt - b : open -a Microsoft\ Edge.app
 
 # Navigation
 # cycle through stack windows

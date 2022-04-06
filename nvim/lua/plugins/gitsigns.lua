@@ -1,10 +1,10 @@
 require('gitsigns').setup {
   signs = {
-    add          = {hl = 'GitGutterAdd',    text = '│', numhl='GitSignsAddNr'},
-    change       = {hl = 'GitGutterChange', text = '│', numhl='GitSignsChangeNr'},
-    delete       = {hl = 'GitGutterDelete', text = '_', numhl='GitSignsDeleteNr'},
-    topdelete    = {hl = 'GitGutterDelete', text = '‾', numhl='GitSignsDeleteNr'},
-    changedelete = {hl = 'GitGutterChange', text = '~', numhl='GitSignsChangeNr'},
+    add          = {hl = 'GitSignsAddNr',    text = '+' },
+    change       = {hl = 'GitSignsChangeNr', text = '│' },
+    delete       = {hl = 'GitSignsDeleteNr', text = '_' },
+    topdelete    = {hl = 'GitSignsDeleteNr', text = '‾' },
+    changedelete = {hl = 'GitSignsChangeNr', text = '~' },
   },
   signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
   numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -25,7 +25,7 @@ require('gitsigns').setup {
     ['n <leader>gm']  = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>',
   },
   watch_gitdir = {
-    interval = 1000,
+    interval = 10000,
     follow_files = true
   },
   attach_to_untracked = true,

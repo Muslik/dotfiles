@@ -20,7 +20,13 @@ local server_opts = {
 
 local servers = { "bashls", "cssls", "dockerls", "efm", "html", "jsonls", "sumneko_lua", "tsserver", "yamlls", "rust_analyzer" };
 
-local function disable_virtual_text()
+local function setup_diagnostics()
+  lsp.handlers["textDocument/signatureHelp"] = lsp.with(
+    lsp.handlers.signature_help, {
+      silent = true,
+      focusable = false
+    }
+  )
 	lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
 		virtual_text = false,
 		signs = true,
@@ -28,7 +34,6 @@ local function disable_virtual_text()
 		update_in_insert = true,
 		severity_sort = true,
 	})
-	cmd [[autocmd CursorHoldI * silent! lua  vim.lsp.buf.signature_help()]]
 end
 
 local function install_servers()
@@ -62,20 +67,20 @@ end
 local function config_diagnostic_signs()
 	local signs = {
 		Error = {
-			text = " ",
-			texthl = 'DiagnosticSignError',
+			text = "",
+			numhl = 'DiagnosticSignError',
 		},
 		Warn = {
-			text = " ",
-			texthl = "DiagnosticSignWarn",
+			text = "",
+			numhl = "DiagnosticSignWarn",
 		},
 		Hint = {
-			text = " ",
-			texthl = "DiagnosticSignHint",
+			text = "",
+			numhl = "DiagnosticSignHint",
 		},
 		Info = {
-			text = " ",
-			texthl = "DiagnosticSignInfo",
+			text = "",
+			numhl = "DiagnosticSignInfo",
 		}
 	}
 	for type, config in pairs(signs) do
@@ -84,7 +89,7 @@ local function config_diagnostic_signs()
 	end
 end
 
-disable_virtual_text()
+setup_diagnostics()
 install_servers()
 setup_servers()
 config_diagnostic_signs()

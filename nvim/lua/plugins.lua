@@ -106,6 +106,7 @@ use {
 }
 
 -- General
+use 'simrat39/symbols-outline.nvim'
 use 'lewis6991/impatient.nvim'
 use {'lukas-reineke/indent-blankline.nvim',
   config = function()
@@ -126,6 +127,7 @@ use {
 use { 'glepnir/galaxyline.nvim', config = "require('plugins.galaxyline')" }
 
 -- Snippets & Language & Syntax
+use { 'github/copilot.vim', config = "require('plugins.copilot')" }
 use { 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')" }
 use { 'mattn/emmet-vim', config = "require('plugins.emmet')"}
 use 'David-Kunz/jester'
@@ -141,4 +143,9 @@ use {'kyazdani42/nvim-tree.lua', config = "require('plugins.tree')"}
 use {'lewis6991/gitsigns.nvim',
   requires = { 'nvim-lua/plenary.nvim' },
   config = "require('plugins.gitsigns')",
+}
+
+use {
+  "folke/zen-mode.nvim",
+  config = "require('plugins.zenmode')"
 }

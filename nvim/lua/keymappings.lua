@@ -27,6 +27,9 @@ map('n', '<leader>to', ':tabonly<CR>')
 map('n', '<leader>tc', ':tabclose<CR>')
 
 -- Split
+map('n', 's=', '<C-w>=')
+map('n', 'sr', '<C-w>r')
+map('n', 'sx', '<C-w>x')
 map('n', 'ss', ':split<CR>')
 map('n', 'sc', ':close<CR>')
 map('n', 'sv', ':vsplit<CR>')
@@ -64,7 +67,7 @@ map('n', '<leader>vw', '<cmd>Telescope vimwiki<CR>')
 map('n', '<leader>vg', '<cmd>Telescope vimwiki live_grep<CR>')
 
 -- Zen mode
-map('', '<leader>z', ':Goyo<CR>')
+map('', '<leader>z', ':ZenMode<CR>')
 
 -- FZF
 map('n', '<leader>gg', ':GitFiles<CR>')
@@ -86,6 +89,7 @@ map('v', 'p', '"_dP')
 -- map('n', '<leader>ni', '<cmd>PackageInfoInstall<cr>')
 -- map('n', '<leader>nr', '<cmd>PackageInfoReinstall<cr>')
 
+map('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
 map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
@@ -100,3 +104,6 @@ map('v', '<leader>cf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 map('n', '<leader>cf', '<cmd>lua vim.lsp.buf.formatting_sync(nil, 10000)<CR>')
 map('n', '<leader>pp', ':Telescope projects<CR>')
 map('n', '<Plug>Postman', ':tabnew .http<CR>')
+
+
+map('i', '<C-e>', 'copilot#Accept("<CR>")', { expr = true, script = true })

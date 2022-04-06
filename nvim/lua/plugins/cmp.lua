@@ -112,12 +112,12 @@ cmp.setup {
     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
   },
   sources = {
-    { name = 'luasnip' },
-    { name = 'nvim_lsp' },
+    { name = 'nvim_lsp', group_index = 1 },
     { name = 'nvim_lua' },
     { name = 'calc' },
     { name = 'buffer' },
     { name = 'npm', keyword_length = 4 },
     { name = "path" },
+    { name = 'luasnip', keyword_length = 2 },
   }
 }

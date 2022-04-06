@@ -19,6 +19,7 @@ o.number = true -- number lines
 o.relativenumber = true -- relativenumber lines
 o.sessionoptions = 'tabpages,globals'
 o.shiftwidth = 2
+o.pumheight = 12
 o.expandtab = true
 o.incsearch = true
 o.cursorline = true -- enable cursorline
