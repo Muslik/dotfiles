@@ -108,16 +108,18 @@ cmp.setup {
       return vim_item
     end
   },
-  documentation = {
-    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  window = {
+    documentation = {
+      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    },
   },
   sources = {
     { name = 'nvim_lsp', group_index = 1 },
     { name = 'nvim_lua' },
     { name = 'calc' },
-    { name = 'buffer' },
+    { name = 'buffer', group_index = 2 },
     { name = 'npm', keyword_length = 4 },
     { name = "path" },
-    { name = 'luasnip', keyword_length = 2 },
+    { name = 'luasnip', keyword_length = 2, group_index = 3 },
   }
 }

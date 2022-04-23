@@ -39,6 +39,7 @@ use({
   "catppuccin/nvim",
   as = "catppuccin",
 })
+use { 'lalitmee/cobalt2.nvim', requires = 'tjdevries/colorbuddy.nvim' }
 use 'marko-cerovac/material.nvim'
 use 'folke/tokyonight.nvim'
 use 'pacokwon/onedarkhc.vim'

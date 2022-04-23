@@ -1,21 +1,33 @@
-require("rest-nvim").setup({
-      -- Open request results in a horizontal split
-      result_split_horizontal = false,
-      -- Skip SSL verification, useful for unknown certificates
-      skip_ssl_verification = false,
-      -- Highlight request on run
-      highlight = {
-        enabled = true,
-        timeout = 150,
-      },
-      result = {
-        -- toggle showing URL, HTTP info, headers at top the of result window
-        show_url = true,
-        show_http_info = true,
-        show_headers = true,
-      },
-      -- Jump to request line on run
-      jump_to_request = false,
-      env_file = '.env',
-      custom_dynamic_variables = {},
-    })
+local rest_nvim = require('rest-nvim')
+local api = vim.api
+
+rest_nvim.setup({
+  -- Open request results in a horizontal split
+  result_split_horizontal = false,
+  -- Skip SSL verification, useful for unknown certificates
+  skip_ssl_verification = false,
+  -- Highlight request on run
+  highlight = {
+    enabled = true,
+    timeout = 150,
+  },
+  result = {
+    -- toggle showing URL, HTTP info, headers at top the of result window
+    show_url = true,
+    show_http_info = true,
+    show_headers = true,
+  },
+  -- Jump to request line on run
+  jump_to_request = false,
+  env_file = '.env',
+  custom_dynamic_variables = {},
+})
+
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "http" },
+  callback = function()
+    api.nvim_buf_set_keymap(0, "n", "<leader>rn", ':lua require("rest-nvim").run()<CR>', { noremap = true })
+    api.nvim_buf_set_keymap(0, "n", "<leader>rl", ':lua require("rest-nvim").last()<CR>', { noremap = true })
+  end
+})

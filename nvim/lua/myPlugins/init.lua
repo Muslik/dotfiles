@@ -1,0 +1,1 @@
+require('myPlugins.git-open')

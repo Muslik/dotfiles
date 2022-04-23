@@ -1,5 +1,6 @@
-local map = VimConfig.utils.map;
+local map = Utils.map;
 
+map('n', ',<leader>', ':noh<CR>')
 map('i', 'jk', '<Esc>')
 -- Alternate way to save
 map('n', '<leader>w', ':w<CR>')
