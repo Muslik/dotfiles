@@ -28,6 +28,7 @@ o.ignorecase = true -- ignore case on search
 o.smarttab = true
 o.lazyredraw = true -- don't redray while executing macros (perfomance)
 o.swapfile = false -- creates swapfile
+o.showcmd = false -- don't show command in status line
 o.tabstop = 2 -- tab size
 o.undofile = true; bo.undofile = true
 o.updatetime = 750 -- faster completion

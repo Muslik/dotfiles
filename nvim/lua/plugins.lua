@@ -7,7 +7,7 @@ local compile_path = install_path .. "/plugin/packer_compiled.lua"
 local is_installed = fn.empty(fn.glob(install_path)) == 0
 
 if not is_installed then
-  if fn.input("Install packer.nvim?") == "y" then
+  if fn.input("Install packer.nvim? ") == "y" then
     fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
     cmd 'packadd packer.nvim'
     print("Installed packer.nvim.")
@@ -50,7 +50,6 @@ use 'iandwelker/rose-pine-vim'
 -- Treesitter
 use {'nvim-treesitter/nvim-treesitter',
   config = "require('plugins.treesitter')",
-  commit = "8ada8faf2fd5a74cc73090ec856fa88f34cd364b",
   run = ':TSUpdate'}
 
 -- Telescope
@@ -63,9 +62,10 @@ use {'nvim-telescope/telescope.nvim',
     {'nvim-telescope/telescope-node-modules.nvim'}
   }
 }
-use { 'ElPiloto/telescope-vimwiki.nvim' }
 use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 use {'ahmedkhalf/project.nvim', config = "require('plugins.project')"}
+
+use {'stevearc/dressing.nvim'}
 
 -- LSP Base
 use 'neovim/nvim-lspconfig'
@@ -135,35 +135,19 @@ use 'David-Kunz/jester'
 use { 'windwp/nvim-autopairs', config = "require('plugins.autopairs')"}
 use { 'norcalli/nvim-colorizer.lua', ft = {'css', 'scss', 'sass', 'html'}, config = "require('plugins.colorizer')"}
 use 'rafamadriz/friendly-snippets'
-use { 'fatih/vim-go', run = ':GoUpdateBinaries', ft = 'go' }
 
 -- Nvim Tree
--- use {'kyazdani42/nvim-tree.lua', config = "require('plugins.tree')"}
 use {
   "nvim-neo-tree/neo-tree.nvim",
     config = "require('plugins.tree')",
     branch = "v2.x",
     requires = {
       "nvim-lua/plenary.nvim",
-      "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+      "kyazdani42/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
       {
-        -- only needed if you want to use the commands with "_with_window_picker" suffix
         's1n7ax/nvim-window-picker',
-        tag = "1.*",
-        config = function()
-          require'window-picker'.setup({
-            autoselect_one = true,
-            include_current = false,
-            filter_rules = {
-              bo = {
-                filetype = { 'neo-tree', "neo-tree-popup", "notify", "quickfix" },
-                buftype = { 'terminal' },
-              },
-            },
-            other_win_hl_color = '#e35e4f',
-          })
-        end,
+        config = "require('plugins.window-picker')"
       }
     }
   }

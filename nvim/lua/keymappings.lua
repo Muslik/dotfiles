@@ -63,47 +63,43 @@ map('n', '<leader>nn', ':Neotree toggle reveal<CR>')
 map('n', '<leader>ff', ':Neotree reveal<CR>')
 
 -- VIM WIKI
-map('n', '<leader>vw', '<cmd>Telescope vimwiki<CR>')
-map('n', '<leader>vg', '<cmd>Telescope vimwiki live_grep<CR>')
+map('n', '<leader>vw', ':Telescope vimwiki<CR>')
+map('n', '<leader>vg', ':Telescope vimwiki live_grep<CR>')
 
 -- Zen mode
 map('', '<leader>z', ':ZenMode<CR>')
 
 -- FZF
-map('n', '<leader>gg', ':GitFiles<CR>')
-map('n', '<leader><leader>', ':Files<CR>')
+map('n', '<leader>gg', ':Telescope git_files<CR>')
+map('n', '<leader><leader>', ':Telescope find_files<CR>')
 map('n', '<leader>hh', ':History<CR>')
-map('n', '<leader>bb', ':Buffer<CR>')
-map('n', '<leader>s', ':Ag<CR>')
+map('n', '<leader>bb', ':Telescope buffers<CR>')
+map('n', '<leader>s', ':Telescope live_grep<CR>')
+map('n', '<leader>nm',  ':Telescope node_modules list<CR>')
 
 -- ToggleTerm
-map('n', '<leader>lg', '<cmd>lua Git:toggle()<CR>')
+map('n', '<leader>lg', ':lua Git:toggle()<CR>')
+map('n', '<leader>sp', ':lua Spotify:toggle()<CR>')
 
 -- PASTE W/O YANKING
 map('v', 'p', '"_dP')
 
 -- Plugins
--- map('n', '<leader>ns', '<cmd>PackageInfoShow<cr>')
--- map('n', '<leader>nd', '<cmd>PackageInfoDelete<cr>')
--- map('n', '<leader>np', '<cmd>PackageInfoChangeVersion<cr>')
--- map('n', '<leader>ni', '<cmd>PackageInfoInstall<cr>')
--- map('n', '<leader>nr', '<cmd>PackageInfoReinstall<cr>')
-
-map('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-map('n', '<leader>ca', ':Telescope lsp_code_actions<CR>')
+map('i', '<C-k>', ':lua vim.lsp.buf.signature_help()<CR>')
+map('n', 'gd', ':Telescope lsp_definitions<CR>')
+map('n', 'K', ':lua vim.lsp.buf.hover()<CR>')
+map('n', 'gi', ':Telescope lsp_implementations<CR>')
+map('n', '<leader>D', ':Telescope lsp_type_definitions<CR>')
+map('n', '<leader>rn', ':lua vim.lsp.buf.rename()<CR>')
+map('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>')
+map('v', '<leader>ca', ':lua vim.lsp.buf.range_code_action()<CR>')
 map('n', 'gr', ':Telescope lsp_references<CR>')
-map('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
-map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-map('v', '<leader>cf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
-map('n', '<leader>cf', '<cmd>lua vim.lsp.buf.formatting_sync(nil, 10000)<CR>')
+map('n', '<leader>e', ':lua vim.diagnostic.open_float()<CR>')
+map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
+map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>')
+map('v', '<leader>cf', ':lua vim.lsp.buf.range_formatting()<CR>')
+map('n', '<leader>cf', ':lua vim.lsp.buf.formatting_sync(nil, 10000)<CR>')
 map('n', '<leader>pp', ':Telescope projects<CR>')
-map('n', '<Plug>Postman', ':tabnew .http<CR>')
 
 
 map('i', '<C-e>', 'copilot#Accept("<CR>")', { expr = true, script = true })

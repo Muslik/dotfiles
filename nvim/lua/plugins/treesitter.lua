@@ -1,5 +1,5 @@
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {"bash", "c", "cmake", "comment", "cpp", "css", "dockerfile", "elixir", "fish", "go", "graphql", "html", "http", "java", "javascript", "jsdoc", "json", "json5", "lua", "php", "prisma", "pug", "python", "ruby", "rust", "scss", "svelte", "typescript", "vim", "vue", "yaml"},
   tree_docs = {
     enable = true,
     spec_config = {

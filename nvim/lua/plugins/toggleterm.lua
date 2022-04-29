@@ -3,6 +3,7 @@ require("toggleterm").setup{
   size = 20,
   open_mapping = [[<leader>tt]],
   direction = 'float',
+  insert_mappings = false,
   float_opts = {
     border = 'single',
     highlights = {
@@ -14,3 +15,4 @@ require("toggleterm").setup{
 
 local Terminal  = require('toggleterm.terminal').Terminal
 Git = Terminal:new({ cmd = "gitui", hidden = true })
+Spotify = Terminal:new({ cmd = "spt", hidden = true })

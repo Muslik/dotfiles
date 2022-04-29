@@ -1,14 +1,7 @@
 local lsp_installer = require"nvim-lsp-installer"
 
-local cmd = vim.cmd
 local fn = vim.fn
 local lsp = vim.lsp
-
-local capabilities = lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-	properties = { 'documentation', 'detail', 'additionalTextEdits' },
-}
 
 local server_opts = {
 	efm = require("lsp/efm-ls"),
@@ -58,7 +51,6 @@ end
 local function setup_servers()
   lsp_installer.on_server_ready(function(server)
     local opts = server_opts[server.name] or {}
-    opts.capabilities = capabilities;
     opts.on_attach = on_attach
     server:setup(opts)
   end)
