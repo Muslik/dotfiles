@@ -138,7 +138,35 @@ use 'rafamadriz/friendly-snippets'
 use { 'fatih/vim-go', run = ':GoUpdateBinaries', ft = 'go' }
 
 -- Nvim Tree
-use {'kyazdani42/nvim-tree.lua', config = "require('plugins.tree')"}
+-- use {'kyazdani42/nvim-tree.lua', config = "require('plugins.tree')"}
+use {
+  "nvim-neo-tree/neo-tree.nvim",
+    config = "require('plugins.tree')",
+    branch = "v2.x",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      {
+        -- only needed if you want to use the commands with "_with_window_picker" suffix
+        's1n7ax/nvim-window-picker',
+        tag = "1.*",
+        config = function()
+          require'window-picker'.setup({
+            autoselect_one = true,
+            include_current = false,
+            filter_rules = {
+              bo = {
+                filetype = { 'neo-tree', "neo-tree-popup", "notify", "quickfix" },
+                buftype = { 'terminal' },
+              },
+            },
+            other_win_hl_color = '#e35e4f',
+          })
+        end,
+      }
+    }
+  }
 
 -- Git
 use {'lewis6991/gitsigns.nvim',

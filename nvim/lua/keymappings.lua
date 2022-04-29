@@ -59,9 +59,8 @@ map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 
 -- Nvim Tree
-map('n', '<leader>nn', ':NvimTreeToggle<CR>')
-map('n', '<leader>tf', ':NvimTreeFocus<CR>')
-map('n', '<leader>ff', ':NvimTreeFindFile<CR>')
+map('n', '<leader>nn', ':Neotree toggle reveal<CR>')
+map('n', '<leader>ff', ':Neotree reveal<CR>')
 
 -- VIM WIKI
 map('n', '<leader>vw', '<cmd>Telescope vimwiki<CR>')
