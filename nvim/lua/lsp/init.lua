@@ -14,19 +14,25 @@ local server_opts = {
 local servers = { "bashls", "cssls", "dockerls", "efm", "html", "jsonls", "sumneko_lua", "tsserver", "yamlls", "rust_analyzer" };
 
 local function setup_diagnostics()
-  lsp.handlers["textDocument/signatureHelp"] = lsp.with(
-    lsp.handlers.signature_help, {
-      silent = true,
-      focusable = false
+  lsp.handlers['textDocument/signatureHelp'] = lsp.with(
+    vim.lsp.handlers.signature_help, {
+      border = 'rounded',
+      width = 80,
+      close_events = {"CursorMoved", "BufHidden", "InsertCharPre"},
+    })
+  lsp.handlers['textDocument/hover'] = lsp.with(
+    vim.lsp.handlers.hover, {
+      border = 'rounded',
+      width = 80,
     }
   )
-	lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
-		virtual_text = false,
-		signs = true,
-		underline = true,
-		update_in_insert = true,
-		severity_sort = true,
-	})
+  lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = false,
+    signs = true,
+    underline = true,
+    update_in_insert = true,
+    severity_sort = true,
+  })
 end
 
 local function install_servers()
