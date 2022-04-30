@@ -77,6 +77,10 @@ map('n', '<leader>bb', '<cmd>Telescope buffers<CR>')
 map('n', '<leader>s', '<cmd>Telescope live_grep<CR>')
 map('n', '<leader>nm',  '<cmd>Telescope node_modules list<CR>')
 
+-- Telescope
+map('n', '<C-p>', '<cmd>Telescope commands<CR>')
+map('v', '<C-p>', '<cmd>Telescope commands<CR>')
+
 -- ToggleTerm
 map('n', '<leader>lg', '<cmd>lua Git:toggle()<CR>')
 map('n', '<leader>m', '<cmd>lua Spotify:toggle()<CR>')

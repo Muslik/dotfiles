@@ -54,6 +54,9 @@ local function get_visual_selection()
   local s_end = vim.fn.getpos("'>")
   local n_lines = math.abs(s_end[2] - s_start[2]) + 1
   local lines = vim.api.nvim_buf_get_lines(0, s_start[2] - 1, s_end[2], false)
+  if next(lines) == nil then
+    return nil
+  end
   lines[1] = string.sub(lines[1], s_start[3], -1)
   if n_lines == 1 then
     lines[n_lines] = string.sub(lines[n_lines], 1, s_end[3] - s_start[3] + 1)
@@ -69,7 +72,7 @@ local function encode_uri(text)
 end
 
 local function get_url_params(selection, language)
-  local code = encode_uri(selection)
+  local code = selection and encode_uri(selection) or ''
   local params = default_params;
   params.code = code
   params.l = language
@@ -78,7 +81,7 @@ end
 
 local function carbon()
   local selection = get_visual_selection();
-  if (string.len(selection) > MAX_LENGTH) then
+  if (selection and string.len(selection) > MAX_LENGTH) then
     print('Selected code is longer than ' .. MAX_LENGTH .. ' characters')
     return
   end
