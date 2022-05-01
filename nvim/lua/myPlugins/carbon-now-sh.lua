@@ -72,17 +72,18 @@ local function encode_uri(text)
 end
 
 local function get_url_params(selection, language)
-  local code = selection and encode_uri(selection) or ''
+  local code = selection ~= nil and encode_uri(selection) or ''
   local params = default_params;
   params.code = code
   params.l = language
   return params
 end
 
+-- TODO: Add support for select and run command
+-- now i can't figure out how to get current selected text instead of previous
 local function carbon()
   local selection = get_visual_selection();
-  if (selection and string.len(selection) > MAX_LENGTH) then
-    print('Selected code is longer than ' .. MAX_LENGTH .. ' characters')
+  if (selection ~= nil and string.len(selection) > MAX_LENGTH) then
     return
   end
   local language = get_language()
