@@ -9,6 +9,7 @@ echo $green"\nINSTALLING BREW: $def\n"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # INSTALLING ZSH ANTIGEN PLUGIN MANAGER
+echo $green"\nINSTALLING ANTIGEN ZSH PLUGIN MANAGER: $def\n"
 curl -L git.io/antigen > ~/dotfiles/zsh/sourced/antigen.zsh
 
 #INSTALLING BREW PLUGINS
@@ -23,12 +24,12 @@ brew services start spacebar
 
 #REMOVE OLD CONFIGS
 echo $green"\nSETUP CONFIGS: $def\n"
-rm -rf ~/.zshrc ~/.zshenv ~/.config/{alacritty,ranger,nvim,kitty,yabai,skhd,spacebar}
+rm -rf ~/.zshrc ~/.zshenv ~/.config/{gitui,ranger,nvim,kitty,yabai,skhd,spacebar}
 
 #SYMLINKS
-echo $magenta"\nSYMLINKING FILES $def\n"
+mkdir -p ~/.config
+mkdir -p ~/.config/tmuxinator
 ln -s ~/dotfiles/kitty ~/.config/kitty
-ln -s ~/dotfiles/alacritty ~/.config/alacritty
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/nvim ~/.config/nvim
 ln -s ~/dotfiles/ranger ~/.config/ranger
@@ -41,9 +42,6 @@ ln -s ~/dotfiles/spacebar ~/.config/spacebar
 ln -s ~/dotfiles/gitui ~/.config/gitui
 
 git config --global core.excludesfile ~/.global_ignore
-
 touch ~/.hushlogin
-
-npm install -g prompt-pure
 
 echo $yellow"Configuration installed successfully! Enjoy :-) $def\n"
