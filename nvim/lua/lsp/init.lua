@@ -45,9 +45,6 @@ local function install_servers()
 end
 
 local function on_attach(client)
-  if client.name == 'rust_analyzer' then
-    client.resolved_capabilities.document_formatting = false
-  end
   if client.name ~= 'efm' then
     client.resolved_capabilities.document_formatting = false
   end

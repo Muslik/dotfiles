@@ -2,7 +2,7 @@ local actions    = require('telescope.actions')
 
 require('telescope').setup {
   defaults = {
-    layout_strategy = "center",
+    layout_strategy = "horizontal",
     preview = {
       timeout = 1000,
     },

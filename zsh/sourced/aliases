@@ -75,6 +75,7 @@ alias recordAuth="asciinema auth"
 #########################################
 # MY OWN COMMANDS                       #
 #########################################
+alias tsplay="open 'https://www.typescriptlang.org/play'"
 alias now='date +"%T | %d-%m-%Y"'
 alias stfu="osascript -e 'set volume output muted true'"
 alias colors="curl -s https://gist.githubusercontent.com/HaleTom/89ffe32783f89f403bba96bd7bcd1263/raw/ | bash"

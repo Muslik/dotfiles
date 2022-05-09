@@ -58,11 +58,10 @@ use {'nvim-telescope/telescope.nvim',
   requires = {
     {'nvim-lua/popup.nvim'},
     {'nvim-lua/plenary.nvim'},
-    {'nvim-telescope/telescope-fzf-native.nvim'},
+    {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
     {'nvim-telescope/telescope-node-modules.nvim'}
   }
 }
-use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 use {'ahmedkhalf/project.nvim', config = "require('plugins.project')"}
 
 use {'stevearc/dressing.nvim'}
