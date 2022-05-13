@@ -43,5 +43,6 @@ ln -s ~/dotfiles/gitui ~/.config/gitui
 
 git config --global core.excludesfile ~/.global_ignore
 touch ~/.hushlogin
+ssh-add ~/.ssh/id_rsa
 
 echo $yellow"Configuration installed successfully! Enjoy :-) $def\n"

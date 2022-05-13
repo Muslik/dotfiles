@@ -79,8 +79,6 @@ local function get_url_params(selection, language)
   return params
 end
 
--- TODO: Add support for select and run command
--- now i can't figure out how to get current selected text instead of previous
 local function carbon()
   local selection = get_visual_selection();
   if (selection ~= nil and string.len(selection) > MAX_LENGTH) then
@@ -93,4 +91,4 @@ local function carbon()
   os.execute(command)
 end
 
-vim.api.nvim_create_user_command("Carbon", carbon, {})
+vim.api.nvim_create_user_command("Carbon", carbon, { range = true })

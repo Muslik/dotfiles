@@ -1,6 +1,6 @@
 local servers = require "nvim-lsp-installer.servers"
 local server = require "nvim-lsp-installer.server"
-local path = require "nvim-lsp-installer.path"
+local path = require "nvim-lsp-installer.core.path"
 
 local my_installer = function (command)
   return function(_, callback, _)

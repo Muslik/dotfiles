@@ -127,7 +127,7 @@ use {
 use { 'glepnir/galaxyline.nvim', config = "require('plugins.galaxyline')" }
 
 -- Snippets & Language & Syntax
-use { 'github/copilot.vim', config = "require('plugins.copilot')" }
+-- use { 'github/copilot.vim', config = "require('plugins.copilot')" }
 use { 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')" }
 use { 'mattn/emmet-vim', config = "require('plugins.emmet')"}
 use 'David-Kunz/jester'

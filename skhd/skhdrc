@@ -2,7 +2,7 @@
 cmd - return  : open -a kitty.app
 cmd + alt - t : open -a telegram.app
 cmd + alt - d : open -a discord.app
-cmd + alt - m : open -a music.app
+cmd + alt - m : open -a spotify.app
 cmd + alt - s : open -a slack.app
 cmd + alt - b : open -a Microsoft\ Edge.app
 
