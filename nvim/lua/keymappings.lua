@@ -75,6 +75,7 @@ map('n', '<leader><leader>', '<cmd>Telescope find_files<CR>')
 map('n', '<leader>hh', '<cmd>History<CR>')
 map('n', '<leader>bb', '<cmd>Telescope buffers<CR>')
 map('n', '<leader>s', '<cmd>Telescope live_grep<CR>')
+map('n', '<leader>S', '<cmd>Telescope live_grep_raw<CR>') -- For example for 
 map('n', '<leader>nm',  '<cmd>Telescope node_modules list<CR>')
 
 -- Telescope

@@ -55,7 +55,9 @@ use {'nvim-treesitter/nvim-treesitter',
 -- Telescope
 use {'nvim-telescope/telescope.nvim',
   config = "require('plugins.telescope')",
+  cmd = {'Telescope'},
   requires = {
+    { "nvim-telescope/telescope-live-grep-raw.nvim" },
     {'nvim-lua/popup.nvim'},
     {'nvim-lua/plenary.nvim'},
     {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
@@ -87,6 +89,7 @@ use 'onsails/lspkind-nvim'
 -- VIM WIKI
 use {
   'vimwiki/vimwiki',
+  ft = {'markdown', 'wiki'},
   config = function()
     vim.g.vimwiki_list = {
       {
@@ -106,7 +109,6 @@ use {
 }
 
 -- General
-use 'simrat39/symbols-outline.nvim'
 use 'lewis6991/impatient.nvim'
 use {'lukas-reineke/indent-blankline.nvim',
   config = function()
@@ -122,14 +124,15 @@ use 'JoosepAlviste/nvim-ts-context-commentstring'
 use {"akinsho/toggleterm.nvim", config = "require('plugins.toggleterm')"}
 use {
   'junegunn/fzf.vim',
+  cmd = { 'History' },
   requires = {{'junegunn/fzf', run = 'fzf#install()'}}
 }
 use { 'glepnir/galaxyline.nvim', config = "require('plugins.galaxyline')" }
 
 -- Snippets & Language & Syntax
--- use { 'github/copilot.vim', config = "require('plugins.copilot')" }
-use { 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')" }
-use { 'mattn/emmet-vim', config = "require('plugins.emmet')"}
+use { 'github/copilot.vim', config = "require('plugins.copilot')" }
+use { 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')", cmd = {'Postman'}}
+use { 'mattn/emmet-vim', config = "require('plugins.emmet')", ft = {'html', 'css', 'javascript', 'typescript', 'javascriptreact', 'scss', 'sass', 'typescriptreact'} }
 use 'David-Kunz/jester'
 use { 'windwp/nvim-autopairs', config = "require('plugins.autopairs')"}
 use { 'norcalli/nvim-colorizer.lua', ft = {'css', 'scss', 'sass', 'html'}, config = "require('plugins.colorizer')"}
@@ -140,6 +143,7 @@ use {
   "nvim-neo-tree/neo-tree.nvim",
     config = "require('plugins.tree')",
     branch = "v2.x",
+    cmd = {'Neotree'},
     requires = {
       "nvim-lua/plenary.nvim",
       "kyazdani42/nvim-web-devicons",
@@ -159,5 +163,6 @@ use {'lewis6991/gitsigns.nvim',
 
 use {
   "folke/zen-mode.nvim",
-  config = "require('plugins.zenmode')"
+  config = "require('plugins.zenmode')",
+  cmd = {'ZenMode'},
 }

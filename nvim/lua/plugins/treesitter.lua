@@ -16,7 +16,11 @@ require'nvim-treesitter.configs'.setup {
   },
   highlight = {
     enable = true,
-    disable = { "html" }, -- Buggy highlight
+    disable = function(lang)
+      if lang == "html" then -- Buggy highlight
+        return true
+      end
+    end
   },
   context_commentstring = {
     enable = true,
