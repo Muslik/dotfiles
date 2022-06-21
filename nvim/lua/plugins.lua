@@ -57,7 +57,7 @@ use {'nvim-telescope/telescope.nvim',
   config = "require('plugins.telescope')",
   cmd = {'Telescope'},
   requires = {
-    { "nvim-telescope/telescope-live-grep-raw.nvim" },
+    { "nvim-telescope/telescope-live-grep-args.nvim" },
     {'nvim-lua/popup.nvim'},
     {'nvim-lua/plenary.nvim'},
     {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},

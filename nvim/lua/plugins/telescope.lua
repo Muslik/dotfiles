@@ -2,7 +2,7 @@ local actions    = require('telescope.actions')
 
 require('telescope').setup {
   defaults = {
-    layout_strategy = "horizontal",
+    layout_strategy = "flex",
     preview = {
       timeout = 1000,
     },
@@ -36,20 +36,34 @@ require('telescope').setup {
 
     mappings = {
       i = {
-        ["<C-x>"] = false,
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
-        ["<C-q>"] = actions.send_to_qflist,
-        ["<C-s>"] = actions.cycle_previewers_next,
-        ["<C-a>"] = actions.cycle_previewers_prev,
+        ["<C-d>"] = actions.delete_buffer,
       },
       n = {
-        ["<C-s>"] = actions.cycle_previewers_next,
-        ["<C-a>"] = actions.cycle_previewers_prev,
+        ["<C-d>"] = actions.delete_buffer,
       }
     }
   },
   pickers = {
+    live_grep = {
+      theme = "dropdown",
+      previewer = false,
+    },
+    buffers = {
+      theme = "dropdown",
+      previewer = false,
+    },
+    oldfiles = {
+      theme = "dropdown",
+      previewer = false,
+    },
+    git_files = {
+      theme = "dropdown",
+      previewer = false,
+    },
+    find_files = {
+      theme = "dropdown",
+      previewer = false,
+    },
     lsp_code_actions = {
       theme = "cursor",
     },
@@ -63,7 +77,7 @@ require('telescope').setup {
   }
 }
 
-require("telescope").load_extension("live_grep_raw")
+require("telescope").load_extension("live_grep_args")
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('projects')
 require('telescope').load_extension('node_modules')

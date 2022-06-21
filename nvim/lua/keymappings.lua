@@ -1,5 +1,7 @@
 local map = Utils.map;
 
+vim.g.mapleader = " "
+
 map('n', ',<leader>', '<cmd>noh<CR>')
 map('i', 'jk', '<Esc>')
 -- Alternate way to save
@@ -69,18 +71,15 @@ map('n', '<leader>vg', '<cmd>Telescope vimwiki live_grep<CR>')
 -- Zen mode
 map('', '<leader>z', '<cmd>ZenMode<CR>')
 
--- FZF
+-- Telescope
 map('n', '<leader>gg', '<cmd>Telescope git_files<CR>')
 map('n', '<leader><leader>', '<cmd>Telescope find_files<CR>')
-map('n', '<leader>hh', '<cmd>History<CR>')
+map('n', '<leader>hh', '<cmd>Telescope oldfiles<CR>')
 map('n', '<leader>bb', '<cmd>Telescope buffers<CR>')
 map('n', '<leader>s', '<cmd>Telescope live_grep<CR>')
-map('n', '<leader>S', '<cmd>Telescope live_grep_raw<CR>') -- For example for 
-map('n', '<leader>nm',  '<cmd>Telescope node_modules list<CR>')
-
--- Telescope
-map('n', '<C-p>', '<cmd>Telescope commands<CR>')
-map('v', '<C-p>', '<cmd>Telescope commands<CR>')
+map('n', '<leader>S', '<cmd>lua require("telescope").extensions.live_grep_args.live_grep_args(require("telescope.themes").get_dropdown({ previewer = false }))<CR>')
+map('n', '<leader>nm',  '<cmd>lua require("telescope").extensions.node_modules.list(require("telescope.themes").get_dropdown({ previewer = false }))<CR>')
+map('n', '<leader>pp', '<cmd>lua require("telescope").extensions.projects.projects(require("telescope.themes").get_dropdown({ previewer = false }))<CR>')
 
 -- ToggleTerm
 map('n', '<leader>lg', '<cmd>lua Git:toggle()<CR>')
@@ -104,7 +103,6 @@ map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
 map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
 map('v', '<leader>cf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 map('n', '<leader>cf', '<cmd>lua vim.lsp.buf.formatting_sync(nil, 10000)<CR>')
-map('n', '<leader>pp', '<cmd>Telescope projects<CR>')
 
 
 map('i', '<C-e>', 'copilot#Accept("<CR>")', { expr = true, script = true })

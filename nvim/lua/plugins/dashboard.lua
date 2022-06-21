@@ -18,7 +18,7 @@ vim.g.dashboard_custom_section = {
   a = {description = {icons.fileNoBg ..     ' Find File          '}, command = 'Telescope find_files'},
   b = {description = {icons.t ..            ' Find Word          '}, command = 'Telescope live_grep'},
   c = {description = {icons.folder ..       ' Recent Projects    '}, command = 'Telescope projects'},
-  d = {description = {icons.fileCopy ..     ' History            '}, command = 'Hist'},
+  d = {description = {icons.fileCopy ..     ' History            '}, command = 'Telescope oldfiles'},
   e = {description = {icons.timer ..        ' Load Last Session  '}, command = 'SessionLoad'},
   f = {description = {icons.container ..    ' Sync Plugins       '}, command = 'PackerSync'},
   g = {description = {icons.container ..    ' Install Plugins    '}, command = 'PackerInstall'},
