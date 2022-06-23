@@ -1,8 +1,9 @@
 local actions    = require('telescope.actions')
+local action_layout = require("telescope.actions.layout")
 
 require('telescope').setup {
   defaults = {
-    layout_strategy = "flex",
+    layout_strategy = "vertical",
     preview = {
       timeout = 1000,
     },
@@ -21,12 +22,15 @@ require('telescope').setup {
       },
       vertical = {
         mirror = false,
+        width = 0.4,
+        height = 0.5,
+        preview_height = 0,
       },
       prompt_position = "top",
     },
     file_sorter      = require('telescope.sorters').get_fzy_sorter,
     file_ignore_patterns = { "node_modules" },
-    prompt_prefix    = ' 🔍 ',
+    prompt_prefix    = '   ',
     color_devicons   = true,
 
     sorting_strategy = "ascending",
@@ -37,32 +41,29 @@ require('telescope').setup {
     mappings = {
       i = {
         ["<C-d>"] = actions.delete_buffer,
+        ["?"] = action_layout.toggle_preview,
       },
       n = {
         ["<C-d>"] = actions.delete_buffer,
+        ["?"] = action_layout.toggle_preview,
       }
     }
   },
   pickers = {
     live_grep = {
-      theme = "dropdown",
-      previewer = false,
+      layout_config = {
+        vertical = {
+          height = 0.7,
+          preview_height = 0.4,
+        },
+      }
     },
-    buffers = {
-      theme = "dropdown",
-      previewer = false,
-    },
-    oldfiles = {
-      theme = "dropdown",
-      previewer = false,
-    },
-    git_files = {
-      theme = "dropdown",
-      previewer = false,
-    },
-    find_files = {
-      theme = "dropdown",
-      previewer = false,
+    live_grep_args = {
+      layout_config = {
+        vertical = {
+          preview_height = 0.5,
+        },
+      }
     },
     lsp_code_actions = {
       theme = "cursor",

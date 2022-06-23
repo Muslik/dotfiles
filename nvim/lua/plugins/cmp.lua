@@ -106,7 +106,6 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp', group_index = 1 },
     { name = 'nvim_lua' },
-    { name = 'calc' },
     { name = 'buffer', group_index = 2 },
     { name = 'npm', keyword_length = 4 },
     { name = "path" },

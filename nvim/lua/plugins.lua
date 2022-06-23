@@ -130,7 +130,6 @@ use {
 use { 'glepnir/galaxyline.nvim', config = "require('plugins.galaxyline')" }
 
 -- Snippets & Language & Syntax
-use { 'github/copilot.vim', config = "require('plugins.copilot')" }
 use { 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')", cmd = {'Postman'}}
 use { 'mattn/emmet-vim', config = "require('plugins.emmet')", ft = {'html', 'css', 'javascript', 'typescript', 'javascriptreact', 'scss', 'sass', 'typescriptreact'} }
 use 'David-Kunz/jester'

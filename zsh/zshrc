@@ -16,7 +16,7 @@ antigen apply
 unsetopt correct_all
 
 bindkey -v
-bindkey -M viins 'jj' vi-cmd-mode
+bindkey -M viins 'jk' vi-cmd-mode
 function zle-line-init zle-keymap-select {
     RPS2=$RPS1
     zle reset-prompt
