@@ -1,4 +1,5 @@
 local ENCODE_URI_COMMAND = 'printf "%s" | jq -sRr @uri'
+local ADD_TO_CLIPBOARD_COMMAND = 'echo "%s" | pbcopy'
 local OPEN_COMMAND = 'open "%s"'
 local CARBON_URL = 'https://carbon.now.sh'
 local MAX_LENGTH = 1000
@@ -80,16 +81,40 @@ local function get_url_params(selection, language)
   return params
 end
 
-local function carbon()
-  local selection = get_visual_selection();
-  if (selection ~= nil and string.len(selection) > MAX_LENGTH) then
-    return
-  end
+local function get_carbon_url(selection)
   local language = get_language()
   local params = get_url_params(selection, language)
   local url = create_url(params)
+  return url
+end
+
+local function selection_to_url()
+  local selection = get_visual_selection();
+  if (selection ~= nil and string.len(selection) > MAX_LENGTH) then
+    print("Sorry, input shouldn't be empty or more than " .. MAX_LENGTH .. " symbols")
+    return nil
+  end
+  return get_carbon_url(selection)
+end
+
+local function carbon_open()
+  local url = selection_to_url()
+  if url == nil then
+    return
+  end
   local command = string.format(OPEN_COMMAND, url)
   os.execute(command)
 end
 
-vim.api.nvim_create_user_command("Carbon", carbon, { range = true })
+local function carbon_to_clipboard()
+  local url = selection_to_url()
+  if url == nil then
+    return
+  end
+  local command = string.format(ADD_TO_CLIPBOARD_COMMAND, url)
+  os.execute(command)
+  print("Url was copied to clipboard");
+end
+
+vim.api.nvim_create_user_command("Carbon", carbon_to_clipboard, { range = true })
+vim.api.nvim_create_user_command("CarbonOpen", carbon_open, { range = true })
