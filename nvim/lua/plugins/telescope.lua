@@ -1,7 +1,12 @@
+local status_ok, telescope = pcall(require, "telescope")
+if not status_ok then
+	return
+end
+
 local actions    = require('telescope.actions')
 local action_layout = require("telescope.actions.layout")
 
-require('telescope').setup {
+telescope.setup {
   defaults = {
     layout_strategy = "vertical",
     preview = {
@@ -22,7 +27,7 @@ require('telescope').setup {
       },
       vertical = {
         mirror = false,
-        width = 0.4,
+        width = 0.6,
         height = 0.5,
         preview_height = 0,
       },

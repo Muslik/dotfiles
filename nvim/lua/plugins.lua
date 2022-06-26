@@ -1,28 +1,43 @@
 require('impatient')
 local fn = vim.fn
-local cmd = vim.cmd
 
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-local compile_path = install_path .. "/plugin/packer_compiled.lua"
-local is_installed = fn.empty(fn.glob(install_path)) == 0
+-- Automatically install packer
+local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+if fn.empty(fn.glob(install_path)) > 0 then
+  PACKER_BOOTSTRAP = fn.system {
+    "git",
+    "clone",
+    "--depth",
+    "1",
+    "https://github.com/wbthomason/packer.nvim",
+    install_path,
+  }
+  print "Installing packer close and reopen Neovim..."
+  vim.cmd [[packadd packer.nvim]]
+end
+-- Autocommand that reloads neovim whenever you save the plugins.lua file
+vim.cmd [[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+  augroup end
+]]
 
-if not is_installed then
-  if fn.input("Install packer.nvim? ") == "y" then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    cmd 'packadd packer.nvim'
-    print("Installed packer.nvim.")
-    is_installed = 1
-  end
+-- Use a protected call so we don't error out on first use
+local status_ok, packer = pcall(require, "packer")
+if not status_ok then
+  return
 end
 
-local packer = nil
-if not is_installed then return end
-if packer == nil then
-  packer = require('packer')
-  packer.init({
-    compile_path = compile_path
-  })
-end
+-- Have packer use a popup window
+packer.init {
+  display = {
+    open_fn = function()
+      return require("packer.util").float { border = "rounded" }
+    end,
+  },
+}
+
 
 local use = packer.use
 
@@ -131,7 +146,6 @@ use { 'glepnir/galaxyline.nvim', config = "require('plugins.galaxyline')" }
 
 -- Snippets & Language & Syntax
 use { 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')", cmd = {'Postman'}}
-use { 'mattn/emmet-vim', config = "require('plugins.emmet')", ft = {'html', 'css', 'javascript', 'typescript', 'javascriptreact', 'scss', 'sass', 'typescriptreact'} }
 use 'David-Kunz/jester'
 use { 'windwp/nvim-autopairs', config = "require('plugins.autopairs')"}
 use { 'norcalli/nvim-colorizer.lua', ft = {'css', 'scss', 'sass', 'html'}, config = "require('plugins.colorizer')"}

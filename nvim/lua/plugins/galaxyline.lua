@@ -1,6 +1,10 @@
+local status_ok, gl = pcall(require, "galaxyline")
+if not status_ok then
+  return
+end
+
 local icons = VimConfig.icons
 local colors = VimConfig.colors
-local gl = require('galaxyline')
 local gls = gl.section
 
 local condition = require('galaxyline.condition')
@@ -30,20 +34,6 @@ gls.left[0] = { Mode = {
     vim.api.nvim_command('hi GalaxyMode guifg='..mode_color[vim.fn.mode()])
     return "▌ "
   end,
-}}
-
-gls.left[1] = { FileIcon = {
-  condition = condition.buffer_not_empty,
-  highlight = {fileinfo.get_file_icon_color, bg},
-  provider  = 'FileIcon',
-  separator = ' ',
-  separator_highlight = {fg,bg},
-}}
-
-gls.left[2] = { FileName = {
-  condition = condition.buffer_not_empty,
-  highlight = {fg, bg},
-  provider = 'FileName',
 }}
 
 gls.right[4] = { LineInfo = {

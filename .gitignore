@@ -2,3 +2,4 @@
 fonts
 antigen.zsh
 personal
+nvim/plugin/packer_compiled.lua

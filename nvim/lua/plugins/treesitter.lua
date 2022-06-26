@@ -1,26 +1,18 @@
-require'nvim-treesitter.configs'.setup {
+local status_ok, configs = pcall(require, "nvim-treesitter.configs")
+if not status_ok then
+	return
+end
+
+configs.setup {
   ensure_installed = "all",
-  tree_docs = {
-    enable = true,
-    spec_config = {
-      jsdoc = {
-        slots = {
-          class = {author = true}
-        }
-      }
-    }
-  },
+  sync_install = false,
   indent = {
     enable = true,
     disable = { "html" }
   },
   highlight = {
     enable = true,
-    disable = function(lang)
-      if lang == "html" then -- Buggy highlight
-        return true
-      end
-    end
+    disable = { "html" }
   },
   context_commentstring = {
     enable = true,

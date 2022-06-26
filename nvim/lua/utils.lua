@@ -10,6 +10,19 @@ local extend_options = function(opt)
 	 return options
 end
 
+M.isempty = function(s)
+  return s == nil or s == ""
+end
+
+M.get_buf_option = function(opt)
+  local status_ok, buf_option = pcall(vim.api.nvim_buf_get_option, 0, opt)
+  if not status_ok then
+    return nil
+  else
+    return buf_option
+  end
+end
+
 M.is_buffer_empty = function()
   if vim.fn.empty(vim.fn.expand('%:t')) == 1 then
     return true

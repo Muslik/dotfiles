@@ -1,4 +1,4 @@
-local ENCODE_URI_COMMAND = 'echo "%s" | jq -sRr @uri'
+local ENCODE_URI_COMMAND = 'printf "%s" | jq -sRr @uri'
 local OPEN_COMMAND = 'open "%s"'
 local CARBON_URL = 'https://carbon.now.sh'
 local MAX_LENGTH = 1000
@@ -7,12 +7,12 @@ local default_params = {
   bg = "rgba(0,0,0,0)",
   t = "night-owl",
   ds = true,
-  wc = true,
+  wc = false,
   wa = true,
   pv = "24px",
   ph = "16px",
   ln = false,
-  f = "fira-code",
+  f = "Fira Code",
   fs = "16px"
 }
 
@@ -34,6 +34,7 @@ end
 
 local language_map = {
   css = "css",
+  lua = "lua",
   markdown = "markdown",
   json = "application/json",
   html = "htmlmixed",

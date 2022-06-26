@@ -1,38 +1,20 @@
-local luasnip = require('luasnip')
-local cmp = require('cmp')
+local cmp_status_ok, cmp = pcall(require, "cmp")
+if not cmp_status_ok then
+  return
+end
+
+local snip_status_ok, luasnip = pcall(require, "luasnip")
+if not snip_status_ok then
+  return
+end
+
+require("luasnip/loaders/from_vscode").lazy_load()
 
 local check_backspace = function()
   local col = vim.fn.col "." - 1
   return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
 end
 
-local kind_icons = {
-    Text = "",
-    Method = "",
-    Function = "",
-    Constructor = "⌘",
-    Field = "ﰠ",
-    Variable = "",
-    Class = "ﴯ",
-    Interface = "",
-    Module = "",
-    Property = "ﰠ",
-    Unit = "塞",
-    Value = "",
-    Enum = "",
-    Keyword = "廓",
-    Snippet = "",
-    Color = "",
-    File = "",
-    Reference = "",
-    Folder = "",
-    EnumMember = "",
-    Constant = "",
-    Struct = "פּ",
-    Event = "",
-    Operator = "",
-    TypeParameter = "",
-}
 -- nvim-cmp setup
 cmp.setup {
   map_cr = true, --  map <CR> on insert mode
@@ -90,25 +72,54 @@ cmp.setup {
         "s",
       }),
   },
-  formatting = {
+   formatting = {
     fields = { "kind", "abbr", "menu" },
-    format = function(_, vim_item)
-      vim_item.menu = vim_item.kind
-      vim_item.kind = string.format("%s ", kind_icons[vim_item.kind])
+    format = function(entry, vim_item)
+      -- Kind icons
+      vim_item.kind = VimConfig.icons.kind[vim_item.kind]
+
+      if entry.source.name == "cmp_tabnine" then
+        vim_item.kind = VimConfig.icons.misc.Robot
+        vim_item.kind_hl_group = "CmpItemKindTabnine"
+      end
+      if entry.source.name == "copilot" then
+        vim_item.kind = VimConfig.icons.git.Octoface
+        vim_item.kind_hl_group = "CmpItemKindCopilot"
+      end
+
+      if entry.source.name == "emoji" then
+        vim_item.kind = VimConfig.icons.misc.Smiley
+        vim_item.kind_hl_group = "CmpItemKindEmoji"
+      end
+
+      -- NOTE: order matters
+      vim_item.menu = ({
+        nvim_lsp = "",
+        nvim_lua = "",
+        luasnip = "",
+        buffer = "",
+        path = "",
+        emoji = "",
+      })[entry.source.name]
       return vim_item
-    end
+    end,
   },
   window = {
     documentation = {
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+      border = "rounded",
+      winhighlight = "NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None",
+    },
+    completion = {
+      border = "rounded",
+      winhighlight = "NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None",
     },
   },
   sources = {
-    { name = 'nvim_lsp', group_index = 1 },
+    { name = 'nvim_lsp' },
     { name = 'nvim_lua' },
-    { name = 'buffer', group_index = 2 },
-    { name = 'npm', keyword_length = 4 },
+    { name = 'luasnip' },
+    { name = 'buffer' },
+    { name = 'npm' },
     { name = "path" },
-    { name = 'luasnip', keyword_length = 2, group_index = 3 },
   }
 }

@@ -25,9 +25,6 @@ map('n', '<leader>,', '<cmd>noh<CR>')
 
 -- Tabs
 map('n', '<S-t>', '<cmd>tabnew<CR>')
-map('n', '<leader>tn', '<cmd>tabnew<CR>')
-map('n', '<leader>to', '<cmd>tabonly<CR>')
-map('n', '<leader>tc', '<cmd>tabclose<CR>')
 
 -- Split
 map('n', 's=', '<C-w>=')
@@ -76,14 +73,17 @@ map('n', '<leader>gg', '<cmd>Telescope git_files<CR>')
 map('n', '<leader>gb', '<cmd>Telescope git_branches<CR>')
 map('n', '<leader><leader>', '<cmd>Telescope find_files<CR>')
 map('n', '<leader>bb', '<cmd>Telescope buffers<CR>')
+map('n', '<leader>hh', '<cmd>Telescope oldfiles<CR>')
 map('n', '<leader>s', '<cmd>Telescope live_grep<CR>')
 map('n', '<leader>S', '<cmd>lua require("telescope").extensions.live_grep_args.live_grep_args({ layout_strategy = "vertical", layout_config = { vertical = { height = 0.7, preview_height = 0.4 } }})<CR>')
 map('n', '<leader>nm',  '<cmd>lua require("telescope").extensions.node_modules.list(require("telescope.themes").get_dropdown({ previewer = false }))<CR>')
 map('n', '<leader>pp', '<cmd>lua require("telescope").extensions.projects.projects(require("telescope.themes").get_dropdown({ previewer = false }))<CR>')
 
 -- ToggleTerm
-map('n', '<leader>lg', '<cmd>lua Git:toggle()<CR>')
-map('n', '<leader>m', '<cmd>lua Spotify:toggle()<CR>')
+map('n', '<leader>tg', '<cmd>lua Git:toggle()<CR>')
+map('n', '<leader>tm', '<cmd>lua Spotify:toggle()<CR>')
+map('n', '<leader>tn', '<cmd>lua Node:toggle()<CR>')
+map('n', '<leader>th', '<cmd>lua Htop:toggle()<CR>')
 
 -- PASTE W/O YANKING
 map('v', 'p', '"_dP')
@@ -101,5 +101,5 @@ map('n', 'gr', '<cmd>Telescope lsp_references<CR>')
 map('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
 map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
 map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-map('v', '<leader>cf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
-map('n', '<leader>cf', '<cmd>lua vim.lsp.buf.formatting_sync(nil, 10000)<CR>')
+map('v', '<leader>cf', '<cmd>lua vim.lsp.buf.range_formatting({ async = true })<CR>')
+map('n', '<leader>cf', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>')

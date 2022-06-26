@@ -1,14 +1,18 @@
-local ls = require('luasnip')
-local s = ls.snippet
-local t = ls.text_node
-local i = ls.insert_node
-local f = ls.function_node
+local status_ok, luasnip = pcall(require, "luasnip")
+if not status_ok then
+  return
+end
+
+local s = luasnip.snippet
+local t = luasnip.text_node
+local i = luasnip.insert_node
+local f = luasnip.function_node
 
 local function copy(args)
   return args[1]
 end
 
-ls.snippets = {
+luasnip.snippets = {
   typescript = {
     s("acf", {
       t("const "),
@@ -65,5 +69,3 @@ ls.snippets = {
     })
   }
 }
-
-require("luasnip/loaders/from_vscode").lazy_load()

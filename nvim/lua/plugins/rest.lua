@@ -1,4 +1,8 @@
-local rest_nvim = require('rest-nvim')
+local status_ok, rest_nvim = pcall(require, "rest-nvim")
+if not status_ok then
+	return
+end
+
 local api = vim.api
 
 rest_nvim.setup({

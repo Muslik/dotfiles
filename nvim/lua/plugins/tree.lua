@@ -1,16 +1,15 @@
-vim.cmd([[highlight NeoTreeTitleBar guibg=#96cdfb guifg=#000000]])
+local status_ok, neo_tree = pcall(require, "neo-tree")
+if not status_ok then
+	return
+end
 
-require("neo-tree").setup({
+neo_tree.setup({
   default_component_configs = {
     name = {
       trailing_slash = true,
       use_git_status_colors = true,
       highlight = "NeoTreeFileName",
     },
-  },
-  nesting_rules = {
-    jsx = { "module.css", "module.scss", "scss" },
-    -- tsx = { "module.css", "module.scss", "scss" },
   },
   filesystem = {
     components = {
