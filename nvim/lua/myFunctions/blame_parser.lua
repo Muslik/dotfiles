@@ -1,5 +1,5 @@
-local split = Utils.split;
-local slice = Utils.slice;
+local split = Utils.split
+local slice = Utils.slice
 
 local BLAME_MAPPING = {
   ['author'] = 'author',
@@ -39,10 +39,10 @@ end
 
 function BlameParser:_parse_line(line_arr)
   local key = BLAME_MAPPING[line_arr[1]]
-  if (not key) then
+  if not key then
     return
   end
-  if (key == 'committer' or key == 'summary' or key == 'previous' or key == 'author') then
+  if key == 'committer' or key == 'summary' or key == 'previous' or key == 'author' then
     self[key] = table.concat(slice(line_arr, 2), ' ')
   else
     self[key] = line_arr[2]
@@ -54,13 +54,13 @@ function BlameParser:parse(blame)
   for _, v in pairs(lines) do
     local line_arr = split(v)
     -- This is hash
-    if (string.len(line_arr[1] or "") == 40) then
+    if string.len(line_arr[1] or '') == 40 then
       self.hash = line_arr[1]
     else
       self:_parse_line(line_arr)
     end
   end
-  return self;
+  return self
 end
 
 return BlameParser

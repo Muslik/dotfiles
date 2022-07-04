@@ -1,21 +1,21 @@
-local status_ok, configs = pcall(require, "nvim-treesitter.configs")
+local status_ok, configs = pcall(require, 'nvim-treesitter.configs')
 if not status_ok then
-	return
+  return
 end
 
-configs.setup {
-  ensure_installed = "all",
+configs.setup({
+  ensure_installed = 'all',
   sync_install = false,
   indent = {
     enable = true,
-    disable = { "html" }
+    disable = { 'html' },
   },
   highlight = {
     enable = true,
-    disable = { "html" }
+    disable = { 'html' },
   },
   context_commentstring = {
     enable = true,
     enable_autocmd = false,
   },
-}
+})

@@ -1,6 +1,6 @@
-local map = Utils.map;
+local map = Utils.map
 
-vim.g.mapleader = " "
+vim.g.mapleader = ' '
 
 map('n', ',<leader>', '<cmd>noh<CR>')
 map('i', 'jk', '<Esc>')
@@ -75,9 +75,21 @@ map('n', '<leader><leader>', '<cmd>Telescope find_files<CR>')
 map('n', '<leader>bb', '<cmd>Telescope buffers<CR>')
 map('n', '<leader>hh', '<cmd>Telescope oldfiles<CR>')
 map('n', '<leader>s', '<cmd>Telescope live_grep<CR>')
-map('n', '<leader>S', '<cmd>lua require("telescope").extensions.live_grep_args.live_grep_args({ layout_strategy = "vertical", layout_config = { vertical = { height = 0.7, preview_height = 0.4 } }})<CR>')
-map('n', '<leader>nm',  '<cmd>lua require("telescope").extensions.node_modules.list(require("telescope.themes").get_dropdown({ previewer = false }))<CR>')
-map('n', '<leader>pp', '<cmd>lua require("telescope").extensions.projects.projects(require("telescope.themes").get_dropdown({ previewer = false }))<CR>')
+map(
+  'n',
+  '<leader>S',
+  '<cmd>lua require("telescope").extensions.live_grep_args.live_grep_args({ layout_strategy = "vertical", layout_config = { vertical = { height = 0.7, preview_height = 0.4 } }})<CR>'
+)
+map(
+  'n',
+  '<leader>nm',
+  '<cmd>lua require("telescope").extensions.node_modules.list(require("telescope.themes").get_dropdown({ previewer = false }))<CR>'
+)
+map(
+  'n',
+  '<leader>pp',
+  '<cmd>lua require("telescope").extensions.projects.projects(require("telescope.themes").get_dropdown({ previewer = false }))<CR>'
+)
 
 -- ToggleTerm
 map('n', '<leader>tg', '<cmd>lua Git:toggle()<CR>')

@@ -5,5 +5,5 @@ return {
     client.server_capabilities.hoverProvider = false
     client.server_capabilities.definitionProvider = false
   end,
-  root_dir = util.root_pattern("tsconfig.json", "jsconfig.json", ".git") or dirname
+  root_dir = util.root_pattern('tsconfig.json', 'jsconfig.json', '.git') or dirname,
 }

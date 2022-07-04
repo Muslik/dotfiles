@@ -1,4 +1,4 @@
-local status_ok, luasnip = pcall(require, "luasnip")
+local status_ok, luasnip = pcall(require, 'luasnip')
 if not status_ok then
   return
 end
@@ -14,58 +14,58 @@ end
 
 luasnip.snippets = {
   typescript = {
-    s("acf", {
-      t("const "),
-      i(1, "name"),
-      t(" = async ("),
-      i(2, "args"),
-      t({ ") => {", "\t" }),
+    s('acf', {
+      t('const '),
+      i(1, 'name'),
+      t(' = async ('),
+      i(2, 'args'),
+      t({ ') => {', '\t' }),
       i(0),
-      t({"", "}"})
+      t({ '', '}' }),
     }),
-    s("cf", {
-      t("const "),
-      i(1, "name"),
-      t(" = ("),
-      i(2, "args"),
-      t({ ") => {", "\t" }),
+    s('cf', {
+      t('const '),
+      i(1, 'name'),
+      t(' = ('),
+      i(2, 'args'),
+      t({ ') => {', '\t' }),
       i(0),
-      t({"", "}"})
+      t({ '', '}' }),
     }),
   },
   typescriptreact = {
-    s("acf", {
-      t("const "),
-      i(1, "name"),
-      t(" = async ("),
-      i(2, "args"),
-      t({ ") => {", "\t" }),
+    s('acf', {
+      t('const '),
+      i(1, 'name'),
+      t(' = async ('),
+      i(2, 'args'),
+      t({ ') => {', '\t' }),
       i(0),
-      t({"", "}"})
+      t({ '', '}' }),
     }),
-    s("cf", {
-      t("const "),
-      i(1, "name"),
-      t(" = ("),
-      i(2, "args"),
-      t({ ") => {", "\t" }),
+    s('cf', {
+      t('const '),
+      i(1, 'name'),
+      t(' = ('),
+      i(2, 'args'),
+      t({ ') => {', '\t' }),
       i(0),
-      t({"", "}"})
+      t({ '', '}' }),
     }),
-    s("rfc", {
-      t({ "import React from 'react';", "\t" }),
-      t({ "", "type Props = {}", "\t" }),
-      t({"", "export const "}),
-      i(1, "Component"),
-      t({ " = ({"}),
+    s('rfc', {
+      t({ "import React from 'react';", '\t' }),
+      t({ '', 'type Props = {}', '\t' }),
+      t({ '', 'export const ' }),
+      i(1, 'Component'),
+      t({ ' = ({' }),
       i(2),
-      t({"}: Props) => {", "\t" }),
+      t({ '}: Props) => {', '\t' }),
       i(3),
-      t({"", "\t"}),
-      t("return <div>"),
+      t({ '', '\t' }),
+      t('return <div>'),
       f(copy, 1),
-      t("</div>", "\t"),
-      t({ "", "}" }),
-    })
-  }
+      t('</div>', '\t'),
+      t({ '', '}' }),
+    }),
+  },
 }

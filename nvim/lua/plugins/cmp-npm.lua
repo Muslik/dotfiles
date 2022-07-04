@@ -1,4 +1,4 @@
-local status_ok, cmp_npm = pcall(require, "cmp-npm")
+local status_ok, cmp_npm = pcall(require, 'cmp-npm')
 if not status_ok then
   return
 end

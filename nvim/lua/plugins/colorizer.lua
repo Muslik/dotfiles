@@ -1,12 +1,12 @@
-local status_ok, colorizer = pcall(require, "colorizer")
+local status_ok, colorizer = pcall(require, 'colorizer')
 if not status_ok then
   return
 end
 
-colorizer.setup {
-	'css';
-	'sass';
-	'less';
-	'scss';
-	'html';
-}
+colorizer.setup({
+  'css',
+  'sass',
+  'less',
+  'scss',
+  'html',
+})

@@ -1,28 +1,28 @@
-local cmp_status_ok, cmp = pcall(require, "cmp")
+local cmp_status_ok, cmp = pcall(require, 'cmp')
 if not cmp_status_ok then
   return
 end
 
-local snip_status_ok, luasnip = pcall(require, "luasnip")
+local snip_status_ok, luasnip = pcall(require, 'luasnip')
 if not snip_status_ok then
   return
 end
 
-require("luasnip/loaders/from_vscode").lazy_load()
+require('luasnip/loaders/from_vscode').lazy_load()
 
 local check_backspace = function()
-  local col = vim.fn.col "." - 1
-  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+  local col = vim.fn.col('.') - 1
+  return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')
 end
 
 -- nvim-cmp setup
-cmp.setup {
+cmp.setup({
   map_cr = true, --  map <CR> on insert mode
   map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
   auto_select = true, -- automatically select the first item
   map_char = { -- modifies the function or method delimiter by filetypes
     all = '(',
-    tex = '{'
+    tex = '{',
   },
   snippet = {
     expand = function(args)
@@ -39,11 +39,11 @@ cmp.setup {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     }),
-    ['<CR>'] = cmp.mapping.confirm {
+    ['<CR>'] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = false,
-    },
-    ["<Tab>"] = cmp.mapping(function(fallback)
+    }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expandable() then
@@ -56,10 +56,10 @@ cmp.setup {
         fallback()
       end
     end, {
-        "i",
-        "s",
-      }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      'i',
+      's',
+    }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
@@ -68,50 +68,50 @@ cmp.setup {
         fallback()
       end
     end, {
-        "i",
-        "s",
-      }),
+      'i',
+      's',
+    }),
   },
-   formatting = {
-    fields = { "kind", "abbr", "menu" },
+  formatting = {
+    fields = { 'kind', 'abbr', 'menu' },
     format = function(entry, vim_item)
       -- Kind icons
       vim_item.kind = VimConfig.icons.kind[vim_item.kind]
 
-      if entry.source.name == "cmp_tabnine" then
+      if entry.source.name == 'cmp_tabnine' then
         vim_item.kind = VimConfig.icons.misc.Robot
-        vim_item.kind_hl_group = "CmpItemKindTabnine"
+        vim_item.kind_hl_group = 'CmpItemKindTabnine'
       end
-      if entry.source.name == "copilot" then
+      if entry.source.name == 'copilot' then
         vim_item.kind = VimConfig.icons.git.Octoface
-        vim_item.kind_hl_group = "CmpItemKindCopilot"
+        vim_item.kind_hl_group = 'CmpItemKindCopilot'
       end
 
-      if entry.source.name == "emoji" then
+      if entry.source.name == 'emoji' then
         vim_item.kind = VimConfig.icons.misc.Smiley
-        vim_item.kind_hl_group = "CmpItemKindEmoji"
+        vim_item.kind_hl_group = 'CmpItemKindEmoji'
       end
 
       -- NOTE: order matters
       vim_item.menu = ({
-        nvim_lsp = "",
-        nvim_lua = "",
-        luasnip = "",
-        buffer = "",
-        path = "",
-        emoji = "",
+        nvim_lsp = '',
+        nvim_lua = '',
+        luasnip = '',
+        buffer = '',
+        path = '',
+        emoji = '',
       })[entry.source.name]
       return vim_item
     end,
   },
   window = {
     documentation = {
-      border = "rounded",
-      winhighlight = "NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None",
+      border = 'rounded',
+      winhighlight = 'NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None',
     },
     completion = {
-      border = "rounded",
-      winhighlight = "NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None",
+      border = 'rounded',
+      winhighlight = 'NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None',
     },
   },
   sources = {
@@ -120,6 +120,6 @@ cmp.setup {
     { name = 'luasnip' },
     { name = 'buffer' },
     { name = 'npm' },
-    { name = "path" },
-  }
-}
+    { name = 'path' },
+  },
+})

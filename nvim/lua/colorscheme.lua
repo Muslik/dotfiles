@@ -9,15 +9,14 @@ require('catppuccin').setup({
       enabled = true,
       show_root = true,
       transparent_panel = true,
-    }
-  }
+    },
+  },
 })
-cmd ('colorscheme ' .. VimConfig.colorscheme)
-cmd 'hi Pmenu guibg=none'
+cmd('colorscheme ' .. VimConfig.colorscheme)
+cmd('hi Pmenu guibg=none')
 -- cmd 'hi NonText ctermbg=none guibg=none'
-cmd 'hi DiagnosticWarn guibg=none'
-cmd 'hi DiagnosticError guibg=none'
-cmd 'hi DiagnosticHint guibg=none'
-cmd 'hi DiagnosticInformation guibg=none'
-cmd 'hi NeoTreeTitleBar guibg=#96cdfb guifg=#000000'
-
+cmd('hi DiagnosticWarn guibg=none')
+cmd('hi DiagnosticError guibg=none')
+cmd('hi DiagnosticHint guibg=none')
+cmd('hi DiagnosticInformation guibg=none')
+cmd('hi NeoTreeTitleBar guibg=#96cdfb guifg=#000000')

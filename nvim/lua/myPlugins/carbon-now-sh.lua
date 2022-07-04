@@ -5,24 +5,24 @@ local CARBON_URL = 'https://carbon.now.sh'
 local MAX_LENGTH = 1000
 
 local default_params = {
-  bg = "rgba(0,0,0,0)",
-  t = "night-owl",
+  bg = 'rgba(0,0,0,0)',
+  t = 'night-owl',
   ds = true,
   wc = false,
   wa = true,
-  pv = "24px",
-  ph = "16px",
+  pv = '24px',
+  ph = '16px',
   ln = false,
-  f = "Fira Code",
-  fs = "16px"
+  f = 'Fira Code',
+  fs = '16px',
 }
 
 local function create_url(params)
   params = params or default_params
   local url = CARBON_URL
   for k, v in pairs(params) do
-    local separator = url:match("%?") and "&" or "?"
-    url = url .. separator .. k .. "=" .. tostring(v)
+    local separator = url:match('%?') and '&' or '?'
+    url = url .. separator .. k .. '=' .. tostring(v)
   end
   return url
 end
@@ -34,15 +34,15 @@ local function get_buffer_filetype()
 end
 
 local language_map = {
-  css = "css",
-  lua = "lua",
-  markdown = "markdown",
-  json = "application/json",
-  html = "htmlmixed",
-  javascript = "javascript",
-  javascriptreact = "jsx",
-  typescriptreact = "text/typescript-jsx",
-  typescript = "application/typescript",
+  css = 'css',
+  lua = 'lua',
+  markdown = 'markdown',
+  json = 'application/json',
+  html = 'htmlmixed',
+  javascript = 'javascript',
+  javascriptreact = 'jsx',
+  typescriptreact = 'text/typescript-jsx',
+  typescript = 'application/typescript',
 }
 
 local function get_language()
@@ -75,7 +75,7 @@ end
 
 local function get_url_params(selection, language)
   local code = selection ~= nil and encode_uri(selection) or ''
-  local params = default_params;
+  local params = default_params
   params.code = code
   params.l = language
   return params
@@ -89,9 +89,9 @@ local function get_carbon_url(selection)
 end
 
 local function selection_to_url()
-  local selection = get_visual_selection();
-  if (selection ~= nil and string.len(selection) > MAX_LENGTH) then
-    print("Sorry, input shouldn't be empty or more than " .. MAX_LENGTH .. " symbols")
+  local selection = get_visual_selection()
+  if selection ~= nil and string.len(selection) > MAX_LENGTH then
+    print("Sorry, input shouldn't be empty or more than " .. MAX_LENGTH .. ' symbols')
     return nil
   end
   return get_carbon_url(selection)
@@ -113,8 +113,8 @@ local function carbon_to_clipboard()
   end
   local command = string.format(ADD_TO_CLIPBOARD_COMMAND, url)
   os.execute(command)
-  print("Url was copied to clipboard");
+  print('Url was copied to clipboard')
 end
 
-vim.api.nvim_create_user_command("Carbon", carbon_to_clipboard, { range = true })
-vim.api.nvim_create_user_command("CarbonOpen", carbon_open, { range = true })
+vim.api.nvim_create_user_command('Carbon', carbon_to_clipboard, { range = true })
+vim.api.nvim_create_user_command('CarbonOpen', carbon_open, { range = true })

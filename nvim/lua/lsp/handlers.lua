@@ -3,24 +3,24 @@ local M = {}
 local function setup_diagnostic()
   local signs = {
     Error = {
-      text = "",
+      text = '',
       numhl = 'DiagnosticSignError',
     },
     Warn = {
-      text = "",
-      numhl = "DiagnosticSignWarn",
+      text = '',
+      numhl = 'DiagnosticSignWarn',
     },
     Hint = {
-      text = "",
-      numhl = "DiagnosticSignHint",
+      text = '',
+      numhl = 'DiagnosticSignHint',
     },
     Info = {
-      text = "",
-      numhl = "DiagnosticSignInfo",
-    }
+      text = '',
+      numhl = 'DiagnosticSignInfo',
+    },
   }
   for type, config in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
+    local hl = 'DiagnosticSign' .. type
     vim.fn.sign_define(hl, config)
   end
 
@@ -36,11 +36,11 @@ local function setup_diagnostic()
     severity_sort = true,
     float = {
       focusable = true,
-      style = "minimal",
-      border = "rounded",
-      source = "always",
-      header = "",
-      prefix = "",
+      style = 'minimal',
+      border = 'rounded',
+      source = 'always',
+      header = '',
+      prefix = '',
     },
   }
 
@@ -48,18 +48,15 @@ local function setup_diagnostic()
 end
 
 local function setup_handlers()
-  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-    vim.lsp.handlers.signature_help, {
-      border = 'rounded',
-      width = 80,
-      close_events = {"CursorMoved", "BufHidden", "InsertCharPre"},
-    })
-  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-    vim.lsp.handlers.hover, {
-      border = 'rounded',
-      width = 80,
-    }
-  )
+  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    border = 'rounded',
+    width = 80,
+    close_events = { 'CursorMoved', 'BufHidden', 'InsertCharPre' },
+  })
+  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = 'rounded',
+    width = 80,
+  })
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     virtual_text = false,
     signs = true,

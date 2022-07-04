@@ -1,37 +1,37 @@
-local status_ok, gitsigns = pcall(require, "gitsigns")
+local status_ok, gitsigns = pcall(require, 'gitsigns')
 if not status_ok then
   return
 end
 
-gitsigns.setup {
+gitsigns.setup({
   signs = {
-    add          = {hl = 'GitSignsAddNr',    text = '+' },
-    change       = {hl = 'GitSignsChangeNr', text = '│' },
-    delete       = {hl = 'GitSignsDeleteNr', text = '_' },
-    topdelete    = {hl = 'GitSignsDeleteNr', text = '‾' },
-    changedelete = {hl = 'GitSignsChangeNr', text = '~' },
+    add = { hl = 'GitSignsAddNr', text = '+' },
+    change = { hl = 'GitSignsChangeNr', text = '│' },
+    delete = { hl = 'GitSignsDeleteNr', text = '_' },
+    topdelete = { hl = 'GitSignsDeleteNr', text = '‾' },
+    changedelete = { hl = 'GitSignsChangeNr', text = '~' },
   },
-  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
-  numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
-  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
-  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
+  numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
   keymaps = {
     -- Default keymap options
     noremap = true,
     buffer = true,
 
-    ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
-    ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_huk()<CR>'"},
+    ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'" },
+    ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_huk()<CR>'" },
 
     ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
     ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
     ['n <leader>ghr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
     ['n <leader>ghp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-    ['n <leader>gm']  = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>',
+    ['n <leader>gm'] = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>',
   },
   watch_gitdir = {
     interval = 10000,
-    follow_files = true
+    follow_files = true,
   },
   attach_to_untracked = true,
   current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
@@ -41,7 +41,7 @@ gitsigns.setup {
     delay = 700,
   },
   current_line_blame_formatter_opts = {
-    relative_time = false
+    relative_time = false,
   },
   sign_priority = 6,
   update_debounce = 100,
@@ -53,12 +53,12 @@ gitsigns.setup {
     style = 'minimal',
     relative = 'cursor',
     row = 0,
-    col = 1
+    col = 1,
   },
   diff_opts = {
-    internal = true,  -- If vim.diff or luajit is present
+    internal = true, -- If vim.diff or luajit is present
   },
   yadm = {
-    enable = false
+    enable = false,
   },
-}
+})

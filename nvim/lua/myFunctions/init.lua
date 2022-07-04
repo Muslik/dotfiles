@@ -1,5 +1,5 @@
-local git = require("myFunctions.git")
+local git = require('myFunctions.git')
 
 return {
-  git = git
+  git = git,
 }
