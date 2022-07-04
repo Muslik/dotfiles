@@ -150,6 +150,7 @@ use({ 'nvim-lualine/lualine.nvim', config = "require('plugins.lualine')" })
 
 -- Snippets & Language & Syntax
 use({ 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')", cmd = { 'Postman' } })
+use { 'mattn/emmet-vim', config = "require('plugins.emmet')"}
 use('David-Kunz/jester')
 use({ 'windwp/nvim-autopairs', config = "require('plugins.autopairs')" })
 use({ 'norcalli/nvim-colorizer.lua', ft = { 'css', 'scss', 'sass', 'html' }, config = "require('plugins.colorizer')" })
