@@ -108,6 +108,10 @@ use({
 })
 use('williamboman/nvim-lsp-installer')
 use('onsails/lspkind-nvim')
+use({
+  'folke/trouble.nvim',
+  config = "require('plugins.trouble')",
+})
 
 -- VIM WIKI
 use({
@@ -135,12 +139,7 @@ use({
 use('lewis6991/impatient.nvim')
 use({
   'lukas-reineke/indent-blankline.nvim',
-  config = function()
-    require('indent_blankline').setup({
-      buftype_exclude = { 'terminal' },
-      filetype_exclude = { 'dashboard' },
-    })
-  end,
+  config = "require('plugins.indent-blankline')",
 })
 use('tpope/vim-surround')
 use({ 'numToStr/Comment.nvim', config = "require('plugins.comment')" })

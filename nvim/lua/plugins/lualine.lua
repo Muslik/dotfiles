@@ -30,6 +30,15 @@ local mode_color = {
   t = '#D7BA7D',
 }
 
+local function contains(t, value)
+  for _, v in pairs(t) do
+    if v == value then
+      return true
+    end
+  end
+  return false
+end
+
 local mode = {
   function()
     return '▊'
@@ -55,7 +64,7 @@ local diagnostics = {
   symbols = { error = icons.diagnostics.Error .. '  ', warn = icons.diagnostics.Warning .. '  ' },
   update_in_insert = false,
   always_visible = true,
-  cond = hide_in_width(80)
+  cond = hide_in_width(80),
 }
 
 local diff = {
@@ -71,6 +80,22 @@ local diff = {
 
 local filetype = {
   'filetype',
+  fmt = function(str)
+    local ui_filetypes = {
+      'help',
+      'packer',
+      'Trouble',
+      'Outline',
+      'toggleterm',
+      '',
+    }
+
+    if contains(ui_filetypes, str) then
+      return ''
+    else
+      return str
+    end
+  end,
   icon_only = true,
 }
 
@@ -84,13 +109,13 @@ local branch = {
   icons_enabled = true,
   icon = '%#SLGitIcon#' .. ' ' .. '%*' .. '%#SLBranchName#',
   colored = false,
-  cond = hide_in_width(50)
+  cond = hide_in_width(50),
 }
 
 local progress = {
   'progress',
   color = 'SLProgress',
-  cond = hide_in_width(40)
+  cond = hide_in_width(40),
 }
 
 local location = {
@@ -98,7 +123,7 @@ local location = {
   color = function()
     return { fg = '#252525', bg = mode_color[vim.fn.mode()] }
   end,
-  cond = hide_in_width(40)
+  cond = hide_in_width(40),
 }
 
 lualine.setup({
