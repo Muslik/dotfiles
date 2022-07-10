@@ -101,6 +101,10 @@ use({ 'L3MON4D3/LuaSnip', config = "require('plugins.luasnip')" })
 use({ 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' })
 
 -- LSP Addons
+use({
+  'ray-x/lsp_signature.nvim',
+  config = "require('lsp.lsp-signature')",
+})
 use('williamboman/nvim-lsp-installer')
 use('onsails/lspkind-nvim')
 
@@ -150,7 +154,7 @@ use({ 'nvim-lualine/lualine.nvim', config = "require('plugins.lualine')" })
 
 -- Snippets & Language & Syntax
 use({ 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')", cmd = { 'Postman' } })
-use { 'mattn/emmet-vim', config = "require('plugins.emmet')"}
+use({ 'mattn/emmet-vim', config = "require('plugins.emmet')" })
 use('David-Kunz/jester')
 use({ 'windwp/nvim-autopairs', config = "require('plugins.autopairs')" })
 use({ 'norcalli/nvim-colorizer.lua', ft = { 'css', 'scss', 'sass', 'html' }, config = "require('plugins.colorizer')" })

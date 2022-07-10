@@ -5,11 +5,9 @@ end
 
 local servers = {
   'bashls',
-  'cssls',
   'cssmodules_ls',
   'dockerls',
   'efm',
-  'emmet_ls',
   'eslint',
   'html',
   'jsonls',
@@ -45,8 +43,8 @@ for _, server in pairs(servers) do
     on_attach = require('lsp.handlers').on_attach,
     capabilities = require('lsp.handlers').capabilities,
   }
-
   local user_options = server_options[server] or {}
+  user_options.root_dir = vim.loop.cwd
   opts = vim.tbl_deep_extend('force', opts, user_options)
   lspconfig[server].setup(opts)
 end

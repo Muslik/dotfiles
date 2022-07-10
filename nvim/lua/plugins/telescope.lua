@@ -27,7 +27,6 @@ telescope.setup({
       },
       vertical = {
         mirror = false,
-        width = 0.6,
         height = 0.5,
         preview_height = 0,
       },
