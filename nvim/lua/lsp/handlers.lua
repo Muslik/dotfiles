@@ -95,7 +95,6 @@ M.on_attach = function(client)
   if client.name ~= 'efm' then
     client.server_capabilities.documentFormattingProvider = false
   end
-  vim.lsp.codelens.refresh()
 end
 
 M.setup = function()
