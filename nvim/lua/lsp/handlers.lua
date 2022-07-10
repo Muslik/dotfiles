@@ -66,6 +66,29 @@ local function setup_handlers()
   })
 end
 
+M.enable_format_on_save = function()
+  vim.cmd([[
+    augroup format_on_save
+      autocmd! 
+      autocmd BufWritePre * lua vim.lsp.buf.format() 
+    augroup end
+  ]])
+  vim.notify('Enabled format on save')
+end
+
+M.disable_format_on_save = function()
+  M.remove_augroup('format_on_save')
+  vim.notify('Disabled format on save')
+end
+
+M.toggle_format_on_save = function()
+  if vim.fn.exists('#format_on_save#BufWritePre') == 0 then
+    M.enable_format_on_save()
+  else
+    M.disable_format_on_save()
+  end
+end
+
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
 M.on_attach = function(client)

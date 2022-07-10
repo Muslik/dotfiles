@@ -96,27 +96,13 @@ M.bmap = function(mode, keys, cmd, opt)
   api.nvim_buf_set_keymap(0, mode, keys, cmd, options)
 end
 
-M.format_time_to_relative = function(time)
-  local now = os.time()
-  local diff = now - time
-  local seconds = diff % 60
-  local minutes = math.floor(diff / 60) % 60
-  local hours = math.floor(diff / 3600) % 24
-  local days = math.floor(diff / 86400) % 30
-  local months = math.floor(diff / 2592000) % 12
-  local years = math.floor(diff / 31104000)
-  if years > 0 then
-    return string.format('%d years ago', years)
-  elseif months > 0 then
-    return string.format('%d months ago', months)
-  elseif days > 0 then
-    return string.format('%d days ago', days)
-  elseif hours > 0 then
-    return string.format('%d hours ago', hours)
-  elseif minutes > 0 then
-    return string.format('%d minutes ago', minutes)
+local diagnostics_active = true
+M.toggle_diagnostics = function()
+  diagnostics_active = not diagnostics_active
+  if diagnostics_active then
+    vim.diagnostic.show()
   else
-    return string.format('%d seconds ago', seconds)
+    vim.diagnostic.hide()
   end
 end
 

@@ -73,11 +73,9 @@ use({
     { 'nvim-telescope/telescope-live-grep-args.nvim' },
     { 'nvim-lua/popup.nvim' },
     { 'nvim-lua/plenary.nvim' },
-    { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
     { 'nvim-telescope/telescope-node-modules.nvim' },
   },
 })
-use({ 'ahmedkhalf/project.nvim', config = "require('plugins.project')" })
 
 use({ 'stevearc/dressing.nvim' })
 
@@ -136,6 +134,9 @@ use({
 })
 
 -- General
+use({ 'lalitmee/browse.nvim', config = "require('plugins.browse')" })
+use('windwp/nvim-spectre')
+use({ 'folke/which-key.nvim', config = "require('plugins.whichkey')" })
 use('lewis6991/impatient.nvim')
 use({
   'lukas-reineke/indent-blankline.nvim',
@@ -145,11 +146,6 @@ use('tpope/vim-surround')
 use({ 'numToStr/Comment.nvim', config = "require('plugins.comment')" })
 use('JoosepAlviste/nvim-ts-context-commentstring')
 use({ 'akinsho/toggleterm.nvim', config = "require('plugins.toggleterm')" })
-use({
-  'junegunn/fzf.vim',
-  cmd = { 'History' },
-  requires = { { 'junegunn/fzf', run = 'fzf#install()' } },
-})
 use({ 'nvim-lualine/lualine.nvim', config = "require('plugins.lualine')" })
 
 -- Snippets & Language & Syntax

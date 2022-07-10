@@ -19,8 +19,33 @@ toggleterm.setup({
   },
 })
 
-local Terminal = require('toggleterm.terminal').Terminal
-Git = Terminal:new({ cmd = 'gitui', hidden = true })
-Node = Terminal:new({ cmd = 'node', hidden = true })
-Htop = Terminal:new({ cmd = 'htop', hidden = true })
-Spotify = Terminal:new({ cmd = 'spt', hidden = true })
+local Terminal  = require('toggleterm.terminal').Terminal
+local gitui = Terminal:new({ cmd = "gitui", hidden = false })
+
+function _GITUI_TOGGLE()
+  gitui:toggle()
+end
+
+local node = Terminal:new({ cmd = 'node', hidden = true })
+
+function _NODE_TOGGLE()
+  node:toggle()
+end
+
+local htop = Terminal:new({ cmd = 'htop', hidden = true })
+
+function _HTOP_TOGGLE()
+  htop:toggle()
+end
+
+local cargo_run = Terminal:new({ cmd = 'cargo run', hidden = true })
+
+function _CARGO_RUN()
+  cargo_run:toggle()
+end
+
+local cargo_test = Terminal:new({ cmd = 'cargo test', hidden = true })
+
+function _CARGO_TEST()
+  cargo_test:toggle()
+end
