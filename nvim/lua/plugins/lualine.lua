@@ -40,8 +40,10 @@ local mode = {
   padding = 0,
 }
 
-local hide_in_width = function()
-  return vim.fn.winwidth(0) > 80
+local hide_in_width = function(width)
+  return function()
+    return vim.fn.winwidth(0) > width
+  end
 end
 
 local icons = VimConfig.icons
@@ -51,21 +53,20 @@ local diagnostics = {
   sources = { 'nvim_diagnostic' },
   sections = { 'error', 'warn' },
   symbols = { error = icons.diagnostics.Error .. '  ', warn = icons.diagnostics.Warning .. '  ' },
-  colored = false,
   update_in_insert = false,
   always_visible = true,
+  cond = hide_in_width(80)
 }
 
 local diff = {
   'diff',
-  colored = true,
   symbols = {
     added = icons.git.Add .. '  ',
     modified = icons.git.Mod .. '  ',
     removed = icons.git.Remove .. '  ',
-  }, -- changes diff symbols
-  cond = hide_in_width,
-  separator = '│ ',
+  },
+  cond = hide_in_width(80),
+  separator = '│',
 }
 
 local filetype = {
@@ -83,19 +84,13 @@ local branch = {
   icons_enabled = true,
   icon = '%#SLGitIcon#' .. ' ' .. '%*' .. '%#SLBranchName#',
   colored = false,
+  cond = hide_in_width(50)
 }
 
 local progress = {
   'progress',
   color = 'SLProgress',
-}
-
-local spaces = {
-  function()
-    return 'spaces: ' .. vim.api.nvim_buf_get_option(0, 'shiftwidth') .. ' '
-  end,
-  padding = 0,
-  separator = ' │ ' .. '%*',
+  cond = hide_in_width(40)
 }
 
 local location = {
@@ -103,6 +98,7 @@ local location = {
   color = function()
     return { fg = '#252525', bg = mode_color[vim.fn.mode()] }
   end,
+  cond = hide_in_width(40)
 }
 
 lualine.setup({
@@ -117,9 +113,9 @@ lualine.setup({
   },
   sections = {
     lualine_a = { mode, branch },
-    lualine_b = { diagnostics },
-    lualine_c = { filetype, filename },
-    lualine_x = { diff, spaces },
+    lualine_b = {},
+    lualine_c = { filetype, filename, 'lsp_progress' },
+    lualine_x = { diff, diagnostics },
     lualine_y = { progress },
     lualine_z = { location },
   },

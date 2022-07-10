@@ -101,6 +101,7 @@ use({ 'L3MON4D3/LuaSnip', config = "require('plugins.luasnip')" })
 use({ 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' })
 
 -- LSP Addons
+use({ 'arkav/lualine-lsp-progress' })
 use({
   'ray-x/lsp_signature.nvim',
   config = "require('lsp.lsp-signature')",
