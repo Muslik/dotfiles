@@ -19,6 +19,7 @@ local servers = {
 
 local server_options = {
   efm = require('lsp/settings/efm-ls'),
+  rust_analyzer = require('lsp/settings/rust'),
   sumneko_lua = require('lsp/settings/sumneko-lua'),
   tsserver = require('lsp/settings/tsserver'),
   jsonls = require('lsp/settings/jsonls'),
@@ -46,5 +47,17 @@ for _, server in pairs(servers) do
   local user_options = server_options[server] or {}
   user_options.root_dir = vim.loop.cwd
   opts = vim.tbl_deep_extend('force', opts, user_options)
+
+  if server == 'rust_analyzer' then
+    local rust_tools_status_ok, rust_tools = pcall(require, 'rust-tools')
+    if not rust_tools_status_ok then
+      return
+    end
+
+    rust_tools.setup(server_options[server])
+    goto continue
+  end
+
   lspconfig[server].setup(opts)
+  ::continue::
 end

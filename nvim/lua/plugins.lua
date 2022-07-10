@@ -99,7 +99,6 @@ use({ 'L3MON4D3/LuaSnip', config = "require('plugins.luasnip')" })
 use({ 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' })
 
 -- LSP Addons
-use({ 'arkav/lualine-lsp-progress' })
 use({
   'ray-x/lsp_signature.nvim',
   config = "require('lsp.lsp-signature')",
@@ -149,6 +148,7 @@ use({ 'akinsho/toggleterm.nvim', config = "require('plugins.toggleterm')" })
 use({ 'nvim-lualine/lualine.nvim', config = "require('plugins.lualine')" })
 
 -- Snippets & Language & Syntax
+use({ 'simrat39/rust-tools.nvim' })
 use({ 'NTBBloodbath/rest.nvim', config = "require('plugins.rest')", cmd = { 'Postman' } })
 use({ 'mattn/emmet-vim', config = "require('plugins.emmet')" })
 use('David-Kunz/jester')
