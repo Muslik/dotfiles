@@ -8,12 +8,16 @@ if not snip_status_ok then
   return
 end
 
+local compare = require('cmp.config.compare')
+
 require('luasnip/loaders/from_vscode').lazy_load()
 
 local check_backspace = function()
   local col = vim.fn.col('.') - 1
   return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')
 end
+
+local icons = require('icons')
 
 -- nvim-cmp setup
 cmp.setup({
@@ -30,26 +34,28 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+    ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+    ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+    ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
     ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
     ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<C-e>'] = cmp.mapping({
+    ['<C-c>'] = cmp.mapping({
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     }),
-    ['<CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = false,
-    }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<Right>'] = cmp.mapping.confirm({ select = true }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expandable() then
-        luasnip.expand()
+      elseif luasnip.jumpable(1) then
+        luasnip.jump(1)
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
+      elseif luasnip.expandable() then
+        luasnip.expand()
       elseif check_backspace() then
         fallback()
       else
@@ -76,21 +82,7 @@ cmp.setup({
     fields = { 'kind', 'abbr', 'menu' },
     format = function(entry, vim_item)
       -- Kind icons
-      vim_item.kind = VimConfig.icons.kind[vim_item.kind]
-
-      if entry.source.name == 'cmp_tabnine' then
-        vim_item.kind = VimConfig.icons.misc.Robot
-        vim_item.kind_hl_group = 'CmpItemKindTabnine'
-      end
-      if entry.source.name == 'copilot' then
-        vim_item.kind = VimConfig.icons.git.Octoface
-        vim_item.kind_hl_group = 'CmpItemKindCopilot'
-      end
-
-      if entry.source.name == 'emoji' then
-        vim_item.kind = VimConfig.icons.misc.Smiley
-        vim_item.kind_hl_group = 'CmpItemKindEmoji'
-      end
+      vim_item.kind = icons.kind[vim_item.kind]
 
       -- NOTE: order matters
       vim_item.menu = ({
@@ -99,7 +91,6 @@ cmp.setup({
         luasnip = '',
         buffer = '',
         path = '',
-        emoji = '',
       })[entry.source.name]
       return vim_item
     end,
@@ -121,5 +112,31 @@ cmp.setup({
     { name = 'buffer' },
     { name = 'npm' },
     { name = 'path' },
+  },
+  sorting = {
+    priority_weight = 2,
+    comparators = {
+      -- require("copilot_cmp.comparators").prioritize,
+      -- require("copilot_cmp.comparators").score,
+      compare.offset,
+      compare.exact,
+      -- compare.scopes,
+      compare.score,
+      compare.recently_used,
+      compare.locality,
+      -- compare.kind,
+      compare.sort_text,
+      compare.length,
+      compare.order,
+      -- require("copilot_cmp.comparators").prioritize,
+      -- require("copilot_cmp.comparators").score,
+    },
+  },
+  confirm_opts = {
+    behavior = cmp.ConfirmBehavior.Replace,
+    select = false,
+  },
+  experimental = {
+    ghost_text = true,
   },
 })

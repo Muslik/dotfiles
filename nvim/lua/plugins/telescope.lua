@@ -13,6 +13,8 @@ telescope.setup({
     prompt_prefix = '   ',
     mappings = {
       i = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
         ['<C-d>'] = actions.delete_buffer,
         ['?'] = action_layout.toggle_preview,
       },
@@ -27,8 +29,16 @@ telescope.setup({
       theme = 'cursor',
     },
   },
-  extensions = {},
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = 'smart_case',
+    },
+  },
 })
 
 require('telescope').load_extension('live_grep_args')
+require('telescope').load_extension('fzf')
 require('telescope').load_extension('node_modules')

@@ -1,5 +1,5 @@
-local status_ok, neo_tree = pcall(require, 'neo-tree')
-if not status_ok then
+local status_oker, neo_tree = pcall(require, 'neo-tree')
+if not status_oker then
   return
 end
 
@@ -10,6 +10,11 @@ neo_tree.setup({
       use_git_status_colors = true,
       highlight = 'NeoTreeFileName',
     },
+  },
+  nesting_rules = {
+    tsx = { "module.css", "module.scss", "scss" },
+    jsx = { "module.css", "module.scss", "scss" },
+    js = { "module.css", "module.scss", "scss" },
   },
   filesystem = {
     components = {
@@ -53,10 +58,11 @@ neo_tree.setup({
   window = {
     position = 'float',
     mappings = {
-      ['<Tab>'] = {
+      ['<space>'] = {
         'toggle_node',
-        nowait = false,
+        nowait = true,
       },
+      ['<cr>'] = 'open_with_window_picker',
       ['S'] = 'split_with_window_picker',
       ['s'] = 'vsplit_with_window_picker',
     },

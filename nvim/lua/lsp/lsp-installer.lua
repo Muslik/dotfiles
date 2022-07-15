@@ -4,6 +4,7 @@ if not status_ok then
 end
 
 local servers = {
+  'cssls',
   'bashls',
   'cssmodules_ls',
   'dockerls',
@@ -17,19 +18,20 @@ local servers = {
   'yamlls',
 }
 
-local server_options = {
-  efm = require('lsp/settings/efm-ls'),
-  rust_analyzer = require('lsp/settings/rust'),
-  sumneko_lua = require('lsp/settings/sumneko-lua'),
-  tsserver = require('lsp/settings/tsserver'),
-  jsonls = require('lsp/settings/jsonls'),
-  emmet_ls = require('lsp/settings/ls-emmet'),
-  eslint = require('lsp/settings/eslint'),
-  cssmodules_ls = require('lsp/settings/cssmodules-ls'),
-}
-
 local settings = {
   ensure_installed = servers,
+  ui = {
+    icons = {},
+    keymaps = {
+      toggle_server_expand = '<CR>',
+      install_server = 'i',
+      update_server = 'u',
+      check_server_version = 'c',
+      update_all_servers = 'U',
+      check_outdated_servers = 'C',
+      uninstall_server = 'X',
+    },
+  },
 }
 
 lsp_installer.setup(settings)
@@ -40,21 +42,67 @@ if not lspconfig_status_ok then
 end
 
 for _, server in pairs(servers) do
+  local handlers = require('lsp.handlers')
   local opts = {
-    on_attach = require('lsp.handlers').on_attach,
-    capabilities = require('lsp.handlers').capabilities,
+    on_attach = handlers.on_attach,
+    capabilities = handlers.capabilities,
   }
-  local user_options = server_options[server] or {}
-  user_options.root_dir = vim.loop.cwd
-  opts = vim.tbl_deep_extend('force', opts, user_options)
+
+  if server == 'cssls' then
+    local server_opts = require('lsp/settings/cssls')
+    opts = vim.tbl_deep_extend('force', server_opts, opts)
+  end
+
+  if server == 'efm' then
+    local server_opts = require('lsp/settings/efm-ls')
+    opts = vim.tbl_deep_extend('force', server_opts, opts)
+  end
+
+  if server == 'sumneko_lua' then
+    local server_opts = require('lsp/settings/sumneko-lua')
+    opts = vim.tbl_deep_extend('force', server_opts, opts)
+  end
+
+  if server == 'tsserver' then
+    local server_opts = require('lsp/settings/tsserver')
+    opts = vim.tbl_deep_extend('force', server_opts, opts)
+  end
+
+  if server == 'tsserver' then
+    local typescript_opts = require('lsp/settings/tsserver')
+
+    local typescript_status_ok, typescript = pcall(require, 'typescript')
+    if not typescript_status_ok then
+      return
+    end
+
+    typescript.setup(typescript_opts)
+    goto continue
+  end
+
+  if server == 'jsonls' then
+    local server_opts = require('lsp/settings/jsonls')
+    opts = vim.tbl_deep_extend('force', server_opts, opts)
+  end
+
+  if server == 'eslint' then
+    local server_opts = require('lsp/settings/eslint')
+    opts = vim.tbl_deep_extend('force', server_opts, opts)
+  end
+
+  if server == 'cssmodules_ls' then
+    local server_opts = require('lsp/settings/cssmodules-ls')
+    opts = vim.tbl_deep_extend('force', server_opts, opts)
+  end
 
   if server == 'rust_analyzer' then
+    local rust_opts = require('lsp/settings/rust')
     local rust_tools_status_ok, rust_tools = pcall(require, 'rust-tools')
     if not rust_tools_status_ok then
       return
     end
 
-    rust_tools.setup(server_options[server])
+    rust_tools.setup(rust_opts)
     goto continue
   end
 

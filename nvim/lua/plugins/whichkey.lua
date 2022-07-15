@@ -19,7 +19,7 @@ local setup = {
       text_objects = false, -- help for text objects triggered after entering an operator
       windows = true, -- default bindings on <c-w>
       nav = true, -- misc bindings to work with windows
-      z = true, -- bindings for folds, spelling and others prefixed with z
+      z = false, -- bindings for folds, spelling and others prefixed with z
       g = true, -- bindings for prefixed with g
     },
   },
@@ -134,7 +134,7 @@ local mappings = {
     },
     c = { '<cmd>Telescope colorscheme<cr>', 'Colorscheme' },
     f = {
-      "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
+      "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{path_display = {'smart'}, previewer = false})<cr>",
       'Find files',
     },
     b = {
@@ -221,8 +221,6 @@ local mappings = {
 
   T = {
     name = 'Treesitter',
-    h = { '<cmd>TSHighlightCapturesUnderCursor<cr>', 'Highlight' },
-    p = { '<cmd>TSPlaygroundToggle<cr>', 'Playground' },
     r = { '<cmd>TSToggle rainbow<cr>', 'Rainbow' },
   },
 }

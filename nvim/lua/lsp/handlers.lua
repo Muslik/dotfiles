@@ -1,27 +1,26 @@
 local M = {}
 
-local function setup_diagnostic()
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
+
+local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not status_cmp_ok then
+  return
+end
+
+local icons = require('icons')
+
+M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
+
+M.setup = function()
   local signs = {
-    Error = {
-      text = '',
-      numhl = 'DiagnosticSignError',
-    },
-    Warn = {
-      text = '',
-      numhl = 'DiagnosticSignWarn',
-    },
-    Hint = {
-      text = '',
-      numhl = 'DiagnosticSignHint',
-    },
-    Info = {
-      text = '',
-      numhl = 'DiagnosticSignInfo',
-    },
+    { name = "DiagnosticSignError", text = icons.diagnostics.Error },
+    { name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
+    { name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
+    { name = "DiagnosticSignInfo", text = icons.diagnostics.Information },
   }
-  for type, config in pairs(signs) do
-    local hl = 'DiagnosticSign' .. type
-    vim.fn.sign_define(hl, config)
+  for _, sign in ipairs(signs) do
+    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
   end
 
   local config = {
@@ -45,25 +44,29 @@ local function setup_diagnostic()
   }
 
   vim.diagnostic.config(config)
-end
 
-local function setup_handlers()
   vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = 'rounded',
-    width = 80,
-    close_events = { 'CursorMoved', 'BufHidden', 'InsertCharPre' },
+    width = 60,
   })
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
     border = 'rounded',
-    width = 80,
+    width = 60,
   })
-  vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    signs = true,
-    underline = true,
-    update_in_insert = true,
-    severity_sort = true,
-  })
+end
+
+local function lsp_highlight_document(client)
+  local status_ok, illuminate = pcall(require, "illuminate")
+  if not status_ok then
+    return
+  end
+  illuminate.on_attach(client)
+end
+
+local function remove_augroup(name)
+  if vim.fn.exists("#" .. name) == 1 then
+    vim.cmd("au! " .. name)
+  end
 end
 
 M.enable_format_on_save = function()
@@ -77,7 +80,7 @@ M.enable_format_on_save = function()
 end
 
 M.disable_format_on_save = function()
-  M.remove_augroup('format_on_save')
+  remove_augroup('format_on_save')
   vim.notify('Disabled format on save')
 end
 
@@ -89,17 +92,15 @@ M.toggle_format_on_save = function()
   end
 end
 
-M.capabilities = vim.lsp.protocol.make_client_capabilities()
-
 M.on_attach = function(client)
+  lsp_highlight_document(client)
   if client.name ~= 'efm' then
     client.server_capabilities.documentFormattingProvider = false
   end
-end
-
-M.setup = function()
-  setup_diagnostic()
-  setup_handlers()
+  if client.name == "cssmodules_ls" then
+    client.server_capabilities.hoverProvider = false
+    client.server_capabilities.definitionProvider = false
+  end
 end
 
 return M

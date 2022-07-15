@@ -26,11 +26,3 @@ rest_nvim.setup({
   env_file = '.env',
   custom_dynamic_variables = {},
 })
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'http' },
-  callback = function()
-    api.nvim_buf_set_keymap(0, 'n', '<leader>rn', ':lua require("rest-nvim").run()<CR>', { noremap = true })
-    api.nvim_buf_set_keymap(0, 'n', '<leader>rl', ':lua require("rest-nvim").last()<CR>', { noremap = true })
-  end,
-})

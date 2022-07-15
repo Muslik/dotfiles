@@ -13,7 +13,6 @@ local bookmarks = {
   "https://bitbucket.org/OneTwoTrip/front-index/src/master/",
   "https://bitbucket.org/OneTwoTrip/front-components/src/master/",
   "https://jenkins.twiket.com/view/DEPLOY/job/dynamic_deploy/build",
-  "https://onetwotripdev.atlassian.net/jira/software/c/projects/OTT/boards/147?assignee=60f94c09a248f0006aa40268"
 }
 
 local function command(name, rhs, opts)

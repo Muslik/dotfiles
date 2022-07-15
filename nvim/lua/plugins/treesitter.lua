@@ -6,9 +6,10 @@ end
 configs.setup({
   ensure_installed = 'all',
   sync_install = false,
+  ignore_install = { 'phpdoc', 'comment' },
   indent = {
     enable = true,
-    disable = { 'html' },
+    disable = { 'html', 'css' },
   },
   highlight = {
     enable = true,
@@ -17,5 +18,18 @@ configs.setup({
   context_commentstring = {
     enable = true,
     enable_autocmd = false,
+  },
+  autotag = {
+    enable = true,
+    disable = { 'xml', 'markdown' },
+  },
+  rainbow = {
+    enable = true,
+    colors = {
+      '#68a0b0',
+      '#946EaD',
+      '#c7aA6D',
+    },
+    disabled = { 'html' },
   },
 })

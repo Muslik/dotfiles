@@ -6,4 +6,5 @@ end
 npairs.setup({
   check_ts = true,
   fast_wrap = {},
+  disable_filetype = { 'TelescopePrompt', 'spectre_panel' },
 })
