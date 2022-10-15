@@ -6,7 +6,7 @@ end
 local cmd = vim.cmd
 
 catppuccin.setup({
-  transparent_background = false,
+  transparent_background = true,
   transparent_panel = false,
   term_colors = false,
   which_key = true,

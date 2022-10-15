@@ -36,8 +36,13 @@ telescope.setup({
     fzf = {
       fuzzy = true,
       override_generic_sorter = true,
-      override_file_sorter = true,
+      override_file_sorter = false,
       case_mode = 'smart_case',
+    },
+    bookmarks = {
+      selected_browser = 'chrome',
+      url_open_command = 'open',
+      full_path = false,
     },
   },
 })
@@ -45,3 +50,4 @@ telescope.setup({
 require('telescope').load_extension('live_grep_args')
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('node_modules')
+require('telescope').load_extension('bookmarks')

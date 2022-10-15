@@ -80,6 +80,11 @@ function free()
 		return $n*2**$h{$u}}print sort{h($b)<=>h($a)}<>;'
 }
 
+function dot()
+{
+  nvim -c "cd ~/dotfiles" `find ~/dotfiles -type f -o -path ~/dotfiles/.git -prune | fzf --height 25% --reverse`
+}
+
 function wmtoggle()
 {
   SERVICES=$(brew services)

@@ -91,7 +91,7 @@ local mappings = {
   B = {
     name = 'Browse',
     i = { '<cmd>BrowseInputSearch<cr>', 'Input Search' },
-    b = { '<cmd>Browse<cr>', 'Browse' },
+    b = { '<cmd>Telescope bookmarks<cr>', 'Browser bookmarks' },
     d = { '<cmd>BrowseDevdocsSearch<cr>', 'Devdocs' },
     f = { '<cmd>BrowseDevdocsFiletypeSearch<cr>', 'Devdocs Filetype' },
     m = { '<cmd>BrowseMdnSearch<cr>', 'Mdn' },
@@ -104,6 +104,11 @@ local mappings = {
     s = { '<cmd>PackerSync<cr>', 'Sync' },
     S = { '<cmd>PackerStatus<cr>', 'Status' },
     u = { '<cmd>PackerUpdate<cr>', 'Update' },
+  },
+
+  e = {
+    name = 'Edit',
+    c = { "<cmd>cd ~/dotfiles | edit $MYVIMRC<cr>", 'Edit nvim config' },
   },
 
   r = {
@@ -214,7 +219,8 @@ local mappings = {
     ['2'] = { ':2ToggleTerm<cr>', '2' },
     ['3'] = { ':3ToggleTerm<cr>', '3' },
     ['4'] = { ':4ToggleTerm<cr>', '4' },
-    g = { '<cmd>lua _GITUI_TOGGLE()<cr>', 'LazyGit' },
+    r = { '<cmd>lua _RANGER()<cr>', 'Ranger' },
+    g = { '<cmd>lua _GITUI_TOGGLE()<cr>', 'GitUi' },
     n = { '<cmd>lua _NODE_TOGGLE()<cr>', 'Node' },
     h = { '<cmd>lua _HTOP_TOGGLE()<cr>', 'Htop' },
   },

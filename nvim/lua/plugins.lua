@@ -78,13 +78,15 @@ packer.startup(function(use)
   use({
     'nvim-telescope/telescope.nvim',
     requires = {
-      { 'nvim-telescope/telescope-live-grep-args.nvim' },
       { 'nvim-lua/popup.nvim' },
       { 'nvim-lua/plenary.nvim' },
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-      { 'nvim-telescope/telescope-node-modules.nvim' },
     },
   })
+
+  use('nvim-telescope/telescope-live-grep-args.nvim')
+  use('nvim-telescope/telescope-node-modules.nvim')
+  use('dhruvmanila/telescope-bookmarks.nvim')
 
   use({ 'stevearc/dressing.nvim' })
 
@@ -151,7 +153,6 @@ packer.startup(function(use)
   use('simrat39/rust-tools.nvim')
   use('NTBBloodbath/rest.nvim')
   use('mattn/emmet-vim')
-  use('David-Kunz/jester')
   use('windwp/nvim-autopairs')
   use({ 'norcalli/nvim-colorizer.lua', ft = { 'css', 'scss', 'sass', 'html' } })
   use('rafamadriz/friendly-snippets')
@@ -169,6 +170,14 @@ packer.startup(function(use)
         's1n7ax/nvim-window-picker',
       },
     },
+  })
+
+  use({
+    'iamcco/markdown-preview.nvim',
+    run = 'cd app && npm install',
+    config = function()
+      vim.g.mkdp_filetypes = { 'markdown', 'vimwiki' }
+    end,
   })
 
   -- Git

@@ -99,3 +99,5 @@ alias gns="cd ~/Documents/notes"
 alias gdl="cd ~/Downloads"
 
 alias min="open /Applications/Min.app"
+
+alias binance="node ~/Projects/binance-calculator-premium/app/init.js"

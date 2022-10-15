@@ -19,10 +19,11 @@ toggleterm.setup({
   },
 })
 
-local Terminal  = require('toggleterm.terminal').Terminal
-local gitui = Terminal:new({ cmd = "gitui", hidden = false })
+local Terminal = require('toggleterm.terminal').Terminal
+local gitui = Terminal:new({ cmd = 'gitui', hidden = false })
 
 function _GITUI_TOGGLE()
+  os.execute('ssh-add ~/.ssh/id_rsa')
   gitui:toggle()
 end
 
@@ -44,8 +45,26 @@ function _CARGO_RUN()
   cargo_run:toggle()
 end
 
+local ranger = Terminal:new({ cmd = 'ranger', hidden = true })
+
+function _RANGER()
+  ranger:toggle()
+end
+
 local cargo_test = Terminal:new({ cmd = 'cargo test', hidden = true })
 
 function _CARGO_TEST()
   cargo_test:toggle()
+end
+
+local browser_sync = Terminal:new({
+  cmd = 'browser-sync start --server . --files .',
+  hidden = true,
+  on_open = function(term)
+    vim.api.nvim_buf_set_keymap(term.bufnr, 't', 'q', '<cmd>close<CR>', { noremap = true, silent = true })
+  end,
+})
+
+function _BROWSER_SYNC()
+  browser_sync:toggle()
 end

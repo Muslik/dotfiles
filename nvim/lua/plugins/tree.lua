@@ -11,11 +11,6 @@ neo_tree.setup({
       highlight = 'NeoTreeFileName',
     },
   },
-  nesting_rules = {
-    tsx = { "module.css", "module.scss", "scss" },
-    jsx = { "module.css", "module.scss", "scss" },
-    js = { "module.css", "module.scss", "scss" },
-  },
   filesystem = {
     components = {
       icon = function(config, node)
@@ -62,7 +57,6 @@ neo_tree.setup({
         'toggle_node',
         nowait = true,
       },
-      ['<cr>'] = 'open_with_window_picker',
       ['S'] = 'split_with_window_picker',
       ['s'] = 'vsplit_with_window_picker',
     },
