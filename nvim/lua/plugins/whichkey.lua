@@ -83,7 +83,6 @@ local mappings = {
   ['w'] = { '<cmd>w<CR>', 'Write' },
   ['q'] = { '<cmd>q<CR>', 'Quit' },
   ['h'] = { '<cmd>nohlsearch<CR>', 'No HL' },
-  ['/'] = { '<cmd>lua require("Comment.api").toggle_current_linewise()<CR>', 'Comment' },
   ['c'] = { '<cmd>Bdelete!<CR>', 'Close Buffer' },
 
   ['z'] = { '<cmd>ZenMode<cr>', 'Zen' },
@@ -151,6 +150,7 @@ local mappings = {
       '<cmd>lua require("telescope").extensions.live_grep_args.live_grep_args(require("telescope.themes").get_ivy())<cr>',
       'Find Text With Args',
     },
+    p = { '<cmd>Telescope projects<cr>', 'Projects' },
     h = { '<cmd>Telescope help_tags<cr>', 'Help' },
     l = { '<cmd>Telescope resume<cr>', 'Last Search' },
     M = { '<cmd>Telescope man_pages<cr>', 'Man Pages' },

@@ -1,5 +1,4 @@
 local options = {
-  cmdheight = 0,
   so = 7, -- middle cursor when it's 7 lines before bottom
   sj = -50, -- scroll jump
   autoread = true,

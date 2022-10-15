@@ -27,6 +27,8 @@ telescope.setup({
   pickers = {
     find_files = {
       hidden = true,
+      theme = "dropdown",
+      previewer = false
     },
     lsp_code_actions = {
       theme = 'cursor',
@@ -47,7 +49,8 @@ telescope.setup({
   },
 })
 
-require('telescope').load_extension('live_grep_args')
-require('telescope').load_extension('fzf')
-require('telescope').load_extension('node_modules')
-require('telescope').load_extension('bookmarks')
+telescope.load_extension('live_grep_args')
+telescope.load_extension('fzf')
+telescope.load_extension('node_modules')
+telescope.load_extension('bookmarks')
+telescope.load_extension('projects')

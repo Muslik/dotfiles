@@ -132,6 +132,7 @@ packer.startup(function(use)
   })
 
   -- General
+  use('ahmedkhalf/project.nvim')
   use('kevinhwang91/nvim-bqf')
   use('folke/todo-comments.nvim')
   use('ghillb/cybu.nvim')

@@ -41,6 +41,18 @@ db.custom_center = {
     shortcut = 'SPC f t'
   },
   {
+    icon = icons.folder .. ' ',
+    desc = 'Projects                   ',
+    action = 'Telescope projects',
+    shortcut = 'SPC f p'
+  },
+  {
+    icon = icons.timer .. ' ',
+    desc = 'Recent Files               ',
+    action = 'Telescope oldfiles',
+    shortcut = 'SPC f r'
+  },
+  {
     icon = icons.settings .. ' ',
     desc = 'Open configuration         ',
     action = 'cd ~/dotfiles | edit $MYVIMRC',
