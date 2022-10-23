@@ -65,6 +65,11 @@ function mostused()
 	\cat ~/.zsh_history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n ${1:-10}
 }
 
+functions gns()
+{
+  v `find ~/Documents/notes -type f -name "*.md" | fzf --height 25% --reverse`
+}
+
 function cl() {
     DIR="$*";
         if [ $# -lt 1 ]; then
@@ -78,6 +83,16 @@ function free()
 {
 	du -d1 -h $1 2>/dev/null| perl -e 'sub h{%h=(K=>10,M=>20,G=>30);($n,$u)=shift=~/([0-9.]+)(\D)/;
 		return $n*2**$h{$u}}print sort{h($b)<=>h($a)}<>;'
+}
+
+function pj()
+{
+  cd `find ~/Projects -type d -maxdepth 1 | fzf --height 25% --reverse`
+}
+
+function wk()
+{
+  cd `find ~/Projects/work -type d -maxdepth 1 | fzf --height 25% --reverse`
 }
 
 function dot()

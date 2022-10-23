@@ -194,7 +194,7 @@ local mappings = {
   l = {
     name = 'LSP',
     a = { '<cmd>lua vim.lsp.buf.code_action()<cr>', 'Code Action' },
-    d = { '<cmd>TroubleToggle<cr>', 'Diagnostics' },
+    d = { '<cmd>TroubleToggle document_diagnostics<cr>', 'Diagnostics' },
     f = { '<cmd>lua vim.lsp.buf.format({ async = true })<cr>', 'Format' },
     F = { '<cmd>LspToggleAutoFormat<cr>', 'Toggle Autoformat' },
     i = { '<cmd>LspInfo<cr>', 'Info' },
@@ -209,7 +209,7 @@ local mappings = {
     },
     l = { '<cmd>lua vim.lsp.codelens.run()<cr>', 'CodeLens Action' },
     r = { '<cmd>lua vim.lsp.buf.rename()<cr>', 'Rename' },
-    R = { '<cmd>TroubleToggle lsp_references<cr>', 'References' },
+    R = { '<cmd>LspRestart<cr>', 'Restart' },
     t = { '<cmd>lua require("utils").toggle_diagnostics()<cr>', 'Toggle Diagnostics' },
   },
 

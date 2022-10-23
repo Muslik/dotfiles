@@ -155,7 +155,7 @@ packer.startup(function(use)
   use('NTBBloodbath/rest.nvim')
   use('mattn/emmet-vim')
   use('windwp/nvim-autopairs')
-  use({ 'norcalli/nvim-colorizer.lua', ft = { 'css', 'scss', 'sass', 'html' } })
+  use({ 'norcalli/nvim-colorizer.lua' })
   use('rafamadriz/friendly-snippets')
   use('abecodes/tabout.nvim')
 
