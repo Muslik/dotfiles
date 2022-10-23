@@ -1,0 +1,47 @@
+{
+  "React function component": {
+    "prefix": "rfc",
+    "body": [
+      "import React from 'react';",
+      "",
+      "export const ${TM_FILENAME_BASE} = ({}) => {",
+      "  return <div>$0</div>",
+      "}"
+    ],
+    "description": "React function component"
+  },
+  "useState": {
+    "prefix": "us",
+    "body": "const [${1:val}, set${2:setterName}] = useState(${3:defVal});",
+    "description": "use state hook"
+  },
+  "useEffect": {
+    "prefix": "ue",
+    "body": ["useEffect(() => {", "\t$1", "}, [${3:deps}]);$0"],
+    "description": "React useEffect() hook"
+  },
+  "useRef": {
+    "prefix": "ur",
+    "body": ["const ${1:elName}Ref = useRef(null)$0"],
+    "description": "React useRef() hook"
+  },
+  "useCallback": {
+    "prefix": "ucb",
+    "body": [
+      "const ${1:memoizedCallback} = useCallback(",
+      "\t() => {",
+      "\t\t$2",
+      "\t},",
+      "\t[${3:deps}],",
+      ");$0"
+    ],
+    "description": "React useCallback() hook"
+  },
+  "useMemo": {
+    "prefix": "ume",
+    "body": [
+      "const ${1:memoizedValue} = useMemo(() => $2, [${3:deps}])$0"
+    ],
+    "description": "React useMemo() hook"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "dzhab-snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": ["javascript", "typescript", "typescriptreact", "javascriptreact"],
+        "path": "./snippets/javascript.json"
+      },
+      {
+        "language": "typescriptreact",
+        "path": "./snippets/react-ts.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./snippets/react-js.json"
+      }
+    ]
+  }
+}

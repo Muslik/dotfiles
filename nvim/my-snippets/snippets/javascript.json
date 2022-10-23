@@ -1,0 +1,118 @@
+{
+  "Export constant": {
+    "prefix": "ec",
+    "body": ["export const ${1:member} = ${2:value}"],
+    "description": "Export constant"
+  },
+  "Arrow function": {
+    "prefix": "cf",
+    "body": ["const ${1:name} = (${2:arguments}) => {", "  return ${0}", "}"],
+    "description": "Arrow function"
+  },
+  "Export arrow function": {
+    "prefix": "ecf",
+    "body": [
+      "export const ${1:name} = (${2:arguments}) => {",
+      "  return ${0}",
+      "}"
+    ],
+    "description": "Export arrow function"
+  },
+  "typeof": {
+    "prefix": "to",
+    "body": "typeof ${1:source} === '${2:undefined}'"
+  },
+  "const statement": {
+    "prefix": "c",
+    "body": "const ${1:name}"
+  },
+  "let statement": {
+    "prefix": "l",
+    "body": "let ${1:name}"
+  },
+  "const array": {
+    "prefix": "car",
+    "body": "const ${1:name} = [${0}]"
+  },
+  "reduce": {
+    "prefix": "reduce",
+    "body": [
+      "${1:iterable}.reduce((acc, curr) => {",
+      "  ${0}",
+      "}, ${4:initial})"
+    ]
+  },
+  "map": {
+    "prefix": "map",
+    "body": ["${1:iterable}.map((${2:item}) => {", "  ${0}", "})"]
+  },
+  "filter": {
+    "prefix": "filter",
+    "body": ["${1:iterable}.filter((${2:item}) => {", "  ${0}", "})"]
+  },
+  "find": {
+    "prefix": "find",
+    "body": ["${1:iterable}.find((${2:item}) => {", "  ${0}", "})"]
+  },
+  "some": {
+    "prefix": "some",
+    "body": ["${1:iterable}.some((${2:item}) => {", "  ${0}", "})"]
+  },
+  "every": {
+    "prefix": "every",
+    "body": ["${1:iterable}.every((${2:item}) => {", "  ${0}", "})"]
+  },
+  "import module": {
+    "prefix": "im",
+    "body": "import ${2:*} from '${1:module}';"
+  },
+  "import module as": {
+    "prefix": "ia",
+    "body": "import ${2:*} as ${3:name} from '${1:module}';"
+  },
+  "import module destructured": {
+    "prefix": "id",
+    "body": "import {$2} from '${1:module}'"
+  },
+  "throw new Error": {
+    "prefix": "tn",
+    "body": "throw new ${0:error}"
+  },
+  "try/catch": {
+    "prefix": "tc",
+    "body": "try {\n\t${0}\n} catch (${1:err}) {\n\t\n}"
+  },
+  "try/finally": {
+    "prefix": "tf",
+    "body": "try {\n\t${0}\n} finally {\n\t\n}"
+  },
+  "try/catch/finally": {
+    "prefix": "tcf",
+    "body": "try {\n\t${0}\n} catch (${1:err}) {\n\t\n} finally {\n\t\n}"
+  },
+  "console.log": {
+    "prefix": "cl",
+    "body": "console.log(${0})"
+  },
+  "console.log a variable": {
+    "prefix": "cv",
+    "body": "console.log('${1}:', ${1})"
+  },
+  "console.error": {
+    "prefix": "ce",
+    "body": "console.error(${0})"
+  },
+  "console.warn": {
+    "prefix": "cw",
+    "body": "console.warn(${0})"
+  },
+  "console.dir": {
+    "prefix": "cod",
+    "body": "console.dir('${1}:', ${1})"
+  },
+  "If Statement": {
+    "prefix": "if",
+    "body": ["if (${1:condition}) {", "\t$0", "}"],
+    "description": "If Statement"
+  }
+}
