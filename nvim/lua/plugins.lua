@@ -110,7 +110,10 @@ packer.startup(function(use)
   -- LSP Addons
   use('j-hui/fidget.nvim')
   use('ray-x/lsp_signature.nvim')
-  use('williamboman/nvim-lsp-installer')
+  use({
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+  })
   use('onsails/lspkind-nvim')
   use('folke/trouble.nvim')
   use('b0o/SchemaStore.nvim')
