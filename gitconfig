@@ -18,6 +18,7 @@
 [merge]
   tool 		 = vimdiff
 [alias]
+  pl       = pull
   co 			 = checkout
   cm 			 = commit
   st 			 = status
