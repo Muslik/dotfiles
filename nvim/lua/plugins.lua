@@ -186,6 +186,7 @@ packer.startup(function(use)
 
   -- Git
   use({ 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } })
+  use('github/copilot.vim')
 
   -- Dap
   use('mfussenegger/nvim-dap')
