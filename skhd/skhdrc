@@ -4,7 +4,7 @@ cmd + alt - t : open -a telegram.app
 cmd + alt - d : open -a discord.app
 cmd + alt - m : open -a spotify.app
 cmd + alt - s : open -a slack.app
-cmd + alt - b : open -a Google\ Chrome.app
+cmd + alt - b : open -a Microsoft\ Edge.app
 
 # Navigation
 # cycle through stack windows
@@ -36,6 +36,7 @@ alt - b : yabai -m space --focus recent
 
 # Float / Unfloat window
 shift + alt - space : yabai -m window --toggle float; yabai -m window --grid 4:4:1:1:2:2
+shift + alt - c : yabai -m window --toggle float; yabai -m window --grid 1:5:1:2:3:1 
 
 alt - e : yabai -m space --layout bsp
 alt - f : yabai -m space --layout float

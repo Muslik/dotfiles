@@ -105,3 +105,6 @@ alias ott="mux ott"
 # NODE
 alias ni="npm install"
 alias ns="npm start"
+alias n14="n exec 14.8.0"
+alias ni14="n14 npm install"
+alias ns14="n14 npm run start"

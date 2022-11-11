@@ -1,5 +1,12 @@
-local map = require('utils').map
+local status_ok, illuminate = pcall(require, 'illuminate')
+if not status_ok then
+  return
+end
 
-vim.g.Illuminate_ftblacklist = { 'dashboard', 'NvimTree', 'DressingSelect', 'neo-tree' }
-map('n', '<a-n>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>')
-map('n', '<a-p>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>')
+illuminate.configure({
+    filetypes_denylist = {
+        'dashboard',
+        'NvimTree',
+        'neo-tree',
+    },
+})

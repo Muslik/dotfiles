@@ -55,14 +55,6 @@ M.setup = function()
   })
 end
 
-local function lsp_highlight_document(client)
-  local status_ok, illuminate = pcall(require, "illuminate")
-  if not status_ok then
-    return
-  end
-  illuminate.on_attach(client)
-end
-
 local function remove_augroup(name)
   if vim.fn.exists("#" .. name) == 1 then
     vim.cmd("au! " .. name)
@@ -93,7 +85,6 @@ M.toggle_format_on_save = function()
 end
 
 M.on_attach = function(client)
-  lsp_highlight_document(client)
   if client.name ~= 'efm' then
     client.server_capabilities.documentFormattingProvider = false
   end
