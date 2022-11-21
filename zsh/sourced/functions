@@ -67,7 +67,7 @@ function mostused()
 
 functions gns()
 {
-  v `find ~/Documents/notes -type f -name "*.md" | fzf --height 25% --reverse`
+  cd ~/Documents/notes && v `find ~/Documents/notes -type f -name "*.md" | fzf --height 25% --reverse`
 }
 
 function cl() {
@@ -98,6 +98,11 @@ function wk()
 function dot()
 {
   nvim -c "cd ~/dotfiles" `find ~/dotfiles -type f -o -path ~/dotfiles/.git -prune | fzf --height 25% --reverse`
+}
+
+function gco()
+{
+  git checkout `git for-each-ref --format "%(HEAD) %(refname:short)" | fzf --height 25%`
 }
 
 function wmtoggle()
