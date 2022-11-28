@@ -52,12 +52,10 @@ packer.startup(function(use)
     as = 'catppuccin',
     commit = '863500ba19d49e30a399f8bf99d19871b46f3b09',
   })
-  use('marko-cerovac/material.nvim')
   use('folke/tokyonight.nvim')
   use('pacokwon/onedarkhc.vim')
-  use('joshdick/onedark.vim')
   use('bluz71/vim-nightfly-guicolors')
-  use('iandwelker/rose-pine-vim')
+  use('haishanh/night-owl.vim')
 
   -- Treesitter
   use({
@@ -151,6 +149,7 @@ packer.startup(function(use)
   use({ 'numToStr/Comment.nvim' })
   use({ 'akinsho/toggleterm.nvim' })
   use({ 'nvim-lualine/lualine.nvim' })
+  use('simrat39/symbols-outline.nvim')
 
   -- Snippets & Language & Syntax
   use('jose-elias-alvarez/typescript.nvim')
@@ -186,7 +185,7 @@ packer.startup(function(use)
 
   -- Git
   use({ 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } })
-  use('github/copilot.vim')
+  use('zbirenbaum/copilot.lua')
 
   -- Dap
   use('mfussenegger/nvim-dap')

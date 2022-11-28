@@ -210,6 +210,7 @@ local mappings = {
     l = { '<cmd>lua vim.lsp.codelens.run()<cr>', 'CodeLens Action' },
     r = { '<cmd>lua vim.lsp.buf.rename()<cr>', 'Rename' },
     R = { '<cmd>LspRestart<cr>', 'Restart' },
+    s = { '<cmd>SymbolsOutline<cr>', 'Symbols Outline' },
     t = { '<cmd>lua require("utils").toggle_diagnostics()<cr>', 'Toggle Diagnostics' },
   },
 
