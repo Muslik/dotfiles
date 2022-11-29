@@ -20,6 +20,27 @@ end
 
 local icons = require('icons')
 
+local source_names = {
+  nvim_lsp = "(LSP)",
+  path = "(Path)",
+  calc = "(Calc)",
+  vsnip = "(Snippet)",
+  luasnip = "(Snippet)",
+  buffer = "(Buffer)",
+  tmux = "(TMUX)",
+  copilot = "(Copilot)",
+  treesitter = "(TreeSitter)",
+};
+
+local duplicates = {
+  buffer = 1,
+  path = 1,
+  nvim_lsp = 0,
+  luasnip = 1,
+};
+
+local duplicates_default = 0;
+
 -- nvim-cmp setup
 cmp.setup({
   map_cr = true, --  map <CR> on insert mode
@@ -84,54 +105,32 @@ cmp.setup({
     format = function(entry, vim_item)
       -- Kind icons
       vim_item.kind = icons.kind[vim_item.kind]
+      vim_item.menu = source_names[entry.source.name]
+      vim_item.dup = (duplicates[entry.source.name] or duplicates_default)
 
-      -- NOTE: order matters
-      vim_item.menu = ({
-        nvim_lsp = '',
-        nvim_lua = '',
-        luasnip = '',
-        buffer = '',
-        path = '',
-      })[entry.source.name]
       return vim_item
     end,
   },
+  completion = {
+    keyword_length = 1,
+  },
   window = {
-    documentation = {
-      border = 'rounded',
-      winhighlight = 'NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None',
-    },
-    completion = {
-      border = 'rounded',
-      winhighlight = 'NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None',
-    },
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
   },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'path' },
+    { name = 'luasnip' },
     { name = 'nvim_lua' },
     { name = 'buffer' },
-    { name = 'luasnip' },
     { name = 'npm' },
-    { name = 'path' },
-  },
-  sorting = {
-    priority_weight = 2,
-    comparators = {
-      compare.offset,
-      compare.exact,
-      compare.score,
-      compare.recently_used,
-      compare.locality,
-      compare.sort_text,
-      compare.length,
-      compare.order,
-    },
   },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
     select = false,
   },
   experimental = {
-    ghost_text = true,
+    ghost_text = false,
   },
 })

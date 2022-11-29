@@ -1,15 +1,41 @@
 local status_ok, gitsigns = pcall(require, 'gitsigns')
+local icons = require('icons')
 if not status_ok then
   return
 end
 
 gitsigns.setup({
   signs = {
-    add = { hl = 'GitSignsAddNr', text = '+' },
-    change = { hl = 'GitSignsChangeNr', text = '│' },
-    delete = { hl = 'GitSignsDeleteNr', text = '_' },
-    topdelete = { hl = 'GitSignsDeleteNr', text = '‾' },
-    changedelete = { hl = 'GitSignsChangeNr', text = '~' },
+    add = {
+      hl = 'GitSignsAdd',
+      text = icons.ui.BoldLineLeft,
+      numhl = 'GitSignsAddNr',
+      linehl = 'GitSignsAddLn',
+    },
+    change = {
+      hl = 'GitSignsChange',
+      text = icons.ui.BoldLineLeft,
+      numhl = 'GitSignsChangeNr',
+      linehl = 'GitSignsChangeLn',
+    },
+    delete = {
+      hl = 'GitSignsDelete',
+      text = icons.ui.Triangle,
+      numhl = 'GitSignsDeleteNr',
+      linehl = 'GitSignsDeleteLn',
+    },
+    topdelete = {
+      hl = 'GitSignsDelete',
+      text = icons.ui.Triangle,
+      numhl = 'GitSignsDeleteNr',
+      linehl = 'GitSignsDeleteLn',
+    },
+    changedelete = {
+      hl = 'GitSignsChange',
+      text = icons.ui.BoldLineLeft,
+      numhl = 'GitSignsChangeNr',
+      linehl = 'GitSignsChangeLn',
+    },
   },
   signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
   numhl = false, -- Toggle with `:Gitsigns toggle_numhl`

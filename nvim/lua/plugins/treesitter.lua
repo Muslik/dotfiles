@@ -13,7 +13,7 @@ local function is_big_file(buf)
 end
 
 configs.setup({
-  ensure_installed = 'all',
+  ensure_installed = { "bash", "c", "javascript", "json", "lua", "python", "typescript", "tsx", "css", "rust", "yaml"},
   sync_install = false,
   ignore_install = { 'phpdoc', 'comment' },
   indent = {
