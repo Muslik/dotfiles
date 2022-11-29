@@ -3,6 +3,15 @@ if not status_ok then
   return
 end
 
+local function is_big_file(buf)
+  local max_filesize = 100 * 1024 -- 100 KB
+
+  local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+  if ok and stats and stats.size > max_filesize then
+    return true
+  end
+end
+
 configs.setup({
   ensure_installed = 'all',
   sync_install = false,
@@ -15,12 +24,11 @@ configs.setup({
     enable = true,
     additional_vim_regex_highlighting = false,
     disable = function(lang, buf)
-      if vim.tbl_contains({ "latex" }, lang) then
+      if vim.tbl_contains({ 'latex' }, lang) then
         return true
       end
 
-      local status_ok, big_file_detected = pcall(vim.api.nvim_buf_get_var, buf, "bigfile_disable_treesitter")
-      return status_ok and big_file_detected
+      return is_big_file(buf)
     end,
   },
   context_commentstring = {
@@ -40,6 +48,8 @@ configs.setup({
       '#946EaD',
       '#c7aA6D',
     },
-    disabled = { 'html' },
+    disable = function(_, buf)
+      return is_big_file(buf)
+    end
   },
 })
