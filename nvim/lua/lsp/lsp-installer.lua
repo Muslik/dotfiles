@@ -94,6 +94,6 @@ for _, server in pairs(servers) do
     goto continue
   end
 
-  lspconfig[server].setup(opts)
   ::continue::
+  lspconfig[server].setup(opts)
 end

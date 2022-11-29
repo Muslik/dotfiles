@@ -2,7 +2,7 @@ local M = {}
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
-local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+local status_cmp_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
 if not status_cmp_ok then
   return
 end
@@ -14,13 +14,13 @@ M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
 M.setup = function()
   local signs = {
-    { name = "DiagnosticSignError", text = icons.diagnostics.Error },
-    { name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
-    { name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
-    { name = "DiagnosticSignInfo", text = icons.diagnostics.Information },
+    { name = 'DiagnosticSignError', text = icons.diagnostics.Error },
+    { name = 'DiagnosticSignWarn', text = icons.diagnostics.Warning },
+    { name = 'DiagnosticSignHint', text = icons.diagnostics.Hint },
+    { name = 'DiagnosticSignInfo', text = icons.diagnostics.Information },
   }
   for _, sign in ipairs(signs) do
-    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
+    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = '' })
   end
 
   local config = {
@@ -56,8 +56,8 @@ M.setup = function()
 end
 
 local function remove_augroup(name)
-  if vim.fn.exists("#" .. name) == 1 then
-    vim.cmd("au! " .. name)
+  if vim.fn.exists('#' .. name) == 1 then
+    vim.cmd('au! ' .. name)
   end
 end
 
@@ -87,10 +87,6 @@ end
 M.on_attach = function(client)
   if client.name ~= 'efm' then
     client.server_capabilities.documentFormattingProvider = false
-  end
-  if client.name == "cssmodules_ls" then
-    client.server_capabilities.hoverProvider = false
-    client.server_capabilities.definitionProvider = false
   end
 end
 
