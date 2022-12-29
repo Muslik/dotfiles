@@ -68,6 +68,9 @@ end
 
 M.capture = function(command)
   local handle = io.popen(command)
+  if not handle then
+    return nil
+  end
   if not handle:read(0) then
     handle:close()
     return nil

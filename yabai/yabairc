@@ -47,6 +47,7 @@ yabai -m config bottom_padding               20
 yabai -m config left_padding                 20
 yabai -m config right_padding                20
 yabai -m config window_gap                   20
+yabai -m config --space 4 layout stack
 
 # float system preferences
 yabai -m rule --add app='^zoom' manage=off
@@ -58,4 +59,12 @@ yabai -m rule --add title='Preferences$' manage=off
 # float settings windows
 yabai -m rule --add title='Settings$' manage=off
 
+yabai -m rule --add app="^Chrome$" space=1
+yabai -m rule --add app="^kitty$" space=2
+yabai -m rule --add app="^Telegram$" space=4
+yabai -m rule --add app="^Slack$" space=4
+yabai -m rule --add app="^Discord$" space=4
+yabai -m rule --add app="^Spotify$" space=3
+
 echo "yabai configuration loaded.."
+

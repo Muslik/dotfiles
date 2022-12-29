@@ -52,6 +52,7 @@ packer.startup(function(use)
     as = 'catppuccin',
     commit = '863500ba19d49e30a399f8bf99d19871b46f3b09',
   })
+  use('shaunsingh/solarized.nvim')
   use('folke/tokyonight.nvim')
   use('pacokwon/onedarkhc.vim')
   use('bluz71/vim-nightfly-guicolors')

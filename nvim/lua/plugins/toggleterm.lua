@@ -57,6 +57,12 @@ function _CARGO_TEST()
   cargo_test:toggle()
 end
 
+local spotify = Terminal:new({ cmd = 'spt', hidden = true })
+
+function _SPOTIFY()
+  spotify:toggle()
+end
+
 local browser_sync = Terminal:new({
   cmd = 'browser-sync start --server . --files .',
   hidden = true,

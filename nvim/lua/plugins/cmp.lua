@@ -8,8 +8,6 @@ if not snip_status_ok then
   return
 end
 
-local compare = require('cmp.config.compare')
-
 --[[ require('luasnip/loaders/from_vscode').lazy_load() ]]
 require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./my-snippets" } })
 

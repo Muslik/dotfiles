@@ -141,6 +141,10 @@ local mappings = {
       "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{path_display = {'smart'}, previewer = false})<cr>",
       'Find files',
     },
+    g = {
+      "<cmd>lua require('telescope.builtin').git_files(require('telescope.themes').get_dropdown{path_display = {'smart'}, previewer = false})<cr>",
+      'Git find files',
+    },
     b = {
       '<cmd>lua require("telescope.builtin").buffers(require("telescope.themes").get_dropdown{previewer = false})<cr>',
       'Buffers',
@@ -220,6 +224,7 @@ local mappings = {
     ['2'] = { ':2ToggleTerm<cr>', '2' },
     ['3'] = { ':3ToggleTerm<cr>', '3' },
     ['4'] = { ':4ToggleTerm<cr>', '4' },
+    s = { '<cmd>lua _SPOTIFY()<cr>', 'Spotify' },
     r = { '<cmd>lua _RANGER()<cr>', 'Ranger' },
     g = { '<cmd>lua _GITUI_TOGGLE()<cr>', 'GitUi' },
     n = { '<cmd>lua _NODE_TOGGLE()<cr>', 'Node' },

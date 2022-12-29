@@ -33,6 +33,7 @@ local options = {
   splitright = true, -- split windows to the right
   splitbelow = true, -- split windows below
   completeopt = 'menuone,noselect',
+  guifont = { "Fira Code", ":h15" },
 }
 
 for k, v in pairs(options) do
@@ -40,3 +41,6 @@ for k, v in pairs(options) do
 end
 
 vim.bo.undofile = true
+
+vim.g.neovide_cursor_animation_length= 0
+vim.g.neovide_input_use_logo = "v:true"
