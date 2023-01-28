@@ -21,10 +21,11 @@ alias ssource='exec zsh'
 #########################################
 # Shorten common commands               #
 #########################################
+alias df="df -h"
 alias ex="chmod +x"
 alias cat="bat"
 alias bc="bc -l"
-alias q="~/ && clear"
+alias q="cd ~/ && clear"
 alias top="bpytop"
 alias v="nvim"
 alias vi="nvim"
@@ -36,11 +37,9 @@ alias hs="history | grep"
 alias t="touch"
 alias c="clear"
 alias ls="ls -G"
-alias la="ls -la"
-alias ll="ls -lh"
+alias ll="ls -lhA"
 alias lt="du -sh * | sort -h"
 alias mnt='mount | grep -E ^/dev | column -t'
-alias lal="ls -lAh"
 alias ct="column -t"
 alias grep="grep --color=always"
 alias mc="ranger"

@@ -36,18 +36,12 @@ configs.setup({
     enable_autocmd = false,
   },
   autotag = {
-    enable = true,
-    disable = { 'xml', 'markdown' },
+    enable = false,
   },
   rainbow = {
     enable = true,
     extended_mode = true,
     max_file_lines = 1000,
-    colors = {
-      '#68a0b0',
-      '#946EaD',
-      '#c7aA6D',
-    },
     disable = function(_, buf)
       return is_big_file(buf)
     end
