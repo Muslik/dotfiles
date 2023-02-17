@@ -36,14 +36,6 @@ configs.setup({
     enable_autocmd = false,
   },
   autotag = {
-    enable = false,
-  },
-  rainbow = {
     enable = true,
-    extended_mode = true,
-    max_file_lines = 1000,
-    disable = function(_, buf)
-      return is_big_file(buf)
-    end
   },
 })

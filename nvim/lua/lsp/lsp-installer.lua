@@ -13,7 +13,7 @@ local servers = {
   'html',
   'jsonls',
   'rust_analyzer',
-  'sumneko_lua',
+  'lua_ls',
   'tsserver',
   'yamlls',
 }
@@ -46,8 +46,9 @@ for _, server in pairs(servers) do
     opts = vim.tbl_deep_extend('force', server_opts, opts)
   end
 
-  if server == 'sumneko_lua' then
+  if server == 'lua_ls' then
     local server_opts = require('lsp/settings/sumneko-lua')
+    server = 'sumneko_lua'
     opts = vim.tbl_deep_extend('force', server_opts, opts)
   end
 

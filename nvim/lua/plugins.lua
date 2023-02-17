@@ -44,7 +44,7 @@ packer.startup(function(use)
   use('nvim-lua/plenary.nvim')
   use('nathom/filetype.nvim')
   use('kyazdani42/nvim-web-devicons')
-  use('glepnir/dashboard-nvim')
+  use({'glepnir/dashboard-nvim', commit = '8f5b3996ec99e53af8c78a8a238a571604a95d96'})
 
   -- Themes
   use({

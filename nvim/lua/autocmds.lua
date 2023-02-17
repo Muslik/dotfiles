@@ -29,10 +29,3 @@ api.nvim_create_autocmd('TextYankPost', {
   end,
   group = highlight_group,
 })
-
-api.nvim_create_autocmd('BufWritePost', {
-  pattern = '*',
-  callback = function()
-    vim.cmd('TSDisable rainbow | TSEnable rainbow')
-  end,
-})
