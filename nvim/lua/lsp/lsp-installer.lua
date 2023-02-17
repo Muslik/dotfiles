@@ -48,7 +48,6 @@ for _, server in pairs(servers) do
 
   if server == 'lua_ls' then
     local server_opts = require('lsp/settings/sumneko-lua')
-    server = 'sumneko_lua'
     opts = vim.tbl_deep_extend('force', server_opts, opts)
   end
 
