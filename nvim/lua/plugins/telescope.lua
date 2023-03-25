@@ -25,6 +25,9 @@ telescope.setup({
     },
   },
   pickers = {
+    oldfiles = {
+      cwd_only = true,
+    },
     find_files = {
       hidden = true,
       theme = "dropdown",

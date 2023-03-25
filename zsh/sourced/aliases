@@ -51,7 +51,7 @@ alias nap="~/go/bin/nap"
 #########################################
 # IP / Speedtest                        #
 #########################################
-alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
+alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
 alias ip='curl ipinfo.io/ip'
 alias localip="ipconfig getifaddr en0"
 
