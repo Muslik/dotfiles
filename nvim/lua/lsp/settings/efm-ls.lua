@@ -7,7 +7,7 @@ local prettier = {
 }
 
 local rust_fmt = {
-  formatCommand = 'rustfmt',
+  formatCommand = 'rustfmt --emit=stdout --edition 2021',
   formatStdin = true,
 }
 

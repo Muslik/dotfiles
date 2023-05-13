@@ -19,7 +19,7 @@ local servers = {
 }
 
 local settings = {
-  ensure_installed = servers,
+  --[[ ensure_installed = servers, ]]
 }
 
 mason_lspconfig.setup(settings)
@@ -83,14 +83,16 @@ for _, server in pairs(servers) do
   if server == 'rust_analyzer' then
     local rust_opts = require('lsp/settings/rust')
     local rust_tools_status_ok, rust_tools = pcall(require, 'rust-tools')
+
     if not rust_tools_status_ok then
       return
     end
 
+    rust_opts = vim.tbl_deep_extend('force', rust_opts, opts)
     rust_tools.setup(rust_opts)
     goto continue
   end
 
-  ::continue::
   lspconfig[server].setup(opts)
+  ::continue::
 end
