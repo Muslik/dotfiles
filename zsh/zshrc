@@ -41,6 +41,7 @@ fi
 # if [ "$ZSH_TMUX_AUTOSTART" = true ] && [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux new-session -As main; fi
 
 # Set Spaceship ZSH as a prompt
+fpath+=("$(brew --prefix)/share/zsh/site-functions")
 autoload -U promptinit; promptinit
 prompt pure
 

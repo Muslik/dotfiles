@@ -41,20 +41,20 @@ gitsigns.setup({
   numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
   linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
   word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
-  keymaps = {
+  --[[ keymaps = { ]]
     -- Default keymap options
-    noremap = true,
-    buffer = true,
-
-    ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'" },
-    ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_huk()<CR>'" },
-
-    ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
-    ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-    ['n <leader>ghr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-    ['n <leader>ghp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-    ['n <leader>gm'] = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>',
-  },
+  --[[   noremap = true, ]]
+  --[[   buffer = true, ]]
+  --[[]]
+  --[[   ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'" }, ]]
+  --[[   ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_huk()<CR>'" }, ]]
+  --[[]]
+  --[[   ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>', ]]
+  --[[   ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>', ]]
+  --[[   ['n <leader>ghr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>', ]]
+  --[[   ['n <leader>ghp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>', ]]
+  --[[   ['n <leader>gm'] = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', ]]
+  --[[ }, ]]
   watch_gitdir = {
     interval = 10000,
     follow_files = true,

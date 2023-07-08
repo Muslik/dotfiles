@@ -1,4 +1,8 @@
 sudo nvram SystemAudioVolume=" "
+
+# Disable dock animation
+defaults write com.apple.dock autohide-delay -float 0; defaults write com.apple.dock autohide-time-modifier -int 0;killall Dock
+
 defaults write com.apple.universalaccess reduceTransparency -bool true
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false

@@ -107,7 +107,7 @@ packer.startup(function(use)
   use({ 'saadparwaiz1/cmp_luasnip' })
 
   -- LSP Addons
-  use('j-hui/fidget.nvim')
+  use({'j-hui/fidget.nvim', tag = 'legacy'})
   use('ray-x/lsp_signature.nvim')
   use({
     'williamboman/mason.nvim',

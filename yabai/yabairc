@@ -16,7 +16,7 @@ yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
 #!/usr/bin/env sh
 
-SPACEBAR_HEIGHT=26
+SPACEBAR_HEIGHT=0
 
 # global settings
 yabai -m config mouse_follows_focus          off
@@ -58,6 +58,8 @@ yabai -m rule --add title='Preferences$' manage=off
 
 # float settings windows
 yabai -m rule --add title='Settings$' manage=off
+yabai -m rule --add title='Chromium$' manage=off
+yabai -m rule --add title='Playwright$' manage=off
 
 yabai -m rule --add app="^Arc$" space=1
 yabai -m rule --add app="^Chrome$" space=1
