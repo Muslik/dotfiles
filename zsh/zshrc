@@ -1,8 +1,11 @@
 ZSH_THEME=""
+ZSH_HIGHLIGHT_MAXLENGTH=512
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
 ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=red')
 
 #SOURCING
+source ~/dotfiles/zsh/sourced/antigen.zsh
+
 for file in $HOME/dotfiles/zsh/sourced/*; do
 	source "$file"
 done
