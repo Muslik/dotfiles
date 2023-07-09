@@ -67,7 +67,7 @@ M.setup = function()
         end
         if not isReactDTs then
           --[[ this sets the value for the quickfix list ]]
-            vim.fn.setqflist(util.locations_to_items(result))
+          vim.fn.setqflist(util.locations_to_items(result))
           --[[ this opens the quickfix window ]]
           vim.api.nvim_command('copen')
           vim.api.nvim_command('wincmd p')
@@ -78,12 +78,17 @@ M.setup = function()
     end
   end
 
+  vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+    update_in_insert = false,
+  })
+
   vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = 'rounded',
     width = 70,
   })
-  vim.lsp.handlers['textDocument/hover'] = function(_, result, ctx, config)
-    local c = config or {}
+
+  vim.lsp.handlers['textDocument/hover'] = function(_, result, ctx, handleConfig)
+    local c = handleConfig or {}
     c.border = 'rounded'
     c.max_width = 80
     c.max_height = 80

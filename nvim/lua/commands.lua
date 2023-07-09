@@ -8,3 +8,7 @@ end, {})
 api.nvim_create_user_command('LspToggleAutoFormat', function()
   cmd("lua require('lsp.handlers').toggle_format_on_save()")
 end, {})
+
+api.nvim_create_user_command("JsonF", function()
+  cmd("%!jq .")
+end, {})

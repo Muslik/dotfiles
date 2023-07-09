@@ -229,6 +229,7 @@ local mappings = {
     g = { '<cmd>lua _GITUI_TOGGLE()<cr>', 'GitUi' },
     n = { '<cmd>lua _NODE_TOGGLE()<cr>', 'Node' },
     h = { '<cmd>lua _HTOP_TOGGLE()<cr>', 'Htop' },
+    j = { '<cmd>JsonF<cr>', 'Format Json'}
   },
 
   T = {
