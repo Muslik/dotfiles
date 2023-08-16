@@ -3,20 +3,27 @@ ZSH_HIGHLIGHT_MAXLENGTH=512
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
 ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=red')
 
-#SOURCING
-source ~/dotfiles/zsh/sourced/antigen.zsh
+# Clone antidote if necessary.
+[[ -e ${ZDOTDIR:-~}/.antidote ]] ||
+  git clone https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
+#TYPO CORRECTION
+unsetopt correct_all
+
+# Source antidote.
+source ${ZDOTDIR:-~}/.antidote/antidote.zsh
+
+# Initialize antidote's dynamic mode, which changes `antidote bundle`
+# from static mode.
+source <(antidote init)
+
+antidote bundle zsh-users/zsh-autosuggestions
+antidote bundle zsh-users/zsh-syntax-highlighting
+
 
 for file in $HOME/dotfiles/zsh/sourced/*; do
 	source "$file"
 done
 
-# PLUGINS
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
-antigen apply
-
-#TYPO CORRECTION
-unsetopt correct_all
 
 bindkey -v
 bindkey -M viins 'jk' vi-cmd-mode

@@ -35,7 +35,6 @@ ln -s ~/dotfiles/nvim ~/.config/nvim
 ln -s ~/dotfiles/ranger ~/.config/ranger
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
-ln -s ~/dotfiles/zshenv ~/.zshenv
 ln -s ~/dotfiles/yabai ~/.config/yabai
 ln -s ~/dotfiles/skhd ~/.config/skhd
 ln -s ~/dotfiles/spacebar ~/.config/spacebar
