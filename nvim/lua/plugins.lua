@@ -44,7 +44,7 @@ packer.startup(function(use)
   use('nvim-lua/plenary.nvim')
   use('nathom/filetype.nvim')
   use('kyazdani42/nvim-web-devicons')
-  use({'glepnir/dashboard-nvim', commit = '8f5b3996ec99e53af8c78a8a238a571604a95d96'})
+  use({ 'glepnir/dashboard-nvim', commit = '8f5b3996ec99e53af8c78a8a238a571604a95d96' })
 
   -- Themes
   use({
@@ -107,7 +107,7 @@ packer.startup(function(use)
   use({ 'saadparwaiz1/cmp_luasnip' })
 
   -- LSP Addons
-  use({'j-hui/fidget.nvim', tag = 'legacy'})
+  use({ 'j-hui/fidget.nvim', tag = 'legacy' })
   use('ray-x/lsp_signature.nvim')
   use({
     'williamboman/mason.nvim',
@@ -145,7 +145,7 @@ packer.startup(function(use)
   use('windwp/nvim-spectre')
   use('folke/which-key.nvim')
   use('lewis6991/impatient.nvim')
-  use('lukas-reineke/indent-blankline.nvim')
+  use({'lukas-reineke/indent-blankline.nvim', main = "ibl"})
   use('tpope/vim-surround')
   use({ 'numToStr/Comment.nvim' })
   use({ 'akinsho/toggleterm.nvim' })

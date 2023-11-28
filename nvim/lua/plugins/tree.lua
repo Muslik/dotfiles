@@ -48,7 +48,6 @@ neo_tree.setup({
         '.git',
       },
     },
-    follow_current_file = true,
   },
   window = {
     position = 'float',

@@ -16,6 +16,7 @@ local servers = {
   'lua_ls',
   'tsserver',
   'yamlls',
+  'tailwindcss'
 }
 
 local settings = {

@@ -117,7 +117,7 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
   sources = {
-    { name = 'nvim_lsp' },
+    { name = 'nvim_lsp', max_item_count = 10 },
     { name = 'path' },
     { name = 'luasnip' },
     { name = 'nvim_lua' },

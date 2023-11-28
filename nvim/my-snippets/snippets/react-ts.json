@@ -11,5 +11,21 @@
       "}"
     ],
     "description": "React function component"
+  },
+  "React function component with styles": {
+    "prefix": "rfcs",
+    "body": [
+      "import React from 'react';",
+      "import cls from 'classnames';",
+      "",
+      "import styles from './${TM_FILENAME_BASE}.scss';",
+      "",
+      "type Props = {};",
+      "",
+      "export const ${TM_FILENAME_BASE} = ({ }: Props) => {",
+      "  return <div>$0</div>",
+      "}"
+    ],
+    "description": "React function component"
   }
 }

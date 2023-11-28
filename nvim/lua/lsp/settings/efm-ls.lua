@@ -2,7 +2,7 @@ local tbl_keys = vim.tbl_keys
 local loop = vim.loop
 
 local prettier = {
-  formatCommand = './node_modules/.bin/prettier --stdin-filepath ${INPUT} || prettier --config ~/dotfiles/prettierconfig_default.yaml --stdin-filepath ${INPUT}',
+  formatCommand = 'npx prettier --stdin-filepath ${INPUT} || prettier --config ~/dotfiles/prettierconfig_default.yaml --stdin-filepath ${INPUT}',
   formatStdin = true,
 }
 

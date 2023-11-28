@@ -83,7 +83,7 @@ local mappings = {
   ['w'] = { '<cmd>w<CR>', 'Write' },
   ['q'] = { '<cmd>q<CR>', 'Quit' },
   ['h'] = { '<cmd>nohlsearch<CR>', 'No HL' },
-  ['c'] = { '<cmd>Bdelete!<CR>', 'Close Buffer' },
+  ['c'] = { '<cmd>bdelete<CR>', 'Close Buffer' },
 
   ['z'] = { '<cmd>ZenMode<cr>', 'Zen' },
 
@@ -107,7 +107,7 @@ local mappings = {
 
   e = {
     name = 'Edit',
-    c = { "<cmd>cd ~/dotfiles | edit $MYVIMRC<cr>", 'Edit nvim config' },
+    c = { '<cmd>cd ~/dotfiles | edit $MYVIMRC<cr>', 'Edit nvim config' },
   },
 
   r = {
@@ -142,7 +142,7 @@ local mappings = {
       'Find files',
     },
     g = {
-      "<cmd>lua require('telescope.builtin').git_files(require('telescope.themes').get_dropdown{path_display = {'smart'}, previewer = false})<cr>",
+      "<cmd>lua require('telescope.builtin').git_files(require('telescope.themes').get_dropdown{path_display = {'full'}, previewer = false})<cr>",
       'Git find files',
     },
     b = {
@@ -229,7 +229,7 @@ local mappings = {
     g = { '<cmd>lua _GITUI_TOGGLE()<cr>', 'GitUi' },
     n = { '<cmd>lua _NODE_TOGGLE()<cr>', 'Node' },
     h = { '<cmd>lua _HTOP_TOGGLE()<cr>', 'Htop' },
-    j = { '<cmd>JsonF<cr>', 'Format Json'}
+    j = { '<cmd>JsonF<cr>', 'Format Json' },
   },
 
   T = {

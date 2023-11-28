@@ -11,8 +11,8 @@
 # see this wiki page for information:
 #  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)
 #
-sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
 
 #!/usr/bin/env sh
 
@@ -57,9 +57,14 @@ yabai -m rule --add app='^System' manage=off
 yabai -m rule --add title='Preferences$' manage=off
 
 # float settings windows
+# yabai -m rule --add title='Telegram$' manage=off
 yabai -m rule --add title='Settings$' manage=off
 yabai -m rule --add title='Chromium$' manage=off
 yabai -m rule --add title='Playwright$' manage=off
+yabai -m rule --add title='Playwright$' manage=off
+yabai -m rule --add title='Preview$' manage=off
+yabai -m rule --add title='Tunnelblick$' manage=off
+yabai -m rule --add title='TunnelBear$' manage=off
 
 yabai -m rule --add app="^Arc$" space=1
 yabai -m rule --add app="^Chrome$" space=1
