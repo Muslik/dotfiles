@@ -4,6 +4,7 @@ if not status_ok then
 end
 
 local servers = {
+  'clangd',
   'cssls',
   'bashls',
   'cssmodules_ls',
@@ -20,7 +21,7 @@ local servers = {
 }
 
 local settings = {
-  --[[ ensure_installed = servers, ]]
+  ensure_installed = servers,
 }
 
 mason_lspconfig.setup(settings)
@@ -78,6 +79,11 @@ for _, server in pairs(servers) do
 
   if server == 'cssmodules_ls' then
     local server_opts = require('lsp/settings/cssmodules-ls')
+    opts = vim.tbl_deep_extend('force', server_opts, opts)
+  end
+
+  if server == 'clangd' then
+    local server_opts = require('lsp/settings/clangd')
     opts = vim.tbl_deep_extend('force', server_opts, opts)
   end
 

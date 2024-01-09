@@ -31,10 +31,6 @@ configs.setup({
       return is_big_file(buf)
     end,
   },
-  context_commentstring = {
-    enable = true,
-    enable_autocmd = false,
-  },
   autotag = {
     enable = true,
   },
