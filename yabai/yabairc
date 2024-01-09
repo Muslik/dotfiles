@@ -61,7 +61,6 @@ yabai -m rule --add title='Preferences$' manage=off
 yabai -m rule --add title='Settings$' manage=off
 yabai -m rule --add title='Chromium$' manage=off
 yabai -m rule --add title='Playwright$' manage=off
-yabai -m rule --add title='Playwright$' manage=off
 yabai -m rule --add title='Preview$' manage=off
 yabai -m rule --add title='Tunnelblick$' manage=off
 yabai -m rule --add title='TunnelBear$' manage=off

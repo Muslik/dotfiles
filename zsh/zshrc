@@ -18,6 +18,7 @@ source <(antidote init)
 
 antidote bundle zsh-users/zsh-autosuggestions
 antidote bundle zsh-users/zsh-syntax-highlighting
+antidote bundle sindresorhus/pure
 
 
 for file in $HOME/dotfiles/zsh/sourced/*; do
@@ -50,9 +51,9 @@ fi
 
 # if [ "$ZSH_TMUX_AUTOSTART" = true ] && [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux new-session -As main; fi
 
-# Set Spaceship ZSH as a prompt
-fpath+=("$(brew --prefix)/share/zsh/site-functions")
-autoload -U promptinit; promptinit
-prompt pure
+autoload -Uz compinit && compinit
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# bun completions
+[ -s "/Users/dzhabrail/.bun/_bun" ] && source "/Users/dzhabrail/.bun/_bun"
