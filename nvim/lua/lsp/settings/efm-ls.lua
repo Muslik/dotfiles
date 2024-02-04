@@ -6,6 +6,11 @@ local prettier = {
   formatStdin = true,
 }
 
+local clangd = {
+  formatCommand = 'clang-format -assume-filename=${INPUT} -style=file',
+  formatStdin = true,
+}
+
 local rust_fmt = {
   formatCommand = 'rustfmt --emit=stdout --edition 2021',
   formatStdin = true,
@@ -18,6 +23,7 @@ local stylua = {
 }
 
 local format_config = {
+  c = { clangd },
   css = { prettier },
   html = { prettier },
   javascript = { prettier },
