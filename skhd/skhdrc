@@ -1,5 +1,6 @@
 # Aplications
 cmd - return  : open -a kitty.app
+cmd + alt - e : open -a Visual\ Studio\ Code.app
 cmd + alt - t : open -a telegram.app
 cmd + alt - d : open -a discord.app
 cmd + alt - m : open -a spotify.app
