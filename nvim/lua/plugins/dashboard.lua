@@ -5,63 +5,41 @@ end
 
 local icons = VimConfig.icons
 
--- Created with figlet
-db.custom_header = {
-  '                                                                ',
-  '                                                                ',
-  '                                                                ',
-  '                                                                ',
-  '                                                                ',
-  '████████▄   ▄███████▄     ▄█    █▄       ▄████████ ▀█████████▄  ',
-  '███   ▀███ ██▀     ▄██   ███    ███     ███    ███   ███    ███ ',
-  '███    ███       ▄███▀   ███    ███     ███    ███   ███    ███ ',
-  '███    ███  ▀█▀▄███▀▄▄  ▄███▄▄▄▄███▄▄   ███    ███  ▄███▄▄▄██▀  ',
-  '███    ███   ▄███▀   ▀ ▀▀███▀▀▀▀███▀  ▀███████████ ▀▀███▀▀▀██▄  ',
-  '███    ███ ▄███▀         ███    ███     ███    ███   ███    ██▄ ',
-  '███   ▄███ ███▄     ▄█   ███    ███     ███    ███   ███    ███ ',
-  '████████▀   ▀████████▀   ███    █▀      ███    █▀  ▄█████████▀  ',
-  '                                                                ',
-  '                                                                ',
-  '                                                                ',
-  '                                                                ',
-  '                                                                ',
-}
-
-db.custom_center = {
-  {
-    icon = icons.fileNoBg .. ' ',
-    desc = 'Find File                  ',
-    action = "lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{path_display = {'smart'}, previewer = false})",
-    shortcut = 'SPC f f'
+db.setup({
+  theme = 'hyper',
+  config = {
+    week_header = {
+      enable = true,
+    },
+    project = {
+      icon = icons.folderOpenNoBg,
+    },
+    mru = {
+      icon = icons.fileNoBg,
+    },
+    shortcut = {
+      {
+        icon = icons.ui.CloudDownload .. '  ',
+        desc = 'Update',
+        group = '@property',
+        action = 'Lazy update',
+        key = 'u',
+      },
+      { icon = icons.fileNoBg .. ' ', desc = 'Files', group = 'Label', action = 'Telescope find_files', key = 'f' },
+      {
+        icon = icons.settings .. ' ',
+        desc = 'Dotfiles',
+        group = 'Number',
+        action = 'cd ~/dotfiles | edit $MYVIMRC',
+        key = 'd',
+      },
+      {
+        icon = icons.container .. ' ',
+        desc = 'Exit',
+        group = 'DiagnosticHint',
+        action = ':q!',
+        key = 'q',
+      },
+    },
   },
-  {
-    icon = icons.t .. ' ',
-    desc = 'Find Word                  ',
-    action = 'Telescope live_grep theme=ivy',
-    shortcut = 'SPC f t'
-  },
-  {
-    icon = icons.folder .. ' ',
-    desc = 'Projects                   ',
-    action = 'Telescope projects',
-    shortcut = 'SPC f p'
-  },
-  {
-    icon = icons.timer .. ' ',
-    desc = 'Recent Files               ',
-    action = 'Telescope oldfiles',
-    shortcut = 'SPC f r'
-  },
-  {
-    icon = icons.settings .. ' ',
-    desc = 'Open configuration         ',
-    action = 'cd ~/dotfiles | edit $MYVIMRC',
-    shortcut = 'SPC e c'
-  },
-  {
-    icon = icons.container .. ' ',
-    desc = 'Exit                       ',
-    action = 'exit',
-    shortcut = 'SPC q  '
-  },
-}
+})

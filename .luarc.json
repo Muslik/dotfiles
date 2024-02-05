@@ -1,0 +1,7 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "dirname",
+        "shell_call"
+    ]
+}
