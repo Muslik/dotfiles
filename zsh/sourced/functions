@@ -102,7 +102,20 @@ function dot()
 
 function gco()
 {
-  git checkout `git for-each-ref --format "%(HEAD) %(refname:short)" | fzf --height 25%`
+  if [ -d .git ]; then
+    git checkout `git for-each-ref --format "%(HEAD) %(refname:short)" | fzf --height 25%`
+  else
+    echo "Not a git repository"
+  fi
+}
+
+function gws()
+{
+  if [ -d .git ]; then
+    cd `git worktree list | fzf --height 10% | awk '{print $1}'`
+  else
+    echo "Not a git repository"
+  fi
 }
 
 function wmtoggle()
