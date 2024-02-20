@@ -18,8 +18,7 @@ source <(antidote init)
 
 antidote bundle zsh-users/zsh-autosuggestions
 antidote bundle zsh-users/zsh-syntax-highlighting
-antidote bundle sindresorhus/pure
-
+eval "$(starship init zsh)"
 
 for file in $HOME/dotfiles/zsh/sourced/*; do
 	source "$file"
@@ -40,16 +39,8 @@ zle -N zle-keymap-select
 #HISTORY
 HISTFILE=~/.zsh_history
 SAVEHIST=10000
-ZSH_TMUX_AUTOSTART=false
 setopt inc_append_history
 setopt share_history
-
-if [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]
-then
-   ZSH_TMUX_AUTOSTART=true
-fi
-
-# if [ "$ZSH_TMUX_AUTOSTART" = true ] && [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux new-session -As main; fi
 
 autoload -Uz compinit && compinit
 
