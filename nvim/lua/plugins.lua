@@ -25,6 +25,7 @@ lazy.setup({
   'catppuccin/nvim',
   'folke/tokyonight.nvim',
   'oxfist/night-owl.nvim',
+  'craftzdog/solarized-osaka.nvim',
   -- Treesitter
   {
     'nvim-treesitter/nvim-treesitter',
@@ -59,7 +60,6 @@ lazy.setup({
   'onsails/lspkind-nvim',
   'folke/trouble.nvim',
   'b0o/SchemaStore.nvim',
-  {'vimwiki/vimwiki', ft = { 'markdown', 'wiki' }},
   'ahmedkhalf/project.nvim',
   'kevinhwang91/nvim-bqf',
   'folke/todo-comments.nvim',
@@ -71,12 +71,14 @@ lazy.setup({
   'windwp/nvim-spectre',
   'folke/which-key.nvim',
   'lewis6991/impatient.nvim',
-  {'lukas-reineke/indent-blankline.nvim', main = "ibl"},
+  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl' },
   'tpope/vim-surround',
   'numToStr/Comment.nvim',
   'akinsho/toggleterm.nvim',
   'nvim-lualine/lualine.nvim',
   'simrat39/symbols-outline.nvim',
+
+  { 'ThePrimeagen/harpoon', branch = 'harpoon2' },
 
   -- Snippets & Language & Syntax
   'jose-elias-alvarez/typescript.nvim',
@@ -89,12 +91,18 @@ lazy.setup({
   'abecodes/tabout.nvim',
 
   'nvim-neo-tree/neo-tree.nvim',
+  {
+    'echasnovski/mini.nvim',
+    config = function()
+      require('mini.files').setup()
+    end,
+  },
   'MunifTanjim/nui.nvim',
   's1n7ax/nvim-window-picker',
 
-
   { 'iamcco/markdown-preview.nvim', build = 'cd app && npm install' },
   'lewis6991/gitsigns.nvim',
+  'tpope/vim-fugitive',
   'zbirenbaum/copilot.lua',
-  'folke/zen-mode.nvim'
+  'folke/zen-mode.nvim',
 })

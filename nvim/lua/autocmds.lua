@@ -4,7 +4,7 @@ local highlight_group = api.nvim_create_augroup('YankHighlight', { clear = true 
 api.nvim_command([[autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |  exe "normal! g`\"" | endif]])
 
 api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'qf', 'help', 'man', 'lspinfo', 'spectre_panel' },
+  pattern = { 'qf', 'help', 'man', 'lspinfo', 'spectre_panel', 'fugitive' },
   callback = function()
     vim.cmd([[
       nnoremap <silent> <buffer> q :close<CR> 
