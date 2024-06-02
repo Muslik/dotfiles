@@ -53,7 +53,7 @@ map('v', 'p', '"_dP')
 map('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-map('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+--[[ map('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>') ]]
 map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
 map('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<CR>')

@@ -41,7 +41,7 @@ lazy.setup({
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   'nvim-telescope/telescope-live-grep-args.nvim',
   'nvim-telescope/telescope-node-modules.nvim',
-  'dhruvmanila/telescope-bookmarks.nvim',
+  'dhruvmanila/browser-bookmarks.nvim',
   'stevearc/dressing.nvim',
   'hrsh7th/nvim-cmp',
   'hrsh7th/cmp-nvim-lsp',
@@ -83,12 +83,21 @@ lazy.setup({
   -- Snippets & Language & Syntax
   'jose-elias-alvarez/typescript.nvim',
   'simrat39/rust-tools.nvim',
-  'NTBBloodbath/rest.nvim',
+  {
+    'vhyrro/luarocks.nvim',
+    priority = 1000,
+    config = true,
+  },
+  { 'NTBBloodbath/rest.nvim', dependencies = { 'luarocks.nvim' } },
   'mattn/emmet-vim',
   'windwp/nvim-autopairs',
   'norcalli/nvim-colorizer.lua',
   'rafamadriz/friendly-snippets',
   'abecodes/tabout.nvim',
+
+  -- Debug
+  'mfussenegger/nvim-dap',
+  'rcarriga/nvim-dap-ui',
 
   'nvim-neo-tree/neo-tree.nvim',
   {

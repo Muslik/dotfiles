@@ -15,9 +15,11 @@ local servers = {
   'jsonls',
   'rust_analyzer',
   'lua_ls',
+  'prismals',
   'tsserver',
   'yamlls',
-  'tailwindcss'
+  'tailwindcss',
+  'volar'
 }
 
 local settings = {

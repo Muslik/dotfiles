@@ -16,11 +16,10 @@ curl -L git.io/antigen > ~/dotfiles/zsh/sourced/antigen.zsh
 echo $green"\nINSTALLING BREW PLUGINS: $def\n"
 brew bundle --file BrewFile
 
-sudo yabai --install-sa
-sudo yabai --load-sa
 brew services start yabai
 brew services start skhd
-brew services start spacebar
+echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 $(which yabai) | cut -d " " -f 1) $(which yabai) --load-sa" | sudo tee /private/etc/sudoers.d/yabai
+sudo yabai --load-sa
 
 #REMOVE OLD CONFIGS
 echo $green"\nSETUP CONFIGS: $def\n"
@@ -29,6 +28,7 @@ rm -rf ~/.zshrc ~/.zshenv ~/.config/{gitui,ranger,nvim,kitty,yabai,skhd,spacebar
 #SYMLINKS
 mkdir -p ~/.config
 mkdir -p ~/.config/tmuxinator
+ln -s ~/dotfiles/helix ~/.config/helix
 ln -s ~/dotfiles/kitty ~/.config/kitty
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 ln -s ~/dotfiles/nvim ~/.config/nvim

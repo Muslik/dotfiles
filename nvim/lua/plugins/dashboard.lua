@@ -6,7 +6,7 @@ end
 local icons = VimConfig.icons
 
 db.setup({
-  theme = 'hyper',
+  theme = 'doom',
   config = {
     week_header = {
       enable = true,
