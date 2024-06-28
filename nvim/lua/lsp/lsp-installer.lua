@@ -19,11 +19,28 @@ local servers = {
   'tsserver',
   'yamlls',
   'tailwindcss',
-  'volar'
+  'volar',
 }
 
 local settings = {
-  ensure_installed = servers,
+  ensure_installed = {
+    'clangd',
+    'cssls',
+    'bashls',
+    'cssmodules_ls',
+    'dockerls',
+    'efm',
+    'eslint@4.8.0',
+    'html',
+    'jsonls',
+    'rust_analyzer',
+    'lua_ls',
+    'prismals',
+    'tsserver',
+    'yamlls',
+    'tailwindcss',
+    'volar',
+  },
 }
 
 mason_lspconfig.setup(settings)

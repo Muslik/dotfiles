@@ -88,7 +88,6 @@ lazy.setup({
     priority = 1000,
     config = true,
   },
-  { 'NTBBloodbath/rest.nvim', dependencies = { 'luarocks.nvim' } },
   'mattn/emmet-vim',
   'windwp/nvim-autopairs',
   'norcalli/nvim-colorizer.lua',

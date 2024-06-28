@@ -6,7 +6,7 @@ hop.setup()
 
 local map = require('utils').map
 
-map('', 'z', ':HopWordCurrentLine<cr>', { silent = true })
+map('', 'zz', ':HopWordCurrentLine<cr>', { silent = true })
 map('', 'Z', ':HopPattern<cr>', { silent = true })
 
 map(
