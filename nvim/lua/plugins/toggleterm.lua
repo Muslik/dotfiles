@@ -6,7 +6,8 @@ end
 toggleterm.setup({
   -- size can be a number or function which is passed the current terminal
   size = 20,
-  open_mapping = [[<leader>tt]],
+  open_mapping = [[<C-t>]],
+  autochdir = true,
   direction = 'float',
   insert_mappings = false,
   float_opts = {

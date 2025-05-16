@@ -60,7 +60,7 @@ M.setup = function()
       if #result > 1 then
         local isReactDTs = false
         for _, value in pairs(result) do
-          if string.match(value.targetUri, 'react/index.d.ts') then
+          if value.targetUri and string.match(value.targetUri, 'react/index.d.ts') then
             isReactDTs = true
             break
           end

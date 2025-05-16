@@ -3,6 +3,10 @@ if not status_ok then
   return
 end
 
+local noice = require('noice')
+
+print(noice.api.statusline.mode.get(), noice.api.statusline.mode.has())
+
 vim.api.nvim_set_hl(0, 'SLGitIcon', { fg = '#E8AB53', bg = '#303030' })
 vim.api.nvim_set_hl(0, 'SLBranchName', { fg = '#D4D4D4', bg = '#303030', bold = false })
 vim.api.nvim_set_hl(0, 'SLProgress', { fg = '#D4D4D4', bg = '#303030' })
@@ -130,7 +134,7 @@ lualine.setup({
   options = {
     globalstatus = false,
     icons_enabled = true,
-    theme = 'catppuccin',
+    theme = 'rose-pine',
     component_separators = { left = '', right = '' },
     section_separators = { left = '', right = '' },
     disabled_filetypes = { 'dashboard' },
@@ -139,8 +143,25 @@ lualine.setup({
   sections = {
     lualine_a = { mode, branch },
     lualine_b = {},
-    lualine_c = { filetype, filename },
-    lualine_x = { diff, diagnostics },
+    lualine_c = {
+      filetype,
+      filename,
+      {
+        noice.api.statusline.mode.get,
+        cond = function()
+          if not noice.api.statusline.mode.has() then
+            return false
+          end
+
+          return noice.api.statusline.mode.has() and string.find(noice.api.statusline.mode.get(), "recording") ~= nil
+        end,
+        color = { fg = '#ff9e64' },
+      },
+    },
+    lualine_x = {
+      diff,
+      diagnostics,
+    },
     lualine_y = { progress },
     lualine_z = { location },
   },

@@ -32,11 +32,17 @@ local stylua = {
   rootMarkers = { 'stylua.toml', '.stylua.toml' },
 }
 
+local mix_format = {
+		formatCommand = 'mix format -',
+		formatStdin = true
+	}
+
 local format_config = {
   c = { clangd },
   css = { prettier },
   html = { prettier },
   javascript = { eslint, prettier },
+  elixir = { mix_format },
   javascriptreact = { eslint, prettier },
   json = { prettier },
   lua = { stylua },

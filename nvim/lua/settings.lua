@@ -10,7 +10,7 @@ local options = {
   backup = false, -- don't backup files
   writebackup = false, -- don't backup files
   number = true, -- number lines
-  relativenumber = false, -- relativenumber lines
+  relativenumber = true, -- relativenumber lines
   sessionoptions = 'tabpages,globals',
   shiftwidth = 2,
   pumheight = 12, -- height of the popup menu
@@ -20,7 +20,6 @@ local options = {
   smartcase = true, -- don't ignore case if search with uppercase
   ignorecase = true, -- ignore case on search
   smarttab = true, -- smart tab behavior
-  lazyredraw = true, -- don't redray while executing macros (perfomance)
   swapfile = false, -- creates swapfile
   showcmd = false, -- don't show command in status line
   tabstop = 2, -- tab size
@@ -34,6 +33,9 @@ local options = {
   splitbelow = true, -- split windows below
   completeopt = 'menuone,noselect',
   guifont = { "Fira Code", ":h15" },
+  foldmethod= "expr",
+  foldexpr = "nvim_treesitter#foldexpr()",
+  foldenable = false
 }
 
 for k, v in pairs(options) do

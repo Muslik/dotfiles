@@ -26,23 +26,16 @@ local setup = {
   -- add operators that will trigger motion and text object completion
   -- to enable all native operators, set the preset / operators plugin above
   -- operators = { gc = "Comments" },
-  key_labels = {
-    -- override the label used to display some keys. It doesn't effect WK in any other way.
-    -- For example:
-    -- ["<space>"] = "SPC",
-    -- ["<cr>"] = "RET",
-    -- ["<tab>"] = "TAB",
-  },
   icons = {
     breadcrumb = '»', -- symbol used in the command line area that shows your active key combo
     separator = '➜ ', -- symbol used between a key and it's label
     group = '+', -- symbol prepended to a group
   },
-  popup_mappings = {
+  keys = {
     scroll_down = '<c-d>', -- binding to scroll down inside the popup
     scroll_up = '<c-u>', -- binding to scroll up inside the popup
   },
-  window = {
+  wi = {
     border = 'rounded', -- none, single, double, shadow
     position = 'bottom', -- bottom, top
     margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
@@ -55,12 +48,8 @@ local setup = {
     spacing = 3, -- spacing between columns
     align = 'center', -- align columns left, center or right
   },
-  ignore_missing = true, -- enable this to hide mappings for which you didn't specify a label
-  hidden = { '<silent>', '<cmd>', '<Cmd>', '<CR>', 'call', 'lua', '^:', '^ ' }, -- hide mapping boilerplate
   show_help = false, -- show help message on the command line when the popup is visible
-  -- triggers = "auto", -- automatically setup triggers
-  -- triggers = {"<leader>"} -- or specify a list manually
-  triggers_blacklist = {
+  trigers = {
     -- list of mode / prefixes that should never be hooked by WhichKey
     -- this is mostly relevant for key maps that start with a native binding
     -- most people should not need to change this
@@ -69,174 +58,193 @@ local setup = {
   },
 }
 
-local opts = {
-  mode = 'n', -- NORMAL mode
-  prefix = '<leader>',
-  buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-  silent = true, -- use `silent` when creating keymaps
-  noremap = true, -- use `noremap` when creating keymaps
-  nowait = true, -- use `nowait` when creating keymaps
-}
-
 local mappings = {
-  ['n'] = { '<cmd>Neotree toggle reveal<cr>', 'Explorer' },
-  ['w'] = { '<cmd>w<CR>', 'Write' },
-  ['q'] = { '<cmd>q<CR>', 'Quit' },
-  ['h'] = { '<cmd>nohlsearch<CR>', 'No HL' },
-  ['c'] = { '<cmd>bdelete<CR>', 'Close Buffer' },
+  { '<leader>;t', group = 'Neotest' },
+  { '<leader>;tt', "<cmd>lua require('neotest').run.run({ vim.fn.expand('%'), vitestCommand = 'npx vitest -w' })<cr>", desc = 'Run file' },
+  { '<leader>;tr', "<cmd>lua require('neotest').run.run()<cr>", desc = 'Run nearest' },
+  { '<leader>;tT', "<cmd>lua require('neotest').run.run(vim.loop.cwd())<cr>", desc = 'Run All Test file' },
+  { '<leader>;tl', "<cmd>lua require('neotest').run.run_last()<cr>", desc = 'Run last' },
+  { '<leader>;ts', "<cmd>lua require('neotest').summary.toggle()<cr>", desc = 'Toggle summary' },
+  { '<leader>;to', "<cmd>lua require('neotest').output.open({ enter = true, auto_close = true })<cr>", desc = 'Toggle output panel' },
+  { '<leader>;tO', "<cmd>lua require('neotest').output_panel.toggle()<cr>", desc = 'Toggle output panel' },
+  { '<leader>;tS', "<cmd>lua require('neotest').run.stop()<cr>", desc = 'Stop' },
 
-  ['z'] = { '<cmd>ZenMode<cr>', 'Zen' },
-
-  B = {
-    name = 'Browse',
-    i = { '<cmd>BrowseInputSearch<cr>', 'Input Search' },
-    b = { '<cmd>Telescope bookmarks<cr>', 'Browser bookmarks' },
-    d = { '<cmd>BrowseDevdocsSearch<cr>', 'Devdocs' },
-    f = { '<cmd>BrowseDevdocsFiletypeSearch<cr>', 'Devdocs Filetype' },
-    m = { '<cmd>BrowseMdnSearch<cr>', 'Mdn' },
+  { '<leader>B', group = 'Browse', nowait = true, remap = false },
+  { '<leader>Bb', '<cmd>Telescope bookmarks<cr>', desc = 'Browser bookmarks', nowait = true, remap = false },
+  { '<leader>Bd', '<cmd>BrowseDevdocsSearch<cr>', desc = 'Devdocs', nowait = true, remap = false },
+  { '<leader>Bf', '<cmd>BrowseDevdocsFiletypeSearch<cr>', desc = 'Devdocs Filetype', nowait = true, remap = false },
+  { '<leader>Bi', '<cmd>BrowseInputSearch<cr>', desc = 'Input Search', nowait = true, remap = false },
+  { '<leader>Bm', '<cmd>BrowseMdnSearch<cr>', desc = 'Mdn', nowait = true, remap = false },
+  { '<leader>T', group = 'Treesitter', nowait = true, remap = false },
+  { '<leader>Tr', '<cmd>TSToggle rainbow<cr>', desc = 'Rainbow', nowait = true, remap = false },
+  { '<leader>c', '<cmd>bdelete<CR>', desc = 'Close Buffer', nowait = true, remap = false },
+  { '<leader>d', group = 'Debug', nowait = true, remap = false },
+  { '<leader>dO', "<cmd>lua require'dap'.step_out()<cr>", desc = 'Out', nowait = true, remap = false },
+  { '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>", desc = 'Breakpoint', nowait = true, remap = false },
+  { '<leader>dc', "<cmd>lua require'dap'.continue()<cr>", desc = 'Continue', nowait = true, remap = false },
+  { '<leader>di', "<cmd>lua require'dap'.step_into()<cr>", desc = 'Into', nowait = true, remap = false },
+  { '<leader>dl', "<cmd>lua require'dap'.run_last()<cr>", desc = 'Last', nowait = true, remap = false },
+  { '<leader>do', "<cmd>lua require'dap'.step_over()<cr>", desc = 'Over', nowait = true, remap = false },
+  { '<leader>dr', "<cmd>lua require'dap'.repl.toggle()<cr>", desc = 'Repl', nowait = true, remap = false },
+  { '<leader>du', "<cmd>lua require'dapui'.toggle()<cr>", desc = 'UI', nowait = true, remap = false },
+  { '<leader>dx', "<cmd>lua require'dap'.terminate()<cr>", desc = 'Exit', nowait = true, remap = false },
+  { '<leader>e', group = 'Edit', nowait = true, remap = false },
+  { '<leader>ec', '<cmd>cd ~/dotfiles | edit $MYVIMRC<cr>', desc = 'Edit nvim config', nowait = true, remap = false },
+  { '<leader>f', group = 'Find', nowait = true, remap = false },
+  { '<leader>fC', '<cmd>Telescope commands<cr>', desc = 'Commands', nowait = true, remap = false },
+  { '<leader>fM', '<cmd>Telescope man_pages<cr>', desc = 'Man Pages', nowait = true, remap = false },
+  { '<leader>fR', '<cmd>Telescope registers<cr>', desc = 'Registers', nowait = true, remap = false },
+  {
+    '<leader>fT',
+    '<cmd>lua require("telescope").extensions.live_grep_args.live_grep_args(require("telescope.themes").get_ivy())<cr>',
+    desc = 'Find Text With Args',
+    nowait = true,
+    remap = false,
   },
-
-  p = {
-    name = 'Packer',
-    c = { '<cmd>PackerCompile<cr>', 'Compile' },
-    i = { '<cmd>PackerInstall<cr>', 'Install' },
-    s = { '<cmd>PackerSync<cr>', 'Sync' },
-    S = { '<cmd>PackerStatus<cr>', 'Status' },
-    u = { '<cmd>PackerUpdate<cr>', 'Update' },
+  {
+    '<leader>fb',
+    '<cmd>lua require("telescope.builtin").buffers(require("telescope.themes").get_dropdown{previewer = false})<cr>',
+    desc = 'Buffers',
+    nowait = true,
+    remap = false,
   },
-
-  e = {
-    name = 'Edit',
-    c = { '<cmd>cd ~/dotfiles | edit $MYVIMRC<cr>', 'Edit nvim config' },
+  { '<leader>fc', '<cmd>Telescope colorscheme<cr>', desc = 'Colorscheme', nowait = true, remap = false },
+  {
+    '<leader>ff',
+    "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{path_display = {'truncate'}, previewer = true})<cr>",
+    desc = 'Find files',
+    nowait = true,
+    remap = false,
   },
-
-  r = {
-    name = 'Replace',
-    r = { "<cmd>lua require('spectre').open()<cr>", 'Replace' },
-    w = { "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", 'Replace Word' },
-    f = { "<cmd>lua require('spectre').open_file_search()<cr>", 'Replace Buffer' },
+  {
+    '<leader>fg',
+    "<cmd>lua require('telescope.builtin').git_files(require('telescope.themes').get_dropdown{path_display = {'full'}, previewer = false})<cr>",
+    desc = 'Git find files',
+    nowait = true,
+    remap = false,
   },
-
-  d = {
-    name = 'Debug',
-    b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", 'Breakpoint' },
-    c = { "<cmd>lua require'dap'.continue()<cr>", 'Continue' },
-    i = { "<cmd>lua require'dap'.step_into()<cr>", 'Into' },
-    o = { "<cmd>lua require'dap'.step_over()<cr>", 'Over' },
-    O = { "<cmd>lua require'dap'.step_out()<cr>", 'Out' },
-    r = { "<cmd>lua require'dap'.repl.toggle()<cr>", 'Repl' },
-    l = { "<cmd>lua require'dap'.run_last()<cr>", 'Last' },
-    u = { "<cmd>lua require'dapui'.toggle()<cr>", 'UI' },
-    x = { "<cmd>lua require'dap'.terminate()<cr>", 'Exit' },
+  { '<leader>fh', '<cmd>Telescope help_tags<cr>', desc = 'Help', nowait = true, remap = false },
+  { '<leader>fk', '<cmd>Telescope keymaps<cr>', desc = 'Keymaps', nowait = true, remap = false },
+  { '<leader>fl', '<cmd>Telescope resume<cr>', desc = 'Last Search', nowait = true, remap = false },
+  {
+    '<leader>fn',
+    '<cmd>lua require("telescope").extensions.node_modules.list(require("telescope.themes").get_dropdown({ previewer = false }))<cr>',
+    desc = 'Node modules',
+    nowait = true,
+    remap = false,
   },
-
-  f = {
-    name = 'Find',
-    n = {
-      '<cmd>lua require("telescope").extensions.node_modules.list(require("telescope.themes").get_dropdown({ previewer = false }))<cr>',
-      'Node modules',
-    },
-    c = { '<cmd>Telescope colorscheme<cr>', 'Colorscheme' },
-    f = {
-      "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{path_display = {'smart'}, previewer = false})<cr>",
-      'Find files',
-    },
-    g = {
-      "<cmd>lua require('telescope.builtin').git_files(require('telescope.themes').get_dropdown{path_display = {'full'}, previewer = false})<cr>",
-      'Git find files',
-    },
-    b = {
-      '<cmd>lua require("telescope.builtin").buffers(require("telescope.themes").get_dropdown{previewer = false})<cr>',
-      'Buffers',
-    },
-    t = { '<cmd>Telescope live_grep theme=ivy<cr>', 'Find Text' },
-    T = {
-      '<cmd>lua require("telescope").extensions.live_grep_args.live_grep_args(require("telescope.themes").get_ivy())<cr>',
-      'Find Text With Args',
-    },
-    p = { '<cmd>Telescope projects<cr>', 'Projects' },
-    h = { '<cmd>Telescope help_tags<cr>', 'Help' },
-    l = { '<cmd>Telescope resume<cr>', 'Last Search' },
-    M = { '<cmd>Telescope man_pages<cr>', 'Man Pages' },
-    r = { '<cmd>Telescope oldfiles<cr>', 'Recent File' },
-    R = { '<cmd>Telescope registers<cr>', 'Registers' },
-    k = { '<cmd>Telescope keymaps<cr>', 'Keymaps' },
-    C = { '<cmd>Telescope commands<cr>', 'Commands' },
+  { '<leader>fp', '<cmd>Telescope projects<cr>', desc = 'Projects', nowait = true, remap = false },
+  { '<leader>fr', '<cmd>Telescope oldfiles<cr>', desc = 'Recent File', nowait = true, remap = false },
+  { '<leader>ft', '<cmd>Telescope live_grep theme=ivy<cr>', desc = 'Find Text', nowait = true, remap = false },
+  { '<leader>g', group = 'Git', nowait = true, remap = false },
+  { '<leader>gG', group = 'Gist', nowait = true, remap = false },
+  { '<leader>gGa', '<cmd>Gist -b -a<cr>', desc = 'Create Anon', nowait = true, remap = false },
+  { '<leader>gGd', '<cmd>Gist -d<cr>', desc = 'Delete', nowait = true, remap = false },
+  { '<leader>gGf', '<cmd>Gist -f<cr>', desc = 'Fork', nowait = true, remap = false },
+  { '<leader>gGg', '<cmd>Gist -b<cr>', desc = 'Create', nowait = true, remap = false },
+  { '<leader>gGl', '<cmd>Gist -l<cr>', desc = 'List', nowait = true, remap = false },
+  { '<leader>gGp', '<cmd>Gist -b -p<cr>', desc = 'Create Private', nowait = true, remap = false },
+  {
+    '<leader>gR',
+    "<cmd>lua require 'gitsigns'.reset_buffer()<cr>",
+    desc = 'Reset Buffer',
+    nowait = true,
+    remap = false,
   },
-
-  g = {
-    name = 'Git',
-    j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", 'Next Hunk' },
-    k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", 'Prev Hunk' },
-    l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", 'Blame' },
-    p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", 'Preview Hunk' },
-    r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", 'Reset Hunk' },
-    R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", 'Reset Buffer' },
-    s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", 'Stage Hunk' },
-    u = {
-      "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
-      'Undo Stage Hunk',
-    },
-    o = { '<cmd>Telescope git_status<cr>', 'Open changed file' },
-    b = { '<cmd>Telescope git_branches<cr>', 'Checkout branch' },
-    c = { '<cmd>Telescope git_commits<cr>', 'Checkout commit' },
-    d = {
-      '<cmd>Gitsigns diffthis HEAD<cr>',
-      'Diff',
-    },
-    G = {
-      name = 'Gist',
-      a = { '<cmd>Gist -b -a<cr>', 'Create Anon' },
-      d = { '<cmd>Gist -d<cr>', 'Delete' },
-      f = { '<cmd>Gist -f<cr>', 'Fork' },
-      g = { '<cmd>Gist -b<cr>', 'Create' },
-      l = { '<cmd>Gist -l<cr>', 'List' },
-      p = { '<cmd>Gist -b -p<cr>', 'Create Private' },
-    },
+  { '<leader>gb', '<cmd>Telescope git_branches<cr>', desc = 'Checkout branch', nowait = true, remap = false },
+  { '<leader>gc', '<cmd>Telescope git_commits<cr>', desc = 'Checkout commit', nowait = true, remap = false },
+  { '<leader>gd', '<cmd>Gitsigns diffthis HEAD<cr>', desc = 'Diff', nowait = true, remap = false },
+  { '<leader>gj', "<cmd>lua require 'gitsigns'.next_hunk()<cr>", desc = 'Next Hunk', nowait = true, remap = false },
+  { '<leader>gk', "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", desc = 'Prev Hunk', nowait = true, remap = false },
+  { '<leader>gl', "<cmd>lua require 'gitsigns'.blame_line()<cr>", desc = 'Blame', nowait = true, remap = false },
+  { '<leader>go', '<cmd>Telescope git_status<cr>', desc = 'Open changed file', nowait = true, remap = false },
+  {
+    '<leader>gp',
+    "<cmd>lua require 'gitsigns'.preview_hunk()<cr>",
+    desc = 'Preview Hunk',
+    nowait = true,
+    remap = false,
   },
-
-  l = {
-    name = 'LSP',
-    a = { '<cmd>lua vim.lsp.buf.code_action()<cr>', 'Code Action' },
-    d = { '<cmd>TroubleToggle document_diagnostics<cr>', 'Diagnostics' },
-    f = { '<cmd>lua vim.lsp.buf.format({ async = true })<cr>', 'Format' },
-    F = { '<cmd>LspToggleAutoFormat<cr>', 'Toggle Autoformat' },
-    i = { '<cmd>LspInfo<cr>', 'Info' },
-    I = { '<cmd>Mason<cr>', 'Installer Info' },
-    j = {
-      '<cmd>lua vim.diagnostic.goto_next({buffer=0})<CR>',
-      'Next Diagnostic',
-    },
-    k = {
-      '<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>',
-      'Prev Diagnostic',
-    },
-    l = { '<cmd>lua vim.lsp.codelens.run()<cr>', 'CodeLens Action' },
-    r = { '<cmd>lua vim.lsp.buf.rename()<cr>', 'Rename' },
-    R = { '<cmd>LspRestart<cr>', 'Restart' },
-    s = { '<cmd>SymbolsOutline<cr>', 'Symbols Outline' },
-    t = { '<cmd>lua require("utils").toggle_diagnostics()<cr>', 'Toggle Diagnostics' },
+  { '<leader>gr', "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", desc = 'Reset Hunk', nowait = true, remap = false },
+  { '<leader>gs', "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", desc = 'Stage Hunk', nowait = true, remap = false },
+  {
+    '<leader>gu',
+    "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
+    desc = 'Undo Stage Hunk',
+    nowait = true,
+    remap = false,
   },
-
-  t = {
-    name = 'Terminal',
-    ['1'] = { ':1ToggleTerm<cr>', '1' },
-    ['2'] = { ':2ToggleTerm<cr>', '2' },
-    ['3'] = { ':3ToggleTerm<cr>', '3' },
-    ['4'] = { ':4ToggleTerm<cr>', '4' },
-    s = { '<cmd>lua _SPOTIFY()<cr>', 'Spotify' },
-    r = { '<cmd>lua _RANGER()<cr>', 'Ranger' },
-    g = { '<cmd>lua _GITUI_TOGGLE()<cr>', 'GitUi' },
-    n = { '<cmd>lua _NODE_TOGGLE()<cr>', 'Node' },
-    h = { '<cmd>lua _HTOP_TOGGLE()<cr>', 'Htop' },
-    j = { '<cmd>JsonF<cr>', 'Format Json' },
+  { '<leader>h', '<cmd>nohlsearch<CR>', desc = 'No HL', nowait = true, remap = false },
+  { '<leader>l', group = 'LSP', nowait = true, remap = false },
+  { '<leader>lF', '<cmd>LspToggleAutoFormat<cr>', desc = 'Toggle Autoformat', nowait = true, remap = false },
+  { '<leader>lI', '<cmd>Mason<cr>', desc = 'Installer Info', nowait = true, remap = false },
+  { '<leader>lR', '<cmd>LspRestart<cr>', desc = 'Restart', nowait = true, remap = false },
+  { '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>', desc = 'Code Action', nowait = true, remap = false },
+  { '<leader>ld', '<cmd>Trouble diagnostics<cr>', desc = 'Diagnostics', nowait = true, remap = false },
+  { '<leader>lf', '<cmd>lua vim.lsp.buf.format({ async = true })<cr>', desc = 'Format', nowait = true, remap = false },
+  { '<leader>li', '<cmd>LspInfo<cr>', desc = 'Info', nowait = true, remap = false },
+  {
+    '<leader>lj',
+    '<cmd>lua vim.diagnostic.goto_next({buffer=0})<CR>',
+    desc = 'Next Diagnostic',
+    nowait = true,
+    remap = false,
   },
-
-  T = {
-    name = 'Treesitter',
-    r = { '<cmd>TSToggle rainbow<cr>', 'Rainbow' },
+  {
+    '<leader>lk',
+    '<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>',
+    desc = 'Prev Diagnostic',
+    nowait = true,
+    remap = false,
   },
+  { '<leader>ll', '<cmd>lua vim.lsp.codelens.run()<cr>', desc = 'CodeLens Action', nowait = true, remap = false },
+  { '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<cr>', desc = 'Rename', nowait = true, remap = false },
+  { '<leader>ls', '<cmd>SymbolsOutline<cr>', desc = 'Symbols Outline', nowait = true, remap = false },
+  {
+    '<leader>lt',
+    '<cmd>lua require("utils").toggle_diagnostics()<cr>',
+    desc = 'Toggle Diagnostics',
+    nowait = true,
+    remap = false,
+  },
+  { '<leader>n', '<cmd>Neotree toggle reveal<cr>', desc = 'Explorer', nowait = true, remap = false },
+  { '<leader>p', group = 'Packer', nowait = true, remap = false },
+  { '<leader>pS', '<cmd>PackerStatus<cr>', desc = 'Status', nowait = true, remap = false },
+  { '<leader>pc', '<cmd>PackerCompile<cr>', desc = 'Compile', nowait = true, remap = false },
+  { '<leader>pi', '<cmd>PackerInstall<cr>', desc = 'Install', nowait = true, remap = false },
+  { '<leader>ps', '<cmd>PackerSync<cr>', desc = 'Sync', nowait = true, remap = false },
+  { '<leader>pu', '<cmd>PackerUpdate<cr>', desc = 'Update', nowait = true, remap = false },
+  { '<leader>q', '<cmd>q<CR>', desc = 'Quit', nowait = true, remap = false },
+  { '<leader>r', group = 'Replace', nowait = true, remap = false },
+  {
+    '<leader>rf',
+    "<cmd>lua require('spectre').open_file_search()<cr>",
+    desc = 'Replace Buffer',
+    nowait = true,
+    remap = false,
+  },
+  { '<leader>rr', "<cmd>lua require('spectre').open()<cr>", desc = 'Replace', nowait = true, remap = false },
+  {
+    '<leader>rw',
+    "<cmd>lua require('spectre').open_visual({select_word=true})<cr>",
+    desc = 'Replace Word',
+    nowait = true,
+    remap = false,
+  },
+  { '<leader>t', group = 'Terminal', nowait = true, remap = false },
+  { '<leader>t1', ':1ToggleTerm<cr>', desc = '1', nowait = true, remap = false },
+  { '<leader>t2', ':2ToggleTerm<cr>', desc = '2', nowait = true, remap = false },
+  { '<leader>t3', ':3ToggleTerm<cr>', desc = '3', nowait = true, remap = false },
+  { '<leader>t4', ':4ToggleTerm<cr>', desc = '4', nowait = true, remap = false },
+  { '<leader>tg', '<cmd>lua _GITUI_TOGGLE()<cr>', desc = 'GitUi', nowait = true, remap = false },
+  { '<leader>th', '<cmd>lua _HTOP_TOGGLE()<cr>', desc = 'Htop', nowait = true, remap = false },
+  { '<leader>tj', '<cmd>JsonF<cr>', desc = 'Format Json', nowait = true, remap = false },
+  { '<leader>tn', '<cmd>lua _NODE_TOGGLE()<cr>', desc = 'Node', nowait = true, remap = false },
+  { '<leader>tr', '<cmd>lua _RANGER()<cr>', desc = 'Ranger', nowait = true, remap = false },
+  { '<leader>ts', '<cmd>lua _SPOTIFY()<cr>', desc = 'Spotify', nowait = true, remap = false },
+  { '<leader>w', '<cmd>w<CR>', desc = 'Write', nowait = true, remap = false },
+  { '<leader>z', '<cmd>ZenMode<cr>', desc = 'Zen', nowait = true, remap = false },
 }
 
 which_key.setup(setup)
-which_key.register(mappings, opts)
+which_key.add(mappings)

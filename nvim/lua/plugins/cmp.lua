@@ -8,38 +8,18 @@ if not snip_status_ok then
   return
 end
 
---[[ require('luasnip/loaders/from_vscode').lazy_load() ]]
-require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./my-snippets" } })
+local lspkind = require('lspkind')
+
+require('luasnip.loaders.from_vscode').lazy_load({ paths = { './my-snippets' } })
 
 local check_backspace = function()
   local col = vim.fn.col('.') - 1
   return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')
 end
 
-local icons = require('icons')
+local cmp_autopairs = require("nvim-autopairs.completion.cmp");
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
-local source_names = {
-  nvim_lsp = "(LSP)",
-  path = "(Path)",
-  calc = "(Calc)",
-  vsnip = "(Snippet)",
-  luasnip = "(Snippet)",
-  buffer = "(Buffer)",
-  tmux = "(TMUX)",
-  copilot = "(Copilot)",
-  treesitter = "(TreeSitter)",
-};
-
-local duplicates = {
-  buffer = 1,
-  path = 1,
-  nvim_lsp = 0,
-  luasnip = 1,
-};
-
-local duplicates_default = 0;
-
--- nvim-cmp setup
 cmp.setup({
   map_cr = true, --  map <CR> on insert mode
   map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
@@ -99,36 +79,41 @@ cmp.setup({
     }),
   },
   formatting = {
-    fields = { 'kind', 'abbr', 'menu' },
-    format = function(entry, vim_item)
-      -- Kind icons
-      vim_item.kind = icons.kind[vim_item.kind]
-      vim_item.menu = source_names[entry.source.name]
-      vim_item.dup = (duplicates[entry.source.name] or duplicates_default)
-
-      return vim_item
-    end,
+    expandable_indicator = true,
+    format = lspkind.cmp_format({
+      mode = 'symbol_text',
+      maxwidth = 50,
+      ellipsis_char = '...',
+      menu = {
+        nvim_lsp = '(LSP)',
+        path = '(PATH)',
+        calc = '(Calc)',
+        vsnip = '(Snippet)',
+        luasnip = '(Snippet)',
+        buffer = '(Buffer)',
+        tmux = '(TMUX)',
+        copilot = '(Copilot)',
+        treesitter = '(TreeSitter)',
+      },
+    }),
   },
-  completion = {
-    keyword_length = 1,
-  },
+  completion = { completeopt = "menu,menuone,noinsert" },
   window = {
     completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
   sources = {
     { name = 'nvim_lsp', max_item_count = 10 },
-    { name = 'path' },
+    { name = 'path', max_item_count = 3 },
     { name = 'luasnip' },
     { name = 'nvim_lua' },
-    { name = 'buffer' },
-    { name = 'npm' },
+    { name = 'buffer', max_item_count = 5 },
   },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
     select = false,
   },
   experimental = {
-    ghost_text = false,
+    ghost_text = true,
   },
 })

@@ -13,7 +13,25 @@ local function is_big_file(buf)
 end
 
 configs.setup({
-  ensure_installed = { "bash", "c", "javascript", "json", "lua", "python", "typescript", "tsx", "css", "rust", "yaml"},
+  ensure_installed = {
+    'bash',
+    'c',
+    'erlang',
+    'elixir',
+    'eex',
+    'make',
+    'javascript',
+    'json',
+    'lua',
+    'python',
+    'typescript',
+    'tsx',
+    'css',
+    'rust',
+    'yaml',
+    'html',
+    'css'
+  },
   sync_install = false,
   ignore_install = { 'phpdoc', 'comment' },
   indent = {
@@ -31,7 +49,17 @@ configs.setup({
       return is_big_file(buf)
     end,
   },
-  autotag = {
-    enable = true,
+})
+
+local autotag_status_ok, autotag = pcall(require, 'nvim-ts-autotag')
+if not autotag_status_ok then
+  return
+end
+
+autotag.setup({
+  opts = {
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
   },
 })

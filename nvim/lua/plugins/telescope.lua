@@ -16,7 +16,6 @@ telescope.setup({
         ['<C-j>'] = actions.move_selection_next,
         ['<C-k>'] = actions.move_selection_previous,
         ['<C-d>'] = actions.delete_buffer,
-        ['?'] = action_layout.toggle_preview,
       },
       n = {
         ['<C-d>'] = actions.delete_buffer,
@@ -31,7 +30,7 @@ telescope.setup({
     find_files = {
       hidden = true,
       theme = "dropdown",
-      previewer = false
+      previewer = true
     },
     lsp_code_actions = {
       theme = 'cursor',

@@ -20,7 +20,7 @@ map('n', 's=', '<C-w>=')
 map('n', 'sr', '<C-w>r')
 map('n', 'sx', '<C-w>x')
 map('n', 'ss', '<cmd>split<CR>')
-map('n', 'sc', '<cmd>close<CR>')
+map('n', 'sc', '<cmd>:bd<CR>')
 map('n', 'sv', '<cmd>vsplit<CR>')
 
 -- Switching windows
@@ -53,7 +53,7 @@ map('v', 'p', '"_dP')
 map('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
---[[ map('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>') ]]
+--[[ map('n', 'gtd', '<cmd>lua vim.lsp.buf.type_definition()<CR>') ]]
 map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
 map('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<CR>')

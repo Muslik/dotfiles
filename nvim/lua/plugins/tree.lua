@@ -10,6 +10,27 @@ neo_tree.setup({
       use_git_status_colors = true,
       highlight = 'NeoTreeFileName',
     },
+    icon = {
+      folder_closed = '',
+      folder_open = '',
+      folder_empty = '',
+      folder_empty_open = '',
+    },
+    git_status = {
+      symbols = {
+        -- Change type
+        added = ' ',
+        deleted = ' ',
+        modified = ' ',
+        renamed = ' ',
+        -- Status type
+        untracked = ' ',
+        ignored = ' ',
+        unstaged = ' ',
+        staged = ' ',
+        conflict = ' ',
+      },
+    },
   },
   filesystem = {
     components = {

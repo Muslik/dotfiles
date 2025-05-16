@@ -11,14 +11,13 @@ local servers = {
   'dockerls',
   'efm',
   'eslint',
+  'elixirls',
   'html',
   'jsonls',
   'rust_analyzer',
   'lua_ls',
   'prismals',
-  'tsserver',
   'yamlls',
-  'tailwindcss',
   'volar',
 }
 
@@ -30,20 +29,19 @@ local settings = {
     'cssmodules_ls',
     'dockerls',
     'efm',
-    'eslint@4.8.0',
+    'eslint',
+    'elixirls',
     'html',
     'jsonls',
     'rust_analyzer',
     'lua_ls',
     'prismals',
-    'tsserver',
     'yamlls',
-    'tailwindcss',
     'volar',
   },
 }
 
-mason_lspconfig.setup(settings)
+--[[ mason_lspconfig.setup(settings) ]]
 
 local lspconfig_status_ok, lspconfig = pcall(require, 'lspconfig')
 if not lspconfig_status_ok then
@@ -72,10 +70,10 @@ for _, server in pairs(servers) do
     opts = vim.tbl_deep_extend('force', server_opts, opts)
   end
 
-  if server == 'tsserver' then
-    local typescript_opts = require('lsp/settings/tsserver')
+  if server == 'ts_ls' then
+    local typescript_opts = require('lsp/settings/ts_ls')
 
-    local typescript_status_ok, typescript = pcall(require, 'typescript')
+    local typescript_status_ok, typescript = pcall(require, 'ts_ls')
     if not typescript_status_ok then
       return
     end
@@ -105,6 +103,11 @@ for _, server in pairs(servers) do
     local server_opts = require('lsp/settings/clangd')
     opts = vim.tbl_deep_extend('force', server_opts, opts)
   end
+
+  --[[ if server == 'volar' then ]]
+  --[[   local server_opts = require('lsp/settings/volar') ]]
+  --[[   opts = vim.tbl_deep_extend('force', server_opts, opts) ]]
+  --[[ end ]]
 
   if server == 'rust_analyzer' then
     local rust_opts = require('lsp/settings/rust')
