@@ -117,6 +117,12 @@ lazy.setup({
       require('mini.files').setup()
     end,
   },
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    dependencies = { { 'echasnovski/mini.icons', opts = {} } },
+    lazy = false,
+  },
   'MunifTanjim/nui.nvim',
   's1n7ax/nvim-window-picker',
 
@@ -141,7 +147,14 @@ lazy.setup({
       'marilari88/neotest-vitest',
     },
   },
-
+  {
+    'coder/claudecode.nvim',
+    dependencies = { 'folke/snacks.nvim' },
+    config = true,
+    opts = {
+      terminal_cmd = "SHELL=/bin/bash /Users/dzhabrail/.claude/local/claude"
+    }
+  },
   -- Database
   'kndndrj/nvim-dbee',
   dependencies = {

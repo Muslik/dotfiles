@@ -1,7 +1,7 @@
 vim.cmd([[ let g:user_emmet_settings = { 'javascript' : { 'extends' : 'jsx', }} ]])
 vim.cmd([[ let g:user_emmet_complete_tag = 1 ]])
 vim.cmd([[ let g:user_emmet_install_global = 0 ]])
-vim.api.nvim_exec([[ autocmd FileType html,css,scss,javascript,javascriptreact,typescript,typescriptreact EmmetInstall ]], false)
+vim.api.nvim_exec([[ autocmd FileType html,css,scss,javascript,javascriptreact,typescript,typescriptreact,vue EmmetInstall ]], false)
 vim.cmd([[ let g:html_indent_style1 = "inc" ]])
 vim.cmd([[ let g:html_indent_script1 = "inc" ]])
 vim.cmd([[ let g:html_indent_autotags = "html" ]])
