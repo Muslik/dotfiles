@@ -65,7 +65,7 @@ function mostused()
 	\cat ~/.zsh_history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n ${1:-10}
 }
 
-functions gns()
+function gns()
 {
   cd ~/Documents/notes && v `find ~/Documents/notes -type f -name "*.md" | fzf --height 25% --reverse`
 }
@@ -118,23 +118,6 @@ function gws()
   fi
 }
 
-function wmtoggle()
-{
-  SERVICES=$(brew services)
-  YABAI_STATUS=$(echo $SERVICES | grep yabai | awk '{print $2}')
-  if [[ $YABAI_STATUS == 'started' ]]; then
-    brew services stop yabai;
-    brew services stop skhd;
-    brew services stop spacebar;
-    echo "WM stopped"
-  else
-    brew services start spacebar;
-    brew services start yabai;
-    brew services start skhd;
-    echo "WM started"
-  fi
-}
-
 function ide()
 {
     tmux split-window -v -p 30;
@@ -142,9 +125,52 @@ function ide()
     tmux split-window -h -p 50;
 }
 
-battery() {
-    condition=$(system_profiler SPPowerDataType | grep "Condition" | awk '{print $2}')
-    cycles=$(system_profiler SPPowerDataType | grep "Cycle Count" | awk '{print $3}')
-    charge_status=$(system_profiler SPPowerDataType | grep "State of Charge" | awk '{print $5}')
-    print "Condition: ${condition}\nCycles: ${cycles}\nCharge: ${charge_status}%"
-}
+#########################################
+# OS-specific                           #
+#########################################
+if [[ "$(uname)" == "Darwin" ]]; then
+
+    function wmtoggle()
+    {
+      SERVICES=$(brew services)
+      YABAI_STATUS=$(echo $SERVICES | grep yabai | awk '{print $2}')
+      if [[ $YABAI_STATUS == 'started' ]]; then
+        brew services stop yabai;
+        brew services stop skhd;
+        echo "WM stopped"
+      else
+        brew services start yabai;
+        brew services start skhd;
+        echo "WM started"
+      fi
+    }
+
+    battery() {
+        condition=$(system_profiler SPPowerDataType | grep "Condition" | awk '{print $2}')
+        cycles=$(system_profiler SPPowerDataType | grep "Cycle Count" | awk '{print $3}')
+        charge_status=$(system_profiler SPPowerDataType | grep "State of Charge" | awk '{print $5}')
+        print "Condition: ${condition}\nCycles: ${cycles}\nCharge: ${charge_status}%"
+    }
+
+else
+
+    vpn() {
+      local con="$1"
+
+      if [[ -z "$con" ]]; then
+        con=$(nmcli -c no -t -f NAME,TYPE con show | command grep ':vpn' | cut -d: -f1 | fzf --height 25% --reverse --prompt="VPN > ")
+        [[ -z "$con" ]] && return 0
+      fi
+
+      local state=$(nmcli -t -f GENERAL.STATE con show "$con" 2>/dev/null)
+
+      if [[ "$state" == *"activated"* ]]; then
+        print "${YELLOW}Disconnecting ${con}...${NC}"
+        nmcli con down "$con" && print "${GREEN}VPN disconnected${NC}"
+      else
+        print "${YELLOW}Connecting ${con}...${NC}"
+        nmcli con up "$con" && print "${GREEN}VPN connected${NC}"
+      fi
+    }
+
+fi

@@ -12,7 +12,8 @@ local servers = {
   'rust_analyzer',
   'lua_ls',
   'prismals',
-  --[[ 'ts_ls', ]]
+  'volar',
+  'ts_ls',
   'pyright',
   'python-lsp-server',
   'yamlls',
@@ -66,6 +67,11 @@ for _, server in pairs(servers) do
     local server_opts = require('lsp/settings/jsonls')
     base_opts = vim.tbl_deep_extend('force', server_opts, base_opts)
   end
+
+  --[[ if server == 'volar' then ]]
+  --[[   local server_opts = require('lsp/settings/volar') ]]
+  --[[   base_opts = vim.tbl_deep_extend('force', server_opts, base_opts) ]]
+  --[[ end ]]
 
   if server == 'eslint' then
     local server_opts = require('lsp/settings/eslint')

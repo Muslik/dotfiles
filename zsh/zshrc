@@ -47,4 +47,7 @@ autoload -Uz compinit && compinit
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # bun completions
-[ -s "/Users/dzhabrail/.bun/_bun" ] && source "/Users/dzhabrail/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+eval "$(fnm env --use-on-cd --shell zsh)"
+export PATH="$HOME/.local/bin:$PATH"

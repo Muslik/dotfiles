@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+#
+# powermenu - a very simple rofi powermenu
+#
+# Copyright (C) 2025 Johannes Kamprad
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# needs rofi config:
+# $HOME/.config/rofi/powermenu.rasi
+# set to be used in i3wm
+
+ROFI_THEME="${HOME}/.config/rofi/powermenu.rasi"
+# Define possible lock scripts/commands (edit this list as you like)
+LOCK_SCRIPTS=("${HOME}/.config/i3/scripts/blur-lock" "i3lock")
+
+# Find available lock script
+find_lock_script() {
+    for script in "${LOCK_SCRIPTS[@]}"; do
+        # Handle command names vs full paths
+        if [[ "$script" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+            # It's a command name, check if available
+            if command -v "$script" >/dev/null 2>&1; then
+                echo "$script"
+                return 0
+            fi
+        else
+            # It's a path, check if file exists and is executable
+            if [[ -x "$script" ]]; then
+                echo "$script"
+                return 0
+            fi
+        fi
+    done
+    return 1
+}
+
+# Menu entries
+chancel=" Cancel"
+lock="  Lock"
+logout="  Logout"
+reboot="  Reboot"
+shutdown="  Shutdown"
+suspend="  Suspend"
+hibernate="  Hibernate"
+
+
+# Add lock only if script is found
+if lockcmd="$(find_lock_script)"; then
+    options="$chancel\n$lock\n$logout\n$reboot\n$shutdown\n$suspend\n$hibernate"
+else
+    options="$chancel\n$logout\n$reboot\n$shutdown\n$suspend\n$hibernate"
+fi
+
+chosen="$(echo -e "$options" | rofi -dmenu -i -p "Power Menu" \
+    -theme $ROFI_THEME)"
+
+case $chosen in
+    "$lock")
+        $lockcmd
+        ;;
+    "$cancel"|"")
+        exit 0
+        ;;
+    "$logout")
+        i3-msg exit
+        ;;
+    "$reboot")
+        systemctl reboot
+        ;;
+    "$shutdown")
+        systemctl poweroff
+        ;;
+    "$suspend")
+        systemctl suspend
+        ;;
+    "$hibernate")
+        systemctl hibernate
+        ;;
+esac

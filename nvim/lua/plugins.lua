@@ -58,7 +58,14 @@ lazy.setup({
   'j-hui/fidget.nvim',
   'ray-x/lsp_signature.nvim',
   'williamboman/mason.nvim',
-  'williamboman/mason-lspconfig.nvim',
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {},
+    dependencies = {
+        { "mason-org/mason.nvim", opts = {} },
+        "neovim/nvim-lspconfig",
+    },
+},
   'neovim/nvim-lspconfig',
   'onsails/lspkind-nvim',
   'folke/trouble.nvim',
@@ -152,7 +159,7 @@ lazy.setup({
     dependencies = { 'folke/snacks.nvim' },
     config = true,
     opts = {
-      terminal_cmd = "SHELL=/bin/bash /Users/dzhabrail/.claude/local/claude"
+      terminal_cmd = "SHELL=/bin/bash " .. os.getenv("HOME") .. "/.claude/local/claude"
     }
   },
   -- Database

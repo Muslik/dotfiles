@@ -1,0 +1,155 @@
+# ┌─────────────────────────────────────┐
+# │  Arch Linux packages (Pacfile)     │
+# │  Install: see init.sh              │
+# └─────────────────────────────────────┘
+
+# Lines starting with # are comments
+# [pacman] = official repos
+# [aur]    = AUR (yay)
+# [npm]    = npm global packages
+
+#########################################
+# Window Manager & Desktop              #
+#########################################
+[pacman]
+i3-wm
+polybar
+rofi
+dunst
+picom
+dex
+
+#########################################
+# Xorg                                  #
+#########################################
+[pacman]
+xorg-server
+xorg-xrandr
+xorg-setxkbmap
+xorg-xset
+xss-lock
+
+#########################################
+# Display & Media                       #
+#########################################
+[pacman]
+feh
+scrot
+flameshot
+imagemagick
+playerctl
+brightnessctl
+
+#########################################
+# Audio                                 #
+#########################################
+[pacman]
+pipewire
+pipewire-pulse
+alsa-utils
+
+#########################################
+# Network                               #
+#########################################
+[pacman]
+networkmanager
+bluez
+bluez-utils
+
+[aur]
+networkmanager-dmenu-git
+rofi-bluetooth
+
+#########################################
+# Lock Screen & Security                #
+#########################################
+[pacman]
+i3lock
+polkit-gnome
+xclip
+
+#########################################
+# Terminal & Shell                       #
+#########################################
+[pacman]
+wezterm
+zsh
+starship
+fzf
+tmux
+tmuxinator
+
+#########################################
+# Editors                               #
+#########################################
+[pacman]
+neovim
+
+#########################################
+# Dev Tools                              #
+#########################################
+[pacman]
+git
+gitui
+git-delta
+rust
+rust-analyzer
+lua-language-server
+pyright
+clang
+efm-langserver
+stylua
+
+[aur]
+fnm-bin
+
+#########################################
+# Modern CLI                             #
+#########################################
+[pacman]
+bat
+btop
+yazi
+ripgrep
+fd
+jq
+tree
+curl
+wget
+asciinema
+
+#########################################
+# Fonts                                  #
+#########################################
+[pacman]
+ttf-nerd-fonts-symbols
+noto-fonts
+ttf-font-awesome
+
+#########################################
+# System                                 #
+#########################################
+[pacman]
+power-profiles-daemon
+pacman-contrib
+fakeroot
+
+#########################################
+# Apps                                   #
+#########################################
+[aur]
+brave-bin
+
+#########################################
+# NPM global packages                   #
+#########################################
+[npm]
+vscode-langservers-extracted
+bash-language-server
+cssmodules-language-server
+dockerfile-language-server-nodejs
+@vue/language-server
+typescript-language-server
+yaml-language-server
+prettier
+eslint_d

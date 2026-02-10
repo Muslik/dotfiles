@@ -33,6 +33,7 @@ neo_tree.setup({
     },
   },
   filesystem = {
+    bind_to_cwd = false,
     components = {
       icon = function(config, node)
         local icon = config.default or ' '

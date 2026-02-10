@@ -15,8 +15,6 @@ alias zshfunctions="vim ~/dotfiles/zsh/sourced/functions"
 alias nvimconfig="vim ~/dotfiles/nvim/init.lua"
 alias nvimplugins="vim ~/dotfiles/nvim/lua/plugins.lua"
 alias tmuxconfig="vim ~/dotfiles/tmux.conf"
-alias alconfig="vim ~/dotfiles/alacritty/alacritty.yml"
-alias kconfig="vim ~/dotfiles/kitty/kitty.conf"
 alias ssource='exec zsh'
 #########################################
 # Shorten common commands               #
@@ -31,19 +29,17 @@ alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
 alias mkdir="mkdir -p"
-alias hosts="sudo vi /private/etc/hosts"
+alias hosts="sudo vi /etc/hosts"
 alias h="history"
 alias hs="history | grep"
 alias t="touch"
 alias c="clear"
-alias ls="ls -G"
 alias ll="ls -lhA"
 alias lt="du -sh * | sort -h"
 alias mnt='mount | grep -E ^/dev | column -t'
 alias ct="column -t"
 alias grep="grep --color=always"
 alias mc="yazi"
-alias yota="sudo sysctl -w net.inet.ip.ttl=65"
 alias lg="gitui"
 alias mux="tmuxinator"
 alias nap="~/go/bin/nap"
@@ -53,7 +49,6 @@ alias nap="~/go/bin/nap"
 #########################################
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
 alias ip='curl ipinfo.io/ip'
-alias localip="ipconfig getifaddr en0"
 
 #########################################
 # GIT                                   #
@@ -76,9 +71,7 @@ alias recordAuth="asciinema auth"
 #########################################
 # MY OWN COMMANDS                       #
 #########################################
-alias tsplay="open 'https://www.typescriptlang.org/play'"
 alias now='date +"%T | %d-%m-%Y"'
-alias stfu="osascript -e 'set volume output muted true'"
 alias colors="curl -s https://gist.githubusercontent.com/HaleTom/89ffe32783f89f403bba96bd7bcd1263/raw/ | bash"
 
 #  ██████╗  █████╗ ████████╗██╗  ██╗███████╗
@@ -97,8 +90,6 @@ alias gwk="cd ~/Projects/work"
 alias gdc="cd ~/Documents"
 alias gdl="cd ~/Downloads"
 
-alias min="open /Applications/Min.app"
-
 alias binance="node ~/Projects/binance-calculator-premium/app/init.js"
 alias ott="mux ott"
 
@@ -110,3 +101,23 @@ alias n14="n exec 14.18.0"
 alias ni14="n14 npm install"
 alias ns14="n14 npm run start"
 alias nis14="n14 npm install && n14 npm start"
+
+#########################################
+# OS-specific                           #
+#########################################
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias ls="ls -G"
+    alias localip="ipconfig getifaddr en0"
+    alias yota="sudo sysctl -w net.inet.ip.ttl=65"
+    alias tsplay="open 'https://www.typescriptlang.org/play'"
+    alias stfu="osascript -e 'set volume output muted true'"
+else
+    alias ls="ls --color=auto"
+    alias localip="hostname -I | awk '{print \$1}'"
+    alias pbcopy="xclip -selection clipboard"
+    alias pbpaste="xclip -selection clipboard -o"
+    alias polyconfig="vim ~/dotfiles/polybar/docky/config.ini"
+    alias i3config="vim ~/dotfiles/i3/config"
+    alias i3restart="i3-msg restart"
+    alias polyrestart="polybar-msg cmd restart"
+fi

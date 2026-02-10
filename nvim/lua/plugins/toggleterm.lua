@@ -46,10 +46,10 @@ function _CARGO_RUN()
   cargo_run:toggle()
 end
 
-local ranger = Terminal:new({ cmd = 'ranger', hidden = true })
+local yazi = Terminal:new({ cmd = 'yazi', hidden = true })
 
-function _RANGER()
-  ranger:toggle()
+function _YAZI()
+  yazi:toggle()
 end
 
 local cargo_test = Terminal:new({ cmd = 'cargo test', hidden = true })

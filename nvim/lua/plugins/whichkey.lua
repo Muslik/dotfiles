@@ -240,7 +240,7 @@ local mappings = {
   { '<leader>th', '<cmd>lua _HTOP_TOGGLE()<cr>', desc = 'Htop', nowait = true, remap = false },
   { '<leader>tj', '<cmd>JsonF<cr>', desc = 'Format Json', nowait = true, remap = false },
   { '<leader>tn', '<cmd>lua _NODE_TOGGLE()<cr>', desc = 'Node', nowait = true, remap = false },
-  { '<leader>tr', '<cmd>lua _RANGER()<cr>', desc = 'Ranger', nowait = true, remap = false },
+  { '<leader>tr', '<cmd>lua _YAZI()<cr>', desc = 'Yazi', nowait = true, remap = false },
   { '<leader>ts', '<cmd>lua _SPOTIFY()<cr>', desc = 'Spotify', nowait = true, remap = false },
   { '<leader>w', '<cmd>w<CR>', desc = 'Write', nowait = true, remap = false },
   { '<leader>z', '<cmd>ZenMode<cr>', desc = 'Zen', nowait = true, remap = false },

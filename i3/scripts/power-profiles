@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# Simple power-profiles-daemon switcher using rofi and static theme, with notification
+#
+# Copyright (C) 2025 Johannes Kamprad
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# needs rofi config:
+# $HOME/.config/rofi/powermenu.rasi
+
+ROFI_THEME="${HOME}/.config/rofi/power-profiles.rasi"
+
+# Dependency checks
+command -v powerprofilesctl >/dev/null 2>&1 || { echo "powerprofilesctl not found"; exit 1; }
+command -v rofi >/dev/null 2>&1 || { echo "rofi not found"; exit 1; }
+if ! command -v notify-send >/dev/null 2>&1; then
+  notify_send_missing=true
+fi
+
+current_profile="$(powerprofilesctl get 2>/dev/null)"
+ROFI_ARGS=(-dmenu -i -theme "$ROFI_THEME" -p "Change Profile" -mesg "<b>Current used:</b> $current_profile" -markup-rows)
+
+# Menu entries
+cancel="  Cancel"
+perf="  Performance"
+balanced="  Balanced"
+powersave="  Power Saver"
+# sets chancel to be on top
+options="$cancel"
+
+if powerprofilesctl list | grep -q "performance"; then
+  options="$options\n$perf"
+fi
+if powerprofilesctl list | grep -q "balanced"; then
+  options="$options\n$balanced"
+fi
+if powerprofilesctl list | grep -q "power-saver"; then
+  options="$options\n$powersave"
+fi
+
+# Show menu
+chosen="$(echo -e "$options" | rofi "${ROFI_ARGS[@]}")"
+
+# Run selection
+case $chosen in
+    "$perf")
+        powerprofilesctl set performance
+        ;;
+    "$balanced")
+        powerprofilesctl set balanced
+        ;;
+    "$powersave")
+        powerprofilesctl set power-saver
+        ;;
+    "$cancel"|"")
+        exit 0
+        ;;
+esac
+
+# Send notification if available
+if [[ "$chosen" != "$cancel" && -z "${notify_send_missing}" ]]; then
+  notify-send -i dialog-information "Power Profile Changed" "New profile: ${chosen}"
+fi
