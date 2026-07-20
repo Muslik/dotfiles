@@ -1,0 +1,356 @@
+#!/usr/bin/env bash
+#
+# wt — общий git worktree helper (не привязан ни к какому проекту).
+#
+# Создаёт worktree в  $WORKTREE_HOME/<repo-name>-<repo-root-hash>/<sanitized-branch>
+# (по умолчанию ~/.worktrees), ставит зависимости, чтит .nvmrc/.node-version через fnm.
+#
+# Точка расширения: после создания worktree вызывает исполняемый хук
+#   $WT_POST_CREATE  (по умолчанию ~/.config/wt/post-create), если он есть,
+#   с аргументами: <worktree-path> <repo-root> <branch>.
+# Так любой внешний слой (напр. личный agent-config) подцепляется, не зная про wt,
+# и наоборот — wt ничего не знает про этот слой.
+
+set -euo pipefail
+
+_cfg="${XDG_CONFIG_HOME:-$HOME/.config}/wt/config"
+# shellcheck disable=SC1090
+[ -f "$_cfg" ] && . "$_cfg"
+
+DEFAULT_BASE="${WT_BASE:-master}"
+WORKTREE_HOME="${WORKTREE_HOME:-$HOME/.worktrees}"
+WT_POST_CREATE="${WT_POST_CREATE:-${XDG_CONFIG_HOME:-$HOME/.config}/wt/post-create}"
+
+print_help() {
+  cat <<EOF
+Usage:
+  wt
+  wt <branch> [--base <ref>]
+  wt list [--raw]
+  wt path <branch-or-path>
+  wt prompt
+  wt remove <branch-or-path> [--force]
+  wt rm <branch-or-path> [--force]
+
+Creates a git worktree for the current repository under:
+  \$WORKTREE_HOME/<repo-name>-<repo-root-hash>/<sanitized-branch>
+
+When run from a linked worktree, the target directory is still based on the
+main repository worktree, not on the current linked worktree path.
+
+After creating a worktree, runs \$WT_POST_CREATE (default
+~/.config/wt/post-create) if it is executable, with:
+  <worktree-path> <repo-root> <branch>
+
+Defaults:
+  WORKTREE_HOME=${WORKTREE_HOME}
+  base=${DEFAULT_BASE}
+
+Package install:
+  pnpm-lock.yaml or packageManager=pnpm -> pnpm install --frozen-lockfile --prefer-offline
+  package-lock.json or npm-shrinkwrap.json -> npm ci
+  package.json only -> npm install
+
+Node version:
+  If fnm is available, install runs through fnm.
+  .nvmrc and .node-version are honored inside the new worktree.
+
+Examples:
+  wt
+  wt task/fix-search
+  wt task/fix-search --base origin/master
+  wt list
+  wt path task/fix-search
+  wt rm task/fix-search
+  WORKTREE_HOME=~/.cache/worktrees wt task/fix-search
+EOF
+}
+
+die() { printf 'wt: %s\n' "$*" >&2; exit 1; }
+quote() { printf '%q' "$1"; }
+
+sanitize() {
+  printf '%s' "$1" |
+    sed -E 's/[^A-Za-z0-9._-]+/-/g; s/-+/-/g; s/^[-._]+//; s/[-._]+$//'
+}
+
+parse_create_args() {
+  branch=''; base="$DEFAULT_BASE"; base_provided=0
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --help | -h) print_help; exit 0 ;;
+      --base) [ "$#" -ge 2 ] || die 'missing value for --base'; base="$2"; base_provided=1; shift 2 ;;
+      --*) die "unknown option: $1" ;;
+      *) [ -z "$branch" ] || die "expected one branch, got extra argument: $1"; branch="$1"; shift ;;
+    esac
+  done
+  [ -n "$branch" ] || die 'missing branch name'
+}
+
+parse_remove_args() {
+  remove_target=''; force_remove=0
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --help | -h) print_help; exit 0 ;;
+      --force | -f) force_remove=1; shift ;;
+      --*) die "unknown option: $1" ;;
+      *) [ -z "$remove_target" ] || die "expected one branch or path, got extra argument: $1"; remove_target="$1"; shift ;;
+    esac
+  done
+  [ -n "$remove_target" ] || die 'missing branch or path to remove'
+}
+
+parse_path_args() {
+  path_target=''
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --help | -h) print_help; exit 0 ;;
+      --*) die "unknown option: $1" ;;
+      *) [ -z "$path_target" ] || die "expected one branch or path, got extra argument: $1"; path_target="$1"; shift ;;
+    esac
+  done
+  [ -n "$path_target" ] || die 'missing branch or path'
+}
+
+parse_list_args() {
+  list_raw=0
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --help | -h) print_help; exit 0 ;;
+      --raw) list_raw=1; shift ;;
+      --*) die "unknown option: $1" ;;
+      *) die "list does not accept positional arguments: $1" ;;
+    esac
+  done
+}
+
+worktree_branch_at_path() {
+  git worktree list --porcelain |
+    awk -v target="$1" '
+      /^worktree / {
+        if (worktree == target) { print branch; found = 1; exit }
+        worktree = substr($0, 10); branch = ""
+      }
+      /^branch / { branch = substr($0, 8) }
+      END { if (!found && worktree == target) print branch }
+    '
+}
+
+worktree_path_for_branch() {
+  git worktree list --porcelain |
+    awk -v wanted="refs/heads/$1" '
+      /^worktree / { worktree = substr($0, 10) }
+      /^branch / { if (substr($0, 8) == wanted) { print worktree; exit } }
+    '
+}
+
+detect_package_manager() {
+  if [ ! -f package.json ]; then return 1; fi
+  if [ -f pnpm-lock.yaml ] || grep -q '"packageManager"[[:space:]]*:[[:space:]]*"pnpm@' package.json; then
+    package_manager='pnpm'; install_args='install --frozen-lockfile --prefer-offline'; return 0
+  fi
+  if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+    package_manager='npm'; install_args='ci'; return 0
+  fi
+  package_manager='npm'; install_args='install'; return 0
+}
+
+run_install() {
+  (
+    cd "$target_path"
+    if ! detect_package_manager; then printf 'No package.json found, skipping install.\n'; return 0; fi
+    printf '$ %s %s\n' "$package_manager" "$install_args"
+    # shellcheck disable=SC2086
+    if command -v fnm >/dev/null 2>&1; then
+      if [ -f .nvmrc ]; then fnm exec --using .nvmrc "$package_manager" $install_args
+      elif [ -f .node-version ]; then fnm exec --using .node-version "$package_manager" $install_args
+      else fnm exec "$package_manager" $install_args; fi
+    else
+      "$package_manager" $install_args
+    fi
+  )
+}
+
+list_worktrees() {
+  git worktree list --porcelain |
+    awk '
+      /^worktree / {
+        if (worktree != "") print worktree "\t" branch
+        worktree = substr($0, 10); branch = ""
+      }
+      /^branch / { branch = substr($0, 8) }
+      END { if (worktree != "") print worktree "\t" branch }
+    '
+}
+
+# Нейтральный хук: вызвать внешний скрипт после создания worktree, если он есть.
+run_post_create_hook() {
+  local dest="$1"
+  [ -n "$WT_POST_CREATE" ] && [ -x "$WT_POST_CREATE" ] || return 0
+  "$WT_POST_CREATE" "$dest" "$repo_root" "$branch" \
+    || printf 'wt: post-create hook (%s) вышел с ненулевым кодом\n' "$WT_POST_CREATE" >&2
+}
+
+command="${1:-list}"
+case "$command" in
+  remove | rm | delete) mode='remove'; shift; parse_remove_args "$@" ;;
+  path | p)             mode='path';   shift; parse_path_args "$@" ;;
+  prompt)               mode='prompt'; shift; [ "$#" -eq 0 ] || die 'prompt does not accept arguments' ;;
+  list | ls)            mode='list';   [ "$#" -eq 0 ] || shift; parse_list_args "$@" ;;
+  --help | -h | help)   print_help; exit 0 ;;
+  *)                    mode='create'; parse_create_args "$@" ;;
+esac
+
+current_worktree_root="$(git rev-parse --show-toplevel 2>/dev/null)" || die 'not inside a git repository'
+current_git_dir="$(git -C "$current_worktree_root" rev-parse --git-dir 2>/dev/null)" || die 'cannot resolve git directory'
+common_git_dir="$(git -C "$current_worktree_root" rev-parse --git-common-dir 2>/dev/null)" || die 'cannot resolve git common directory'
+
+case "$current_git_dir" in /*) ;; *) current_git_dir="$current_worktree_root/$current_git_dir" ;; esac
+case "$common_git_dir" in /*) ;; *) common_git_dir="$current_worktree_root/$common_git_dir" ;; esac
+current_git_dir="$(cd "$current_git_dir" && pwd -P)" || die 'cannot resolve git directory'
+common_git_dir="$(cd "$common_git_dir" && pwd -P)" || die 'cannot resolve git common directory'
+
+if [ "$(basename "$common_git_dir")" = '.git' ]; then
+  repo_root="$(cd "$(dirname "$common_git_dir")" && pwd -P)"
+else
+  repo_root="$current_worktree_root"
+fi
+
+repo_name="$(basename "$repo_root")"
+repo_slug="$(sanitize "$repo_name")"; [ -n "$repo_slug" ] || repo_slug='repo'
+repo_hash="$(printf '%s' "$repo_root" | cksum | awk '{ print $1 }')"
+
+if [ "$mode" = 'prompt' ]; then
+  [ "$current_git_dir" != "$common_git_dir" ] || exit 1
+  printf '%s\n' "$repo_name"; exit 0
+fi
+
+if [ "$mode" = 'list' ]; then
+  if [ "$list_raw" -eq 1 ]; then
+    list_worktrees
+  else
+    list_worktrees |
+      awk -F '\t' '
+        BEGIN { printf "%-7s %-40s %s\n", "KIND", "BRANCH", "PATH" }
+        { branch = $2; sub(/^refs\/heads\//, "", branch); kind = branch == "" ? "detached" : "branch"
+          printf "%-7s %-40s %s\n", kind, branch, $1 }
+      '
+  fi
+  exit 0
+fi
+
+if [ "$mode" = 'remove' ]; then
+  if [ -e "$remove_target" ]; then
+    remove_parent="$(cd "$(dirname "$remove_target")" && pwd -P)"
+    remove_path="$remove_parent/$(basename "$remove_target")"
+    remove_branch="$(worktree_branch_at_path "$remove_path")"
+  else
+    remove_branch_ref="refs/heads/$remove_target"
+    remove_path="$(worktree_path_for_branch "$remove_target")"
+    if [ -z "$remove_path" ]; then
+      remove_slug="$(sanitize "$remove_target")"
+      [ -n "$remove_slug" ] || die "target '$remove_target' cannot be converted to a directory name"
+      candidate="$WORKTREE_HOME/$repo_slug-$repo_hash/$remove_slug"
+      if [ -e "$candidate" ]; then
+        candidate_parent="$(cd "$(dirname "$candidate")" && pwd -P)"
+        remove_path="$candidate_parent/$(basename "$candidate")"
+      fi
+    fi
+    [ -n "${remove_path:-}" ] || die "no worktree found for '$remove_target'"
+    remove_branch="$(worktree_branch_at_path "$remove_path")"
+    if [ -n "${remove_branch:-}" ] && [ "$remove_branch" != "$remove_branch_ref" ]; then
+      die "worktree branch mismatch at $remove_path: expected $remove_branch_ref, got $remove_branch"
+    fi
+  fi
+
+  [ "$remove_path" != "$repo_root" ] || die 'refusing to remove the main repository worktree'
+  [ -n "${remove_branch:-}" ] || die "path is not a registered worktree: $remove_path"
+
+  printf 'Repository: %s\n' "$repo_root"
+  printf 'Removing: %s\n' "$remove_path"
+  printf 'Branch: %s\n' "$remove_branch"
+
+  if [ "$force_remove" -eq 1 ]; then
+    printf '$ git worktree remove --force %s\n' "$(quote "$remove_path")"
+    git worktree remove --force "$remove_path"
+  else
+    printf '$ git worktree remove %s\n' "$(quote "$remove_path")"
+    git worktree remove "$remove_path"
+  fi
+
+  printf '\nRemoved worktree.\n'
+  printf 'Branch was not deleted. Delete it manually if needed:\n'
+  printf '  git branch -D %s\n' "$(quote "${remove_branch#refs/heads/}")"
+  exit 0
+fi
+
+if [ "$mode" = 'path' ]; then
+  if [ -e "$path_target" ]; then
+    path_parent="$(cd "$(dirname "$path_target")" && pwd -P)"
+    found_path="$path_parent/$(basename "$path_target")"
+  else
+    found_path="$(worktree_path_for_branch "$path_target")"
+    if [ -z "$found_path" ]; then
+      path_slug="$(sanitize "$path_target")"
+      [ -n "$path_slug" ] || die "target '$path_target' cannot be converted to a directory name"
+      candidate="$WORKTREE_HOME/$repo_slug-$repo_hash/$path_slug"
+      if [ -e "$candidate" ]; then
+        candidate_parent="$(cd "$(dirname "$candidate")" && pwd -P)"
+        found_path="$candidate_parent/$(basename "$candidate")"
+      fi
+    fi
+  fi
+  [ -n "${found_path:-}" ] || die "no worktree found for '$path_target'"
+  found_branch="$(worktree_branch_at_path "$found_path")"
+  [ -n "${found_branch:-}" ] || die "path is not a registered worktree: $found_path"
+  printf '%s\n' "$found_path"; exit 0
+fi
+
+# --- mode = create --------------------------------------------------------
+branch_slug="$(sanitize "$branch")"
+[ -n "$branch_slug" ] || die "branch '$branch' cannot be converted to a directory name"
+
+target_path="$WORKTREE_HOME/$repo_slug-$repo_hash/$branch_slug"
+branch_ref="refs/heads/$branch"
+
+mkdir -p "$(dirname "$target_path")"
+target_parent="$(cd "$(dirname "$target_path")" && pwd -P)"
+target_path="$target_parent/$(basename "$target_path")"
+
+if git show-ref --verify --quiet "$branch_ref" && [ "$base_provided" -eq 1 ]; then
+  die "branch '$branch' already exists; --base is only for new branches"
+fi
+
+if [ -e "$target_path" ]; then
+  existing_branch_at_target="$(worktree_branch_at_path "$target_path")"
+  if [ "$existing_branch_at_target" != "$branch_ref" ]; then
+    die "target path exists and is not this branch: $target_path"
+  fi
+  printf 'Worktree already exists: %s\n' "$target_path"
+  run_install
+  run_post_create_hook "$target_path"
+  printf '\ncd %s\n' "$(quote "$target_path")"
+  exit 0
+fi
+
+existing_path_for_branch="$(worktree_path_for_branch "$branch")"
+if [ -n "$existing_path_for_branch" ]; then
+  die "branch '$branch' is already checked out at $existing_path_for_branch"
+fi
+
+printf 'Repository: %s\n' "$repo_root"
+printf 'Target: %s\n' "$target_path"
+
+if git show-ref --verify --quiet "$branch_ref"; then
+  printf '$ git worktree add %s %s\n' "$(quote "$target_path")" "$(quote "$branch")"
+  git worktree add "$target_path" "$branch"
+else
+  printf '$ git worktree add -b %s %s %s\n' "$(quote "$branch")" "$(quote "$target_path")" "$(quote "$base")"
+  git worktree add -b "$branch" "$target_path" "$base"
+fi
+
+run_install
+run_post_create_hook "$target_path"
+
+printf '\nReady.\n'
+printf 'cd %s\n' "$(quote "$target_path")"
