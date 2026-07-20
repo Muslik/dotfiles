@@ -24,13 +24,17 @@ WT_POST_CREATE="${WT_POST_CREATE:-${XDG_CONFIG_HOME:-$HOME/.config}/wt/post-crea
 print_help() {
   cat <<EOF
 Usage:
-  wt
-  wt <branch> [--base <ref>]
+  wt                             pick an EXISTING branch (fzf) and attach a worktree
+  wt <branch>                    attach a worktree to an EXISTING branch (local or remote)
+  wt -b <branch> [--base <ref>]  create a NEW branch + worktree (base default: ${DEFAULT_BASE})
   wt list [--raw]
   wt path <branch-or-path>
   wt prompt
   wt remove <branch-or-path> [--force]
   wt rm <branch-or-path> [--force]
+
+A bare branch name never creates: a typo errors with "did you mean" instead of
+silently making a new branch. Use -b to create.
 
 Creates a git worktree for the current repository under:
   \$WORKTREE_HOME/<repo-name>-<repo-root-hash>/<sanitized-branch>
@@ -75,12 +79,13 @@ sanitize() {
 }
 
 parse_create_args() {
-  branch=''; base="$DEFAULT_BASE"; base_provided=0
+  branch=''; base="$DEFAULT_BASE"; base_provided=0; create_new=0
   while [ "$#" -gt 0 ]; do
     case "$1" in
       --help | -h) print_help; exit 0 ;;
+      -b | -c | --create) create_new=1; shift ;;
       --base) [ "$#" -ge 2 ] || die 'missing value for --base'; base="$2"; base_provided=1; shift 2 ;;
-      --*) die "unknown option: $1" ;;
+      -*) die "unknown option: $1" ;;
       *) [ -z "$branch" ] || die "expected one branch, got extra argument: $1"; branch="$1"; shift ;;
     esac
   done
@@ -191,15 +196,53 @@ run_post_create_hook() {
     || printf 'wt: post-create hook (%s) вышел с ненулевым кодом\n' "$WT_POST_CREATE" >&2
 }
 
-command="${1:-list}"
-case "$command" in
-  remove | rm | delete) mode='remove'; shift; parse_remove_args "$@" ;;
-  path | p)             mode='path';   shift; parse_path_args "$@" ;;
-  prompt)               mode='prompt'; shift; [ "$#" -eq 0 ] || die 'prompt does not accept arguments' ;;
-  list | ls)            mode='list';   [ "$#" -eq 0 ] || shift; parse_list_args "$@" ;;
-  --help | -h | help)   print_help; exit 0 ;;
-  *)                    mode='create'; parse_create_args "$@" ;;
-esac
+# Существует ли ветка (локально ИЛИ на любом remote)?
+_branch_exists() {
+  git show-ref --verify --quiet "refs/heads/$1" && return 0
+  git for-each-ref --format='%(refname:short)' refs/remotes 2>/dev/null \
+    | sed 's#^[^/]*/##' | grep -qxF "$1"
+}
+
+# Все ветки-кандидаты (локальные + remote-tracking, коротко, без HEAD, уникально).
+_all_branches() {
+  { git for-each-ref --format='%(refname:short)' refs/heads
+    git for-each-ref --format='%(refname:short)' refs/remotes | sed 's#^[^/]*/##'
+  } 2>/dev/null | grep -vxF HEAD | sort -u
+}
+
+# Подсказать похожие ветки (по первым 3 символам, регистронезависимо).
+_suggest() {
+  local pfx m
+  pfx="$(printf '%s' "$1" | cut -c1-3)"
+  m="$(_all_branches | grep -iF "$pfx" | head -8 || true)"
+  [ -n "$m" ] && { printf 'Похожие:\n' >&2; printf '%s\n' "$m" | sed 's/^/  /' >&2; } || true
+}
+
+# fzf-выбор ветки без worktree (bare `wt` / `wt -i`). Печатает выбранную в stdout.
+_pick_branch() {
+  command -v fzf >/dev/null 2>&1 || { printf 'wt: fzf не найден — укажи ветку: wt <ветка> или wt -b <ветка>\n' >&2; return 1; }
+  local used cands
+  used="$(git worktree list --porcelain | awk '/^branch /{print substr($0,8)}' | sed 's#^refs/heads/##')"
+  cands="$(_all_branches)"
+  [ -n "$used" ] && cands="$(printf '%s\n' "$cands" | grep -vxF -f <(printf '%s\n' "$used") || true)" || true
+  [ -n "$cands" ] || { printf 'wt: нет свободных веток (у всех уже есть worktree)\n' >&2; return 1; }
+  printf '%s\n' "$cands" | fzf --height 40% --reverse --prompt='attach branch> '
+}
+
+if [ "$#" -eq 0 ]; then
+  mode='pick'
+else
+  command="$1"
+  case "$command" in
+    remove | rm | delete) mode='remove'; shift; parse_remove_args "$@" ;;
+    path | p)             mode='path';   shift; parse_path_args "$@" ;;
+    prompt)               mode='prompt'; shift; [ "$#" -eq 0 ] || die 'prompt does not accept arguments' ;;
+    list | ls)            mode='list';   shift; parse_list_args "$@" ;;
+    -i | --interactive)   mode='pick' ;;
+    --help | -h | help)   print_help; exit 0 ;;
+    *)                    mode='create'; parse_create_args "$@" ;;
+  esac
+fi
 
 current_worktree_root="$(git rev-parse --show-toplevel 2>/dev/null)" || die 'not inside a git repository'
 current_git_dir="$(git -C "$current_worktree_root" rev-parse --git-dir 2>/dev/null)" || die 'cannot resolve git directory'
@@ -306,7 +349,15 @@ if [ "$mode" = 'path' ]; then
   printf '%s\n' "$found_path"; exit 0
 fi
 
-# --- mode = create --------------------------------------------------------
+# --- pick → attach: выбрать существующую ветку через fzf ------------------
+if [ "$mode" = 'pick' ]; then
+  branch="$(_pick_branch)" || exit 0
+  [ -n "$branch" ] || exit 0
+  create_new=0; base="$DEFAULT_BASE"; base_provided=0
+  mode='create'
+fi
+
+# --- mode = create (attach существующей ИЛИ -b новой) ---------------------
 branch_slug="$(sanitize "$branch")"
 [ -n "$branch_slug" ] || die "branch '$branch' cannot be converted to a directory name"
 
@@ -317,8 +368,20 @@ mkdir -p "$(dirname "$target_path")"
 target_parent="$(cd "$(dirname "$target_path")" && pwd -P)"
 target_path="$target_parent/$(basename "$target_path")"
 
-if git show-ref --verify --quiet "$branch_ref" && [ "$base_provided" -eq 1 ]; then
-  die "branch '$branch' already exists; --base is only for new branches"
+# намерение attach vs create — по флагу -b
+if [ "$create_new" -eq 1 ]; then
+  if _branch_exists "$branch"; then
+    die "ветка '$branch' уже существует — убери -b, чтобы подключить её (attach)"
+  fi
+else
+  # attach-only: ветка ДОЛЖНА существовать (локально или на remote), иначе ошибка
+  [ "$base_provided" -eq 0 ] || die "--base применяется только с -b (новая ветка)"
+  if ! _branch_exists "$branch"; then
+    printf "wt: ветка '%s' не найдена (ни локально, ни на remote).\n" "$branch" >&2
+    _suggest "$branch"
+    printf 'Создать новую:  wt -b %s [--base <ref>]\n' "$branch" >&2
+    exit 1
+  fi
 fi
 
 if [ -e "$target_path" ]; then
@@ -341,12 +404,13 @@ fi
 printf 'Repository: %s\n' "$repo_root"
 printf 'Target: %s\n' "$target_path"
 
-if git show-ref --verify --quiet "$branch_ref"; then
-  printf '$ git worktree add %s %s\n' "$(quote "$target_path")" "$(quote "$branch")"
-  git worktree add "$target_path" "$branch"
-else
+if [ "$create_new" -eq 1 ]; then
   printf '$ git worktree add -b %s %s %s\n' "$(quote "$branch")" "$(quote "$target_path")" "$(quote "$base")"
   git worktree add -b "$branch" "$target_path" "$base"
+else
+  # attach: локальную — по имени; remote-only — git DWIM создаст локальную tracking-ветку
+  printf '$ git worktree add %s %s\n' "$(quote "$target_path")" "$(quote "$branch")"
+  git worktree add "$target_path" "$branch"
 fi
 
 run_install
