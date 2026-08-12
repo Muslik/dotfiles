@@ -28,6 +28,15 @@ rm -rf ~/.zshrc ~/.zshenv ~/.config/{gitui,ranger,nvim,kitty,yabai,skhd,spacebar
 #SYMLINKS
 mkdir -p ~/.config
 mkdir -p ~/.config/tmuxinator
+# herdr keeps sockets/logs/session state in its config dir, so only the file is linked
+mkdir -p ~/.config/herdr
+ln -sfn ~/dotfiles/herdr/config.toml ~/.config/herdr/config.toml
+ln -s ~/dotfiles/wezterm ~/.config/wezterm
+# post-create is a real file, not a link: it dispatches to post-create.d/*, and
+# each hook there links back into whichever repo owns it.
+mkdir -p ~/.config/wt/post-create.d
+install -m 755 ~/dotfiles/wt/post-create ~/.config/wt/post-create
+ln -sfn ~/dotfiles/wt/post-create.d/20-herdr-tab ~/.config/wt/post-create.d/20-herdr-tab
 ln -s ~/dotfiles/helix ~/.config/helix
 ln -s ~/dotfiles/kitty ~/.config/kitty
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
