@@ -1,0 +1,144 @@
+#!/usr/bin/env python3
+"""herdr-tab-names — называет табы herdr по worktree, в котором они открыты.
+
+Модель: одна space на проект, один таб на worktree. herdr умеет привязывать
+worktree только к space (поле open_workspace_id), поэтому на уровне таба
+бранча взять неоткуда — имя проставляется снаружи, из cwd панелей.
+
+Имя таба = basename корня рабочего дерева. Для ~/.worktrees/front-avia-<hash>/
+AVIA-13207-order-webview это AVIA-13207-order-webview, для основного чекаута —
+front-avia.
+
+По умолчанию трогает только табы с автосгенерированным именем (голое число),
+чтобы не затирать руками названные. --force снимает это ограничение.
+"""
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+from collections import Counter
+
+
+def die(msg):
+    print("herdr-tab-names: " + msg, file=sys.stderr)
+    sys.exit(1)
+
+
+def herdr(*args):
+    try:
+        out = subprocess.run(
+            ["herdr", *args], capture_output=True, text=True, timeout=15
+        )
+    except FileNotFoundError:
+        die("herdr не найден в PATH")
+    if out.returncode != 0:
+        die(f"herdr {' '.join(args)}: {out.stderr.strip() or 'ошибка'}")
+    return out.stdout
+
+
+def snapshot():
+    raw = herdr("api", "snapshot")
+    try:
+        return json.loads(raw)["result"]["snapshot"]
+    except (ValueError, KeyError):
+        die("не разобрал ответ herdr api snapshot")
+
+
+_worktree_cache = {}
+
+
+def worktree_name(path):
+    """basename корня рабочего дерева для path, либо None."""
+    if not path:
+        return None
+    if path in _worktree_cache:
+        return _worktree_cache[path]
+    name = None
+    if os.path.isdir(path):
+        out = subprocess.run(
+            ["git", "-C", path, "rev-parse", "--show-toplevel"],
+            capture_output=True, text=True, timeout=10,
+        )
+        if out.returncode == 0:
+            top = out.stdout.strip()
+            if top:
+                name = os.path.basename(top)
+    _worktree_cache[path] = name
+    return name
+
+
+def tab_target(panes):
+    """Имя worktree для таба: по сфокусированной панели, иначе — по большинству."""
+    names = []
+    focused = None
+    for p in panes:
+        n = worktree_name(p.get("foreground_cwd") or p.get("cwd"))
+        if not n:
+            continue
+        names.append(n)
+        if p.get("focused"):
+            focused = n
+    if focused:
+        return focused
+    if not names:
+        return None
+    return Counter(names).most_common(1)[0][0]
+
+
+def main():
+    ap = argparse.ArgumentParser(
+        description="Назвать табы herdr по worktree, в котором они открыты."
+    )
+    ap.add_argument("--all", action="store_true",
+                    help="все space, а не только текущую")
+    ap.add_argument("--force", action="store_true",
+                    help="переименовывать и вручную названные табы")
+    ap.add_argument("-n", "--dry-run", action="store_true",
+                    help="показать, что было бы сделано")
+    args = ap.parse_args()
+
+    snap = snapshot()
+    current_ws = os.environ.get("HERDR_WORKSPACE_ID")
+    if not args.all and not current_ws:
+        die("не вижу HERDR_WORKSPACE_ID — запусти внутри herdr или добавь --all")
+
+    panes_by_tab = {}
+    for p in snap.get("panes", []):
+        panes_by_tab.setdefault(p.get("tab_id"), []).append(p)
+
+    ws_label = {w["workspace_id"]: w.get("label", "") for w in snap.get("workspaces", [])}
+
+    renamed = skipped = 0
+    for tab in snap.get("tabs", []):
+        ws = tab.get("workspace_id")
+        if not args.all and ws != current_ws:
+            continue
+
+        label = tab.get("label", "")
+        if not args.force and not label.isdigit():
+            skipped += 1
+            continue
+
+        name = tab_target(panes_by_tab.get(tab["tab_id"], []))
+        if not name or name == label:
+            continue
+
+        where = f'{ws_label.get(ws, ws)}/{label or tab["tab_id"]}'
+        if args.dry_run:
+            print(f"{where} -> {name}")
+        else:
+            herdr("tab", "rename", tab["tab_id"], name)
+            print(f"{where} -> {name}")
+        renamed += 1
+
+    if not renamed:
+        print("нечего переименовывать", file=sys.stderr)
+    if skipped:
+        print(f"пропущено вручную названных: {skipped} (--force чтобы тронуть)",
+              file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()

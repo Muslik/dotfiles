@@ -1,0 +1,26 @@
+#!/bin/sh
+# Диспетчер post-create хуков для wt.
+#
+# wt зовёт этот файл с аргументами: <worktree-path> <repo-root> <branch>.
+# Раньше здесь лежал симлинк на один-единственный хук, из-за чего второй было
+# некуда добавить. Теперь запускается всё исполняемое из post-create.d/
+# в порядке имён, поэтому хуки нумеруются: 10-, 20- и так далее.
+#
+# Упавший хук не останавливает остальные: сообщение уходит в stderr, а общий
+# код возврата становится ненулевым.
+
+set -u
+
+dir="${XDG_CONFIG_HOME:-$HOME/.config}/wt/post-create.d"
+[ -d "$dir" ] || exit 0
+
+status=0
+for hook in "$dir"/*; do
+    [ -x "$hook" ] || continue
+    if ! "$hook" "$@"; then
+        echo "wt post-create: $(basename "$hook") завершился с ошибкой" >&2
+        status=1
+    fi
+done
+
+exit "$status"

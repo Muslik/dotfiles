@@ -1,0 +1,121 @@
+# herdr config (c) Dzhab — ported from tmux.conf
+# symlink: ~/.config/herdr/config.toml -> ~/dotfiles/herdr/config.toml
+#
+# Validate after editing:  herdr config check   (also reports duplicate bindings)
+# Apply without restart:   herdr server reload-config
+
+onboarding = false
+
+[theme]
+name = "rose-pine"
+auto_switch = false
+
+[terminal]
+new_cwd = "follow"
+
+[keys]
+# tmux: set-option -g prefix C-a
+# Pressing it twice sends a literal C-a to the pane (built in, no send-prefix needed).
+prefix = "ctrl+a"
+
+# --- splits -------------------------------------------------------------
+# tmux: bind '"' split-window      -> stacked, herdr calls this horizontal
+# tmux: bind v   split-window -h   -> side by side, herdr calls this vertical
+# herdr cannot bind the `"` character itself (the literal and every spelling of
+# it are rejected), so this is the same physical key without shift.
+split_horizontal = "prefix+quote"
+split_vertical = "prefix+v"
+close_pane = "prefix+x"
+zoom = "prefix+z"
+
+# --- panes --------------------------------------------------------------
+# tmux: bind h/j/k/l select-pane
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+# tmux has no pane swap on HJKL; those were resize-pane, which herdr only
+# offers as a mode (prefix+R below). Reusing HJKL for swap keeps them useful.
+swap_pane_left = "prefix+shift+h"
+swap_pane_down = "prefix+shift+j"
+swap_pane_up = "prefix+shift+k"
+swap_pane_right = "prefix+shift+l"
+last_pane = "prefix+semicolon"   # tmux default: ; last-pane
+cycle_pane_next = "prefix+o"     # tmux default: o select-pane -t :.+
+cycle_pane_previous = "prefix+shift+tab"
+rename_pane = "prefix+shift+p"
+
+# --- tabs (tmux windows) ------------------------------------------------
+new_tab = "prefix+c"
+next_tab = "prefix+n"
+previous_tab = "prefix+p"
+switch_tab = "prefix+1..9"
+rename_tab = "prefix+comma"      # tmux default: , rename-window
+close_tab = "prefix+ampersand"   # tmux default: & kill-window
+
+# --- workspaces (tmux sessions) -----------------------------------------
+workspace_picker = "prefix+s"        # tmux default: s choose-session
+rename_workspace = "prefix+shift+4"  # tmux default: $ rename-session
+goto = "prefix+f"                    # tmux default: f find-window
+detach = "prefix+d"                  # tmux default: d detach-client
+new_workspace = "prefix+shift+n"
+close_workspace = "prefix+shift+d"
+new_worktree = "prefix+shift+g"
+
+# --- misc ---------------------------------------------------------------
+copy_mode = "prefix+enter"      # tmux: bind Enter copy-mode
+reload_config = "prefix+r"      # tmux: bind r source-file
+resize_mode = "prefix+shift+r"  # tmux had -r HJKL; herdr needs a mode
+edit_scrollback = "prefix+e"
+toggle_sidebar = "prefix+b"
+settings = "prefix+shift+s"           # moved: prefix+s is the workspace picker
+open_notification_target = "prefix+shift+o"  # moved: prefix+o cycles panes
+
+# No herdr equivalent, dropped from the tmux config:
+#   bind Z set status      (zen mode)
+#   bind ! break-pane      /  bind @ join-pane
+#   prefix+? help stays on herdr's built-in binding
+
+# prefix+, renames one tab by hand; prefix+< names every tab after its worktree.
+# ~/dotfiles/bin is not on PATH, and it is unclear whether herdr runs this string
+# through a shell, so go through sh explicitly — correct either way.
+# Must stay last: [[keys.command]] ends the [keys] table, and TOML will not let
+# it be reopened afterwards.
+[[keys.command]]
+key = "prefix+shift+comma"
+type = "shell"
+command = '/bin/sh -c "$HOME/dotfiles/bin/herdr-tab-names --all"'
+
+[ui]
+sidebar_width = 32
+sidebar_max_width = 44
+agent_panel_sort = "priority"
+show_agent_labels_on_pane_borders = true
+mouse_capture = true
+copy_on_select = true
+pane_borders = true
+pane_gaps = true
+hide_tab_bar_when_single_tab = true
+
+# Branch alone is not enough when several spaces sit on one repo — git_status
+# adds the dirty/ahead markers that say which one is actually being worked on.
+[ui.sidebar.spaces]
+rows = [["state_icon", "workspace"], ["branch", "git_status"]]
+
+[ui.sidebar.agents]
+rows = [["state_icon", "workspace", "tab"], ["agent"]]
+
+# Claude reports its current task as the terminal title, so give it a row of its
+# own instead of just "claude".
+[ui.sidebar.agents.rows_by_agent]
+claude = [["state_icon", "workspace", "tab"], ["terminal_title_stripped"], ["agent"]]
+
+[ui.sound]
+enabled = false
+
+[ui.toast]
+delivery = "off"
+
+[advanced]
+# tmux: set -g history-limit 100000
+scrollback_limit_bytes = 20000000

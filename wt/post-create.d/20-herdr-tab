@@ -1,0 +1,17 @@
+#!/bin/sh
+# Назвать таб herdr по созданному worktree.
+# Аргументы от wt: <worktree-path> <repo-root> <branch>
+#
+# herdr умеет привязывать worktree только к space (поле open_workspace_id),
+# на уровне таба бранча взять неоткуда — поэтому имя проставляется снаружи.
+# Имя берём из basename пути, а не из "$3": так оно совпадает с тем, что
+# показывает herdr-tab-names, который читает cwd уже открытых панелей.
+#
+# Вне herdr переменной нет — тихо выходим, чтобы wt не ругался.
+
+set -u
+
+[ -n "${HERDR_TAB_ID:-}" ] || exit 0
+command -v herdr >/dev/null 2>&1 || exit 0
+
+exec herdr tab rename "$HERDR_TAB_ID" "$(basename "$1")"
