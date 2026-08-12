@@ -53,7 +53,7 @@ brew "mkcert"
 brew "mysql"
 brew "nghttp2"
 brew "nginx"
-brew "node", link: false
+brew "fnm"
 brew "opam"
 brew "pandoc"
 brew "php"

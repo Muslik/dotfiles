@@ -1,6 +1,7 @@
 # Aplications
 cmd + alt - t  : open -a WezTerm.app
 cmd + alt - e : open -a Visual\ Studio\ Code.app
+# alt - t : ~/.config/skhd/toggle-term.sh
 
 # Navigation
 # cycle through stack windows
