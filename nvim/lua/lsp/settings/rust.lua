@@ -1,75 +1,40 @@
+local function reload_workspace(bufnr)
+  local clients = vim.lsp.get_clients({ bufnr = bufnr, name = 'rust_analyzer' })
+  for _, client in ipairs(clients) do
+    vim.notify('Reloading Cargo workspace')
+    client:request('rust-analyzer/reloadWorkspace', nil, function(err)
+      if err then
+        vim.notify(tostring(err), vim.log.levels.ERROR)
+        return
+      end
+
+      vim.notify('Cargo workspace reloaded')
+    end, bufnr)
+  end
+end
+
 return {
-  tools = {
-    on_initialized = function()
-      vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufEnter', 'CursorHold', 'InsertLeave' }, {
-        pattern = { '*.rs' },
-        callback = function()
-          vim.lsp.codelens.refresh()
-        end,
-      })
-    end,
-    inlay_hints = {
-      -- Only show inlay hints for the current line
-      only_current_line = false,
+  on_attach = function(_, bufnr)
+    vim.api.nvim_buf_create_user_command(bufnr, 'RustReloadWorkspace', function()
+      reload_workspace(bufnr)
+    end, { desc = 'Reload current Cargo workspace' })
 
-      -- Event which triggers a refersh of the inlay hints.
-      -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
-      -- not that this may cause higher CPU usage.
-      -- This option is only respected when only_current_line and
-      -- autoSetHints both are true.
-      only_current_line_autocmd = 'CursorHold',
-
-      -- whether to show parameter hints with the inlay hints or not
-      -- default: true
-      show_parameter_hints = false,
-
-      -- whether to show variable name before type hints with the inlay hints or not
-      -- default: false
-      show_variable_name = false,
-
-      -- prefix for parameter hints
-      -- default: "<-"
-      -- parameter_hints_prefix = "<- ",
-      parameter_hints_prefix = ' ',
-
-      -- prefix for all the other hints (type, chaining)
-      -- default: "=>"
-      -- other_hints_prefix = "=> ",
-      other_hints_prefix = ' ',
-
-      -- whether to align to the lenght of the longest line in the file
-      max_len_align = false,
-
-      -- padding from the left if max_len_align is true
-      max_len_align_padding = 1,
-
-      -- whether to align to the extreme right or not
-      right_align = false,
-
-      -- padding from the right if right_align is true
-      right_align_padding = 7,
-
-      -- The color of the hints
-      highlight = 'Comment',
-    },
-    hover_actions = {
-      auto_focus = false,
-      border = 'rounded',
-      width = 60,
-    },
-  },
-  server = {
-    on_attach = require('lsp.handlers').on_attach,
-    capabilities = require('lsp.handlers').capabilities,
-
-    settings = {
-      ['rust-analyzer'] = {
-        lens = {
-          enable = true,
-        },
-        checkOnSave = {
-          command = 'clippy',
-        },
+    local group = vim.api.nvim_create_augroup('RustCodeLensRefresh:' .. bufnr, { clear = true })
+    vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+      group = group,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.codelens.refresh()
+      end,
+    })
+  end,
+  settings = {
+    ['rust-analyzer'] = {
+      lens = {
+        enable = true,
+      },
+      checkOnSave = {
+        command = 'clippy',
       },
     },
   },

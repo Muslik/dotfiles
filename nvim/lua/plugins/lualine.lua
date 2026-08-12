@@ -5,8 +5,6 @@ end
 
 local noice = require('noice')
 
-print(noice.api.statusline.mode.get(), noice.api.statusline.mode.has())
-
 vim.api.nvim_set_hl(0, 'SLGitIcon', { fg = '#E8AB53', bg = '#303030' })
 vim.api.nvim_set_hl(0, 'SLBranchName', { fg = '#D4D4D4', bg = '#303030', bold = false })
 vim.api.nvim_set_hl(0, 'SLProgress', { fg = '#D4D4D4', bg = '#303030' })
@@ -87,7 +85,7 @@ local filetype = {
   fmt = function(str)
     local ui_filetypes = {
       'help',
-      'packer',
+      'lazy',
       'Trouble',
       'Outline',
       'toggleterm',

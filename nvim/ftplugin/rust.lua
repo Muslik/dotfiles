@@ -15,19 +15,11 @@ local opts = {
 local mappings = {
   L = {
     name = "Rust",
-    h = { "<cmd>RustEnableInlayHints<Cr>", "Enable Hints" },
-    H = { "<cmd>RustDisableInlayHints<Cr>", "Disable Hints" },
-    r = { "<cmd>RustRunnables<Cr>", "Runnables" },
+    h = { "<cmd>lua vim.lsp.inlay_hint.enable(true, { bufnr = 0 })<Cr>", "Enable Hints" },
+    H = { "<cmd>lua vim.lsp.inlay_hint.enable(false, { bufnr = 0 })<Cr>", "Disable Hints" },
+    l = { "<cmd>lua vim.lsp.codelens.run()<Cr>", "Run CodeLens" },
     t = { "<cmd>lua _CARGO_TEST()<cr>", "Cargo Test" },
-    m = { "<cmd>RustExpandMacro<Cr>", "Expand Macro" },
-    c = { "<cmd>RustOpenCargo<Cr>", "Open Cargo" },
-    p = { "<cmd>RustParentModule<Cr>", "Parent Module" },
-    d = { "<cmd>RustDebuggables<Cr>", "Debuggables" },
-    v = { "<cmd>RustViewCrateGraph<Cr>", "View Crate Graph" },
-    R = {
-      "<cmd>lua require('rust-tools/workspace_refresh')._reload_workspace_from_cargo_toml()<Cr>",
-      "Reload Workspace",
-    },
+    R = { "<cmd>RustReloadWorkspace<Cr>", "Reload Workspace" },
   },
 }
 

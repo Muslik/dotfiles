@@ -3,5 +3,7 @@ return {
     client.server_capabilities.hoverProvider = false
     client.server_capabilities.definitionProvider = false
   end,
-  root_dir = vim.loop.cwd,
+  root_dir = function(_, on_dir)
+    on_dir(vim.fn.getcwd())
+  end,
 }

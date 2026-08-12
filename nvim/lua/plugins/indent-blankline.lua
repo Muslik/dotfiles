@@ -9,7 +9,7 @@ indent_blankline.setup({
     enabled = false,
   },
   exclude = {
-    filetypes = { 'dashboard', 'Trouble', 'packer' },
+    filetypes = { 'dashboard', 'Trouble', 'lazy' },
     buftypes = { 'terminal', 'nofile' },
   }
 })

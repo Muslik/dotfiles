@@ -73,13 +73,11 @@ lazy.setup({
   { 'Muslik/browse.nvim', branch = 'mac-os-devdocs-fix' },
   'windwp/nvim-spectre',
   'folke/which-key.nvim',
-  'lewis6991/impatient.nvim',
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl' },
   'tpope/vim-surround',
   'numToStr/Comment.nvim',
   'akinsho/toggleterm.nvim',
   'nvim-lualine/lualine.nvim',
-  'simrat39/symbols-outline.nvim',
 
   { 'ThePrimeagen/harpoon', branch = 'harpoon2' },
 
@@ -97,8 +95,6 @@ lazy.setup({
       'neovim/nvim-lspconfig', -- optional
     },
   },
-  'pmizio/typescript-tools.nvim',
-  'simrat39/rust-tools.nvim',
   {
     'vhyrro/luarocks.nvim',
     priority = 1000,
@@ -106,7 +102,19 @@ lazy.setup({
   },
   'mattn/emmet-vim',
   'windwp/nvim-autopairs',
-  'norcalli/nvim-colorizer.lua',
+  {
+    'norcalli/nvim-colorizer.lua',
+    ft = { 'css', 'scss', 'sass', 'html' },
+    cmd = {
+      'ColorizerAttachToBuffer',
+      'ColorizerDetachFromBuffer',
+      'ColorizerReloadAllBuffers',
+      'ColorizerToggle',
+    },
+    config = function()
+      require('plugins.colorizer')
+    end,
+  },
   'rafamadriz/friendly-snippets',
   'abecodes/tabout.nvim',
 
@@ -155,12 +163,17 @@ lazy.setup({
       terminal_cmd = "SHELL=/bin/bash /Users/dzhabrail/.claude/local/claude"
     }
   },
-  -- Database
-  'kndndrj/nvim-dbee',
-  dependencies = {
-    'MunifTanjim/nui.nvim',
+  {
+    'kndndrj/nvim-dbee',
+    cmd = 'Dbee',
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+    },
+    build = function()
+      require('dbee').install()
+    end,
+    config = function()
+      require('plugins.dbee')
+    end,
   },
-  build = function()
-    require('dbee').install()
-  end,
 })

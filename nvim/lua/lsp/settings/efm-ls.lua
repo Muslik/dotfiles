@@ -1,5 +1,4 @@
 local tbl_keys = vim.tbl_keys
-local loop = vim.loop
 
 local eslint = {
   lintCommand = 'eslint_d -f visualstudio --stdin --stdin-filename ${INPUT}',
@@ -37,7 +36,13 @@ local mix_format = {
 		formatStdin = true
 	}
 
+local black = {
+  formatCommand = 'black --quiet -',
+  formatStdin = true,
+}
+
 local format_config = {
+  python = { black },
   c = { clangd },
   css = { prettier },
   html = { prettier },
@@ -60,7 +65,9 @@ return {
   --[[ cmd = { 'efm-langserver' }, ]]
   cmd = { 'efm-langserver', '-logfile', '/tmp/efm.log', '-loglevel', '5' },
   init_options = { documentFormatting = true },
-  root_dir = loop.cwd,
+  root_dir = function(_, on_dir)
+    on_dir(vim.fn.getcwd())
+  end,
   filetypes = tbl_keys(format_config),
   settings = { languages = format_config },
 }

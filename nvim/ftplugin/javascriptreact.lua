@@ -1,3 +1,1 @@
-local map = Utils.map
-map('n', 'gD', '<cmd>TSToolsGoToSourceDefinition<CR>')
-
+require('lsp.typescript').setup_keymaps()

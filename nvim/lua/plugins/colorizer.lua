@@ -14,3 +14,7 @@ colorizer.setup({ "css", "scss", "sass", "html" }, {
   css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
   mode = "background", -- Set the display mode.)
 })
+
+if vim.tbl_contains({ "css", "scss", "sass", "html" }, vim.bo.filetype) then
+  colorizer.attach_to_buffer(0)
+end

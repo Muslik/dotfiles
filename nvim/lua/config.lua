@@ -21,10 +21,8 @@ require('catppuccin').setup({
     native_lsp = { enabled = true },
     noice = true,
     notify = true,
-    symbols_outline = true,
     telescope = true,
     treesitter = true,
     treesitter_context = true,
   },
 })
-

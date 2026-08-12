@@ -12,18 +12,41 @@ local servers = {
   'rust_analyzer',
   'lua_ls',
   'prismals',
-  --[[ 'ts_ls', ]]
+  'tailwindcss',
+  'ts_ls',
+  'tsgo',
+  'astro',
+  'volar',
   'pyright',
-  'python-lsp-server',
+  'pylsp',
   'yamlls',
 }
 
-local lspconfig_status_ok, lspconfig = pcall(require, 'lspconfig')
-if not lspconfig_status_ok then
-  return
-end
-
 local handlers = require('lsp.handlers')
+
+local server_settings = {
+  clangd = 'lsp.settings.clangd',
+  cssls = 'lsp.settings.cssls',
+  cssmodules_ls = 'lsp.settings.cssmodules-ls',
+  efm = 'lsp.settings.efm-ls',
+  eslint = 'lsp.settings.eslint',
+  jsonls = 'lsp.settings.jsonls',
+  lua_ls = 'lsp.settings.sumneko-lua',
+  pyright = 'lsp.settings.pyright',
+  rust_analyzer = 'lsp.settings.rust',
+  tailwindcss = 'lsp.settings.tailwindcss',
+  ts_ls = 'lsp.settings.ts_ls',
+  tsgo = 'lsp.settings.tsgo',
+}
+
+local function get_server_opts(server)
+  local settings_module = server_settings[server]
+  if not settings_module then
+    return {}
+  end
+
+  return require(settings_module)
+end
 
 for _, server in pairs(servers) do
   local base_opts = {
@@ -31,90 +54,23 @@ for _, server in pairs(servers) do
     capabilities = handlers.capabilities,
   }
 
-  if server == 'cssls' then
-    local server_opts = require('lsp/settings/cssls')
-    base_opts = vim.tbl_deep_extend('force', server_opts, base_opts)
-  end
+  local server_opts = get_server_opts(server)
+  base_opts = vim.tbl_deep_extend('force', server_opts, base_opts)
 
-  if server == 'efm' then
-    local server_opts = require('lsp/settings/efm-ls')
-    base_opts = vim.tbl_deep_extend('force', server_opts, base_opts)
-  end
+  if server_opts.on_attach then
+    local base_on_attach = handlers.on_attach
+    local server_on_attach = server_opts.on_attach
 
-  if server == 'lua_ls' then
-    local server_opts = require('lsp/settings/sumneko-lua')
-    base_opts = vim.tbl_deep_extend('force', server_opts, base_opts)
-  end
-
-  --[[ if server == 'ts_ls' then ]]
-  --[[   local server_opts = require('lsp/settings/ts_ls') ]]
-  --[[   base_opts = vim.tbl_deep_extend('force', server_opts, base_opts) ]]
-  --[[]]
-  --[[   base_opts.init_options = { ]]
-  --[[     plugins = { -- I think this was my breakthrough that made it work ]]
-  --[[       { ]]
-  --[[         name = '@vue/typescript-plugin', ]]
-  --[[         location = '/usr/local/lib/node_modules/@vue/language-server', ]]
-  --[[         languages = { 'vue' }, ]]
-  --[[       }, ]]
-  --[[     }, ]]
-  --[[   } ]]
-  --[[   base_opts.filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' } ]]
-  --[[ end ]]
-
-  if server == 'jsonls' then
-    local server_opts = require('lsp/settings/jsonls')
-    base_opts = vim.tbl_deep_extend('force', server_opts, base_opts)
-  end
-
-  if server == 'eslint' then
-    local server_opts = require('lsp/settings/eslint')
-    base_opts = vim.tbl_deep_extend('force', server_opts, base_opts)
-  end
-
-  if server == 'cssmodules_ls' then
-    local server_opts = require('lsp/settings/cssmodules-ls')
-    base_opts = vim.tbl_deep_extend('force', server_opts, base_opts)
-  end
-
-  if server == 'clangd' then
-    local server_opts = require('lsp/settings/clangd')
-    base_opts = vim.tbl_deep_extend('force', server_opts, base_opts)
-  end
-
-  if server == 'rust_analyzer' then
-    local rust_opts = require('lsp/settings/rust')
-    local rust_tools_status_ok, rust_tools = pcall(require, 'rust-tools')
-
-    if not rust_tools_status_ok then
-      return
+    base_opts.on_attach = function(client, bufnr)
+      base_on_attach(client, bufnr)
+      server_on_attach(client, bufnr)
     end
-
-    rust_opts = vim.tbl_deep_extend('force', rust_opts, base_opts)
-    rust_tools.setup(rust_opts)
-    goto continue
   end
 
   if server == 'html' then
     base_opts.filetypes = { 'html', 'vue' }
   end
   
-  lspconfig[server].setup(base_opts)
-  ::continue::
+  vim.lsp.config(server, base_opts)
+  vim.lsp.enable(server)
 end
-
-local status_ok, typescript = pcall(require, 'typescript-tools')
-if not status_ok then
-  return
-end
-
-typescript.setup({
-  on_attach = handlers.on_attach,
-  capabilities = handlers.capabilities,
-  settings = {
-    tsserver_plugins = {
-      '@vue/typescript-plugin',
-    }
-  },
-  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-})
