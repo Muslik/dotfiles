@@ -53,7 +53,9 @@ autoload -Uz compinit && compinit
 source ~/dotfiles/fzf-git.sh
 
 # bun completions
-[ -s "/Users/dzhabrail/.bun/_bun" ] && source "/Users/dzhabrail/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 show_file_or_dir_preview="if [ -d {} ]; then tree -C {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 
@@ -90,4 +92,4 @@ export PATH="$HOME/.atrium/bin:$PATH"
 
 
 # Added by Antigravity CLI installer
-export PATH="/Users/dzhabrail/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"

@@ -66,7 +66,7 @@ yabai -m rule --add title='Tunnelblick$' manage=off
 yabai -m rule --add title='TunnelBear$' manage=off
 
 yabai -m rule --add app="^Chrome$" space=1
-yabai -m rule --add app="^kitty$" space=2
+yabai -m rule --add app="^WezTerm$" space=2
 yabai -m rule --add app="^Telegram$" space=4
 yabai -m rule --add app="^Slack$" space=4
 yabai -m rule --add app="^Discord$" space=4
