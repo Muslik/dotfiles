@@ -27,6 +27,11 @@ done
 
 bindkey -v
 bindkey -M viins 'jk' vi-cmd-mode
+# atrium впечатывает команды запуска с ведущим Ctrl-K, рассчитывая на emacs-биндинг
+# ^K=kill-line (очистить строку). В vi-insert ^K по умолчанию self-insert, поэтому
+# управляющий символ вставлялся буквально => "command not found: ^K__ATRIUM_NOHIST=1".
+# Возвращаем kill-line в viins, чтобы авто-запуск atrium (codex/claude) работал.
+bindkey -M viins '^K' kill-line
 function zle-line-init zle-keymap-select {
     RPS2=$RPS1
     zle reset-prompt
@@ -45,6 +50,44 @@ setopt share_history
 autoload -Uz compinit && compinit
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source ~/dotfiles/fzf-git.sh
 
 # bun completions
 [ -s "/Users/dzhabrail/.bun/_bun" ] && source "/Users/dzhabrail/.bun/_bun"
+
+show_file_or_dir_preview="if [ -d {} ]; then tree -C {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
+
+export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
+
+_fzf_git_fzf() {
+  fzf -d40% -- \
+    --layout=reverse --multi --height=50% --min-height=20 --border \
+    --border-label-pos=2 \
+    --color='header:italic:underline,label:blue' \
+    --preview-window='right,50%,border-left' \
+    --bind='ctrl-/:change-preview-window(down,50%,border-top|hidden|)' "$@"
+}
+
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  if [[ -z "${CLAUDECODE}" ]]; then
+    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+  fi
+fi
+
+alias claude="SHELL=/bin/bash /Users/dzhabrail/.local/bin/claude"
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
+. "$HOME/.local/bin/env"
+
+# Added by Antigravity
+export PATH="/Users/dzhabrail/.antigravity/antigravity/bin:$PATH"
+
+eval "$(zoxide init zsh)"
+
+# Added by atrium
+export PATH="$HOME/.atrium/bin:$PATH"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/dzhabrail/.local/bin:$PATH"

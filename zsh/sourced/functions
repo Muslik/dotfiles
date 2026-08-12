@@ -111,12 +111,55 @@ function gco()
 
 function gws()
 {
-  if [ -d .git ]; then
-    cd `git worktree list | fzf --height 10% | awk '{print $1}'`
-  else
-    echo "Not a git repository"
-  fi
+  wt cd
 }
+
+function wt()
+{
+  if [[ "${1:-}" == "cd" || "${1:-}" == "switch" || "${1:-}" == "s" ]]; then
+    shift
+
+    local target
+
+    if [[ $# -eq 0 ]]; then
+      if ! command -v fzf >/dev/null 2>&1; then
+        echo "fzf is required for wt cd without an argument"
+        return 1
+      fi
+
+      target=$(
+        command wt list --raw |
+          awk -F '\t' '{ branch = $2; sub(/^refs\/heads\//, "", branch); print $1 "\t" branch }' |
+          fzf --height 40% --reverse --prompt='worktree> ' --with-nth=2,1 |
+          awk -F '\t' '{print $1}'
+      )
+    else
+      target=$(command wt path "$1") || return
+    fi
+
+    [[ -n "$target" ]] || return
+    builtin cd "$target"
+    return
+  fi
+
+  command wt "$@"
+}
+
+function _wt_cd_widget()
+{
+  BUFFER=''
+  CURSOR=0
+  zle -I
+  wt cd
+  BUFFER=''
+  CURSOR=0
+  zle reset-prompt
+}
+
+if [[ -o interactive ]]; then
+  zle -N _wt_cd_widget
+  bindkey '^[w' _wt_cd_widget
+fi
 
 function wmtoggle()
 {
@@ -147,4 +190,131 @@ battery() {
     cycles=$(system_profiler SPPowerDataType | grep "Cycle Count" | awk '{print $3}')
     charge_status=$(system_profiler SPPowerDataType | grep "State of Charge" | awk '{print $5}')
     print "Condition: ${condition}\nCycles: ${cycles}\nCharge: ${charge_status}%"
+}
+
+#########################################
+# TCP PORTS                             #
+#########################################
+function _port_cwd()
+{
+  local pid="$1"
+  local cwd
+
+  cwd=$(lsof -a -p "$pid" -d cwd -Fn 2>/dev/null | sed -n 's/^n//p')
+  echo "${cwd:-"-"}"
+}
+
+function _port_listeners()
+{
+  local target="$1"
+  local rows
+
+  if [[ -n "$target" ]]; then
+    rows=$(lsof -nP -iTCP:"$target" -sTCP:LISTEN 2>/dev/null)
+  else
+    rows=$(lsof -nP -iTCP -sTCP:LISTEN 2>/dev/null)
+  fi
+
+  if [[ -z "$rows" ]]; then
+    if [[ -n "$target" ]]; then
+      echo "No listener on port $target"
+    else
+      echo "No TCP listeners"
+    fi
+    return 0
+  fi
+
+  printf "%-18s %-8s %-12s %-28s %s\n" "COMMAND" "PID" "USER" "ADDRESS" "CWD"
+  echo "$rows" | awk 'NR > 1 { name=$9; for(i=10;i<=NF;i++) name=name" "$i; print $1 "\t" $2 "\t" $3 "\t" name }' | while IFS=$'\t' read command pid user address; do
+    printf "%-18s %-8s %-12s %-28s %s\n" "$command" "$pid" "$user" "$address" "$(_port_cwd "$pid")"
+  done
+}
+
+function port()
+{
+  local usage=$'usage:\n  port [<port>]\n  port list [<port>]\n  port kill <port> [--force]\n  port help'
+  local action="${1:-list}"
+  local target
+
+  case "$action" in
+    help|-h|--help)
+      echo "$usage"
+      ;;
+    list|ls)
+      shift
+      target="$1"
+      _port_listeners "$target"
+      ;;
+    kill|k|free)
+      shift
+      local force=0
+      local signal="TERM"
+      local pids
+
+      if [[ "$1" == "--force" || "$1" == "-9" ]]; then
+        force=1
+        shift
+      fi
+
+      target="$1"
+
+      if [[ "$2" == "--force" || "$2" == "-9" ]]; then
+        force=1
+      fi
+
+      if [[ -z "$target" ]]; then
+        echo "$usage"
+        return 1
+      fi
+
+      if ! [[ "$target" =~ '^[0-9]+$' ]]; then
+        echo "Port must be a number"
+        return 1
+      fi
+
+      pids=$(lsof -tiTCP:"$target" -sTCP:LISTEN 2>/dev/null)
+
+      if [[ -z "$pids" ]]; then
+        echo "No listener on port $target"
+        return 0
+      fi
+
+      (( force )) && signal="KILL"
+
+      lsof -nP -iTCP:"$target" -sTCP:LISTEN
+      kill -s "$signal" ${(f)pids}
+      ;;
+    *)
+      if [[ "$action" =~ '^[0-9]+$' ]]; then
+        _port_listeners "$action"
+      else
+        echo "$usage"
+        return 1
+      fi
+      ;;
+  esac
+}
+
+# wt — cd-обёртка над движком ~/.local/bin/wt.
+# Скрипт не может сменить cwd вызвавшей оболочки, поэтому он пишет целевой путь
+# в файл $WT_CD_FILE, а мы здесь делаем cd. Боковой канал (а не парсинг stdout),
+# чтобы не ломать интерактивный fzf и живой вывод install.
+# cd срабатывает для: wt <ветка> / wt -b, wt main, wt go. Для list/path/rm/prompt — нет.
+wt() {
+  local _cd _rc _dest
+  _cd="$(mktemp "${TMPDIR:-/tmp}/wtcd.XXXXXX")" || { command wt "$@"; return $?; }
+  WT_CD_FILE="$_cd" command wt "$@"
+  _rc=$?
+  _dest="$(cat "$_cd" 2>/dev/null)"
+  rm -f "$_cd"
+  if [ "$_rc" -eq 0 ] && [ -n "$_dest" ] && [ -d "$_dest" ]; then
+    cd "$_dest"
+    # Хук post-create зовётся только при создании worktree, а wt go/cd/main
+    # присоединяются к уже существующему — там таб остаётся безымянным.
+    # Поэтому имя ставим и здесь: покрывает оба пути, повторный вызов безвреден.
+    if [ -n "${HERDR_TAB_ID:-}" ] && command -v herdr >/dev/null 2>&1; then
+      herdr tab rename "$HERDR_TAB_ID" "${_dest:t}" >/dev/null 2>&1
+    fi
+  fi
+  return "$_rc"
 }

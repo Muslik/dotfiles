@@ -46,7 +46,6 @@ alias mc="yazi"
 alias yota="sudo sysctl -w net.inet.ip.ttl=65"
 alias lg="gitui"
 alias mux="tmuxinator"
-alias nap="~/go/bin/nap"
 
 #########################################
 # IP / Speedtest                        #
@@ -88,25 +87,27 @@ alias colors="curl -s https://gist.githubusercontent.com/HaleTom/89ffe32783f89f4
 #  ██║     ██║  ██║   ██║   ██║  ██║███████║
 #  ╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝
 #
+alias cd="z"
 alias ..="cd .."
 alias ...="cd ../../../"
 alias ....="cd ../../../../"
-alias gdp="cd ~/Desktop"
-alias gdf="cd ~/dotfiles";
-alias gwk="cd ~/Projects/work"
-alias gdc="cd ~/Documents"
-alias gdl="cd ~/Downloads"
+alias gdp="z ~/Desktop"
+alias gdf="z ~/dotfiles";
+alias gwk="z ~/Projects/work"
+alias gdc="z ~/Documents"
+alias gdl="z ~/Downloads"
 
-alias min="open /Applications/Min.app"
-
-alias binance="node ~/Projects/binance-calculator-premium/app/init.js"
 alias ott="mux ott"
 
 # NODE
 alias ni="npm install"
 alias nis="npm install && npm start"
 alias ns="npm start"
-alias n14="n exec 14.18.0"
-alias ni14="n14 npm install"
-alias ns14="n14 npm run start"
-alias nis14="n14 npm install && n14 npm start"
+
+alias tlive="tlive -o"
+alias vps="ssh dzhab@152.53.50.207"
+alias prayer="prayer --location="24.524654:39.569183""
+
+alias cursor="cursor-agent"
+
+alias M="node /Users/dzhabrail/Projects/work/metrics/dist/index.js"

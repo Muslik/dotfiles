@@ -1,0 +1,4 @@
+# NODE
+if command -v fnm >/dev/null 2>&1; then
+  eval "$(fnm env --use-on-cd --shell zsh --version-file-strategy=recursive --log-level=quiet --corepack-enabled)"
+fi
