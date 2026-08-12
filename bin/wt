@@ -1,32 +1,77 @@
-#!/usr/bin/env bash
-#
-# wt — общий git worktree helper (не привязан ни к какому проекту).
-#
-# Создаёт worktree в  $WORKTREE_HOME/<repo-name>-<repo-root-hash>/<sanitized-branch>
-# (по умолчанию ~/.worktrees), ставит зависимости, чтит .nvmrc/.node-version через fnm.
-#
-# Точка расширения: после создания worktree вызывает исполняемый хук
-#   $WT_POST_CREATE  (по умолчанию ~/.config/wt/post-create), если он есть,
-#   с аргументами: <worktree-path> <repo-root> <branch>.
-# Так любой внешний слой (напр. личный agent-config) подцепляется, не зная про wt,
-# и наоборот — wt ничего не знает про этот слой.
+#!/usr/bin/env python3
+"""wt — общий git worktree helper (не привязан ни к какому проекту).
 
-set -euo pipefail
+Создаёт worktree в  $WORKTREE_HOME/<repo-name>-<repo-root-hash>/<sanitized-branch>
+(по умолчанию ~/.worktrees), ставит зависимости, чтит .nvmrc/.node-version через fnm.
 
-_cfg="${XDG_CONFIG_HOME:-$HOME/.config}/wt/config"
-# shellcheck disable=SC1090
-[ -f "$_cfg" ] && . "$_cfg"
+Точка расширения: после создания worktree вызывает исполняемый хук
+  $WT_POST_CREATE  (по умолчанию ~/.config/wt/post-create), если он есть,
+  с аргументами: <worktree-path> <repo-root> <branch>.
 
-DEFAULT_BASE="${WT_BASE:-master}"
-WORKTREE_HOME="${WORKTREE_HOME:-$HOME/.worktrees}"
-WT_POST_CREATE="${WT_POST_CREATE:-${XDG_CONFIG_HOME:-$HOME/.config}/wt/post-create}"
+Скрипт (дочерний процесс) не может сменить cwd вызвавшей оболочки. Когда wt
+запущен через shell-обёртку (dotfiles/zsh/sourced/functions), $WT_CD_FILE
+называет файл, куда мы пишем путь назначения; обёртка читает его и делает cd.
+"""
 
-print_help() {
-  cat <<EOF
-Usage:
+import os
+import re
+import shlex
+import shutil
+import subprocess
+import sys
+
+quote = shlex.quote
+
+
+def die(msg):
+    print("wt: " + msg, file=sys.stderr)
+    sys.exit(1)
+
+
+def eprint(msg):
+    print(msg, file=sys.stderr)
+
+
+# --- config / constants ----------------------------------------------------
+
+def load_config():
+    """Сорсим ~/.config/wt/config (shell-сниппет) и забираем из него WT_BASE /
+    WORKTREE_HOME / WT_POST_CREATE — единственные переменные, которые он ставит.
+    Python не умеет source сам, поэтому спрашиваем bash."""
+    xdg = os.environ.get("XDG_CONFIG_HOME") or os.path.expanduser("~/.config")
+    cfg = os.path.join(xdg, "wt", "config")
+    if not os.path.isfile(cfg):
+        return
+    script = (
+        'set -a; . "$1" >/dev/null 2>&1; '
+        'printf "%s\\0%s\\0%s" "${WT_BASE-}" "${WORKTREE_HOME-}" "${WT_POST_CREATE-}"'
+    )
+    try:
+        out = subprocess.run(
+            ["bash", "-c", script, "wt-config", cfg],
+            capture_output=True, text=True, timeout=10,
+        ).stdout
+    except Exception:
+        return
+    keys = ("WT_BASE", "WORKTREE_HOME", "WT_POST_CREATE")
+    for key, val in zip(keys, out.split("\0")):
+        if val:
+            os.environ[key] = val
+
+
+load_config()
+
+XDG = os.environ.get("XDG_CONFIG_HOME") or os.path.expanduser("~/.config")
+DEFAULT_BASE = os.environ.get("WT_BASE") or "master"
+WORKTREE_HOME = os.environ.get("WORKTREE_HOME") or os.path.expanduser("~/.worktrees")
+POST_CREATE = os.environ.get("WT_POST_CREATE") or os.path.join(XDG, "wt", "post-create")
+
+HELP = f"""Usage:
   wt                             pick an EXISTING branch (fzf) and attach a worktree
   wt <branch>                    attach a worktree to an EXISTING branch (local or remote)
-  wt -b <branch> [--base <ref>]  create a NEW branch + worktree (base default: ${DEFAULT_BASE})
+  wt -b <branch> [--base <ref>]  create a NEW branch + worktree (base default: {DEFAULT_BASE})
+  wt main                        cd back to the main repository worktree
+  wt go                          pick an existing worktree (fzf) and cd into it
   wt list [--raw]
   wt path <branch-or-path>
   wt prompt
@@ -37,18 +82,18 @@ A bare branch name never creates: a typo errors with "did you mean" instead of
 silently making a new branch. Use -b to create.
 
 Creates a git worktree for the current repository under:
-  \$WORKTREE_HOME/<repo-name>-<repo-root-hash>/<sanitized-branch>
+  $WORKTREE_HOME/<repo-name>-<repo-root-hash>/<sanitized-branch>
 
 When run from a linked worktree, the target directory is still based on the
 main repository worktree, not on the current linked worktree path.
 
-After creating a worktree, runs \$WT_POST_CREATE (default
+After creating a worktree, runs $WT_POST_CREATE (default
 ~/.config/wt/post-create) if it is executable, with:
   <worktree-path> <repo-root> <branch>
 
 Defaults:
-  WORKTREE_HOME=${WORKTREE_HOME}
-  base=${DEFAULT_BASE}
+  WORKTREE_HOME={WORKTREE_HOME}
+  base={DEFAULT_BASE}
 
 Package install:
   pnpm-lock.yaml or packageManager=pnpm -> pnpm install --frozen-lockfile --prefer-offline
@@ -66,355 +111,514 @@ Examples:
   wt list
   wt path task/fix-search
   wt rm task/fix-search
-  WORKTREE_HOME=~/.cache/worktrees wt task/fix-search
-EOF
-}
+  WORKTREE_HOME=~/.cache/worktrees wt task/fix-search"""
 
-die() { printf 'wt: %s\n' "$*" >&2; exit 1; }
-quote() { printf '%q' "$1"; }
 
-sanitize() {
-  printf '%s' "$1" |
-    sed -E 's/[^A-Za-z0-9._-]+/-/g; s/-+/-/g; s/^[-._]+//; s/[-._]+$//'
-}
+# --- low-level helpers -----------------------------------------------------
 
-parse_create_args() {
-  branch=''; base="$DEFAULT_BASE"; base_provided=0; create_new=0
-  while [ "$#" -gt 0 ]; do
-    case "$1" in
-      --help | -h) print_help; exit 0 ;;
-      -b | -c | --create) create_new=1; shift ;;
-      --base) [ "$#" -ge 2 ] || die 'missing value for --base'; base="$2"; base_provided=1; shift 2 ;;
-      -*) die "unknown option: $1" ;;
-      *) [ -z "$branch" ] || die "expected one branch, got extra argument: $1"; branch="$1"; shift ;;
-    esac
-  done
-  [ -n "$branch" ] || die 'missing branch name'
-}
+def git_out(args, cwd=None):
+    """Вернуть stdout git-команды без хвостового \\n, или None при ненулевом коде."""
+    r = subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True)
+    return r.stdout.rstrip("\n") if r.returncode == 0 else None
 
-parse_remove_args() {
-  remove_target=''; force_remove=0
-  while [ "$#" -gt 0 ]; do
-    case "$1" in
-      --help | -h) print_help; exit 0 ;;
-      --force | -f) force_remove=1; shift ;;
-      --*) die "unknown option: $1" ;;
-      *) [ -z "$remove_target" ] || die "expected one branch or path, got extra argument: $1"; remove_target="$1"; shift ;;
-    esac
-  done
-  [ -n "$remove_target" ] || die 'missing branch or path to remove'
-}
 
-parse_path_args() {
-  path_target=''
-  while [ "$#" -gt 0 ]; do
-    case "$1" in
-      --help | -h) print_help; exit 0 ;;
-      --*) die "unknown option: $1" ;;
-      *) [ -z "$path_target" ] || die "expected one branch or path, got extra argument: $1"; path_target="$1"; shift ;;
-    esac
-  done
-  [ -n "$path_target" ] || die 'missing branch or path'
-}
+def git_run(args):
+    """Прогнать git со стримингом вывода в терминал; вернуть код возврата."""
+    return subprocess.run(["git", *args]).returncode
 
-parse_list_args() {
-  list_raw=0
-  while [ "$#" -gt 0 ]; do
-    case "$1" in
-      --help | -h) print_help; exit 0 ;;
-      --raw) list_raw=1; shift ;;
-      --*) die "unknown option: $1" ;;
-      *) die "list does not accept positional arguments: $1" ;;
-    esac
-  done
-}
 
-worktree_branch_at_path() {
-  git worktree list --porcelain |
-    awk -v target="$1" '
-      /^worktree / {
-        if (worktree == target) { print branch; found = 1; exit }
-        worktree = substr($0, 10); branch = ""
-      }
-      /^branch / { branch = substr($0, 8) }
-      END { if (!found && worktree == target) print branch }
-    '
-}
+def emit_cd(path):
+    cd_file = os.environ.get("WT_CD_FILE")
+    if cd_file:
+        with open(cd_file, "w") as fh:
+            fh.write(path)
 
-worktree_path_for_branch() {
-  git worktree list --porcelain |
-    awk -v wanted="refs/heads/$1" '
-      /^worktree / { worktree = substr($0, 10) }
-      /^branch / { if (substr($0, 8) == wanted) { print worktree; exit } }
-    '
-}
 
-detect_package_manager() {
-  if [ ! -f package.json ]; then return 1; fi
-  if [ -f pnpm-lock.yaml ] || grep -q '"packageManager"[[:space:]]*:[[:space:]]*"pnpm@' package.json; then
-    package_manager='pnpm'; install_args='install --frozen-lockfile --prefer-offline'; return 0
-  fi
-  if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
-    package_manager='npm'; install_args='ci'; return 0
-  fi
-  package_manager='npm'; install_args='install'; return 0
-}
+def sanitize(name):
+    name = re.sub(r"[^A-Za-z0-9._-]+", "-", name)
+    name = re.sub(r"-+", "-", name)
+    name = re.sub(r"^[-._]+", "", name)
+    name = re.sub(r"[-._]+$", "", name)
+    return name
 
-run_install() {
-  (
-    cd "$target_path"
-    if ! detect_package_manager; then printf 'No package.json found, skipping install.\n'; return 0; fi
-    printf '$ %s %s\n' "$package_manager" "$install_args"
-    # shellcheck disable=SC2086
-    if command -v fnm >/dev/null 2>&1; then
-      if [ -f .nvmrc ]; then fnm exec --using .nvmrc "$package_manager" $install_args
-      elif [ -f .node-version ]; then fnm exec --using .node-version "$package_manager" $install_args
-      else fnm exec "$package_manager" $install_args; fi
-    else
-      "$package_manager" $install_args
-    fi
-  )
-}
 
-list_worktrees() {
-  git worktree list --porcelain |
-    awk '
-      /^worktree / {
-        if (worktree != "") print worktree "\t" branch
-        worktree = substr($0, 10); branch = ""
-      }
-      /^branch / { branch = substr($0, 8) }
-      END { if (worktree != "") print worktree "\t" branch }
-    '
-}
+def cksum(text):
+    """POSIX cksum строки (без хвостового \\n). Шелл-аут — чтобы хэш путей
+    совпадал байт-в-байт с существующими каталогами worktree."""
+    r = subprocess.run(["cksum"], input=text.encode("utf-8"), stdout=subprocess.PIPE)
+    return r.stdout.split()[0].decode()
 
-# Нейтральный хук: вызвать внешний скрипт после создания worktree, если он есть.
-run_post_create_hook() {
-  local dest="$1"
-  [ -n "$WT_POST_CREATE" ] && [ -x "$WT_POST_CREATE" ] || return 0
-  "$WT_POST_CREATE" "$dest" "$repo_root" "$branch" \
-    || printf 'wt: post-create hook (%s) вышел с ненулевым кодом\n' "$WT_POST_CREATE" >&2
-}
 
-# Существует ли ветка (локально ИЛИ на любом remote)?
-_branch_exists() {
-  git show-ref --verify --quiet "refs/heads/$1" && return 0
-  git for-each-ref --format='%(refname:short)' refs/remotes 2>/dev/null \
-    | sed 's#^[^/]*/##' | grep -qxF "$1"
-}
+def fzf(items, prompt, with_nth=None, delimiter=None):
+    """fzf-выбор из items; None если пользователь отменил (ESC)."""
+    args = ["fzf", "--height", "40%", "--reverse", "--prompt", prompt]
+    if delimiter is not None:
+        args += ["--delimiter", delimiter]
+    if with_nth is not None:
+        args += ["--with-nth", with_nth]
+    r = subprocess.run(args, input="\n".join(items), text=True, stdout=subprocess.PIPE)
+    if r.returncode != 0:
+        return None
+    return r.stdout.rstrip("\n") or None
 
-# Все ветки-кандидаты (локальные + remote-tracking, коротко, без HEAD, уникально).
-_all_branches() {
-  { git for-each-ref --format='%(refname:short)' refs/heads
-    git for-each-ref --format='%(refname:short)' refs/remotes | sed 's#^[^/]*/##'
-  } 2>/dev/null | grep -vxF HEAD | sort -u
-}
 
-# Подсказать похожие ветки (по первым 3 символам, регистронезависимо).
-_suggest() {
-  local pfx m
-  pfx="$(printf '%s' "$1" | cut -c1-3)"
-  m="$(_all_branches | grep -iF "$pfx" | head -8 || true)"
-  [ -n "$m" ] && { printf 'Похожие:\n' >&2; printf '%s\n' "$m" | sed 's/^/  /' >&2; } || true
-}
+# --- worktree / branch queries ---------------------------------------------
 
-# fzf-выбор ветки без worktree (bare `wt` / `wt -i`). Печатает выбранную в stdout.
-_pick_branch() {
-  command -v fzf >/dev/null 2>&1 || { printf 'wt: fzf не найден — укажи ветку: wt <ветка> или wt -b <ветка>\n' >&2; return 1; }
-  local used cands
-  used="$(git worktree list --porcelain | awk '/^branch /{print substr($0,8)}' | sed 's#^refs/heads/##')"
-  cands="$(_all_branches)"
-  [ -n "$used" ] && cands="$(printf '%s\n' "$cands" | grep -vxF -f <(printf '%s\n' "$used") || true)" || true
-  [ -n "$cands" ] || { printf 'wt: нет свободных веток (у всех уже есть worktree)\n' >&2; return 1; }
-  printf '%s\n' "$cands" | fzf --height 40% --reverse --prompt='attach branch> '
-}
+def worktrees():
+    """[(path, branch_ref)], branch_ref = 'refs/heads/x' или '' для detached."""
+    out = git_out(["worktree", "list", "--porcelain"]) or ""
+    result, path, branch = [], None, ""
+    for line in out.split("\n"):
+        if line.startswith("worktree "):
+            if path is not None:
+                result.append((path, branch))
+            path, branch = line[len("worktree "):], ""
+        elif line.startswith("branch "):
+            branch = line[len("branch "):]
+    if path is not None:
+        result.append((path, branch))
+    return result
 
-if [ "$#" -eq 0 ]; then
-  mode='pick'
-else
-  command="$1"
-  case "$command" in
-    remove | rm | delete) mode='remove'; shift; parse_remove_args "$@" ;;
-    path | p)             mode='path';   shift; parse_path_args "$@" ;;
-    prompt)               mode='prompt'; shift; [ "$#" -eq 0 ] || die 'prompt does not accept arguments' ;;
-    list | ls)            mode='list';   shift; parse_list_args "$@" ;;
-    -i | --interactive)   mode='pick' ;;
-    --help | -h | help)   print_help; exit 0 ;;
-    *)                    mode='create'; parse_create_args "$@" ;;
-  esac
-fi
 
-current_worktree_root="$(git rev-parse --show-toplevel 2>/dev/null)" || die 'not inside a git repository'
-current_git_dir="$(git -C "$current_worktree_root" rev-parse --git-dir 2>/dev/null)" || die 'cannot resolve git directory'
-common_git_dir="$(git -C "$current_worktree_root" rev-parse --git-common-dir 2>/dev/null)" || die 'cannot resolve git common directory'
+def worktree_branch_at_path(target):
+    for path, branch in worktrees():
+        if path == target:
+            return branch
+    return ""
 
-case "$current_git_dir" in /*) ;; *) current_git_dir="$current_worktree_root/$current_git_dir" ;; esac
-case "$common_git_dir" in /*) ;; *) common_git_dir="$current_worktree_root/$common_git_dir" ;; esac
-current_git_dir="$(cd "$current_git_dir" && pwd -P)" || die 'cannot resolve git directory'
-common_git_dir="$(cd "$common_git_dir" && pwd -P)" || die 'cannot resolve git common directory'
 
-if [ "$(basename "$common_git_dir")" = '.git' ]; then
-  repo_root="$(cd "$(dirname "$common_git_dir")" && pwd -P)"
-else
-  repo_root="$current_worktree_root"
-fi
+def worktree_path_for_branch(branch):
+    ref = "refs/heads/" + branch
+    for path, b in worktrees():
+        if b == ref:
+            return path
+    return ""
 
-repo_name="$(basename "$repo_root")"
-repo_slug="$(sanitize "$repo_name")"; [ -n "$repo_slug" ] || repo_slug='repo'
-repo_hash="$(printf '%s' "$repo_root" | cksum | awk '{ print $1 }')"
 
-if [ "$mode" = 'prompt' ]; then
-  [ "$current_git_dir" != "$common_git_dir" ] || exit 1
-  printf '%s\n' "$repo_name"; exit 0
-fi
+def branch_exists(branch):
+    """Существует ли ветка локально ИЛИ на любом remote."""
+    if subprocess.run(
+        ["git", "show-ref", "--verify", "--quiet", "refs/heads/" + branch]
+    ).returncode == 0:
+        return True
+    out = git_out(["for-each-ref", "--format=%(refname:short)", "refs/remotes"]) or ""
+    shorts = {re.sub(r"^[^/]*/", "", line) for line in out.split("\n") if line}
+    return branch in shorts
 
-if [ "$mode" = 'list' ]; then
-  if [ "$list_raw" -eq 1 ]; then
-    list_worktrees
-  else
-    list_worktrees |
-      awk -F '\t' '
-        BEGIN { printf "%-7s %-40s %s\n", "KIND", "BRANCH", "PATH" }
-        { branch = $2; sub(/^refs\/heads\//, "", branch); kind = branch == "" ? "detached" : "branch"
-          printf "%-7s %-40s %s\n", kind, branch, $1 }
-      '
-  fi
-  exit 0
-fi
 
-if [ "$mode" = 'remove' ]; then
-  if [ -e "$remove_target" ]; then
-    remove_parent="$(cd "$(dirname "$remove_target")" && pwd -P)"
-    remove_path="$remove_parent/$(basename "$remove_target")"
-    remove_branch="$(worktree_branch_at_path "$remove_path")"
-  else
-    remove_branch_ref="refs/heads/$remove_target"
-    remove_path="$(worktree_path_for_branch "$remove_target")"
-    if [ -z "$remove_path" ]; then
-      remove_slug="$(sanitize "$remove_target")"
-      [ -n "$remove_slug" ] || die "target '$remove_target' cannot be converted to a directory name"
-      candidate="$WORKTREE_HOME/$repo_slug-$repo_hash/$remove_slug"
-      if [ -e "$candidate" ]; then
-        candidate_parent="$(cd "$(dirname "$candidate")" && pwd -P)"
-        remove_path="$candidate_parent/$(basename "$candidate")"
-      fi
-    fi
-    [ -n "${remove_path:-}" ] || die "no worktree found for '$remove_target'"
-    remove_branch="$(worktree_branch_at_path "$remove_path")"
-    if [ -n "${remove_branch:-}" ] && [ "$remove_branch" != "$remove_branch_ref" ]; then
-      die "worktree branch mismatch at $remove_path: expected $remove_branch_ref, got $remove_branch"
-    fi
-  fi
+def all_branches():
+    """Локальные + remote-tracking (коротко), без HEAD, уникально, отсортировано."""
+    heads = git_out(["for-each-ref", "--format=%(refname:short)", "refs/heads"]) or ""
+    remotes = git_out(["for-each-ref", "--format=%(refname:short)", "refs/remotes"]) or ""
+    names = {line for line in heads.split("\n") if line}
+    names |= {re.sub(r"^[^/]*/", "", line) for line in remotes.split("\n") if line}
+    names.discard("HEAD")
+    return sorted(names)
 
-  [ "$remove_path" != "$repo_root" ] || die 'refusing to remove the main repository worktree'
-  [ -n "${remove_branch:-}" ] || die "path is not a registered worktree: $remove_path"
 
-  printf 'Repository: %s\n' "$repo_root"
-  printf 'Removing: %s\n' "$remove_path"
-  printf 'Branch: %s\n' "$remove_branch"
+def suggest(branch):
+    prefix = branch[:3].lower()
+    matches = [b for b in all_branches() if prefix in b.lower()][:8]
+    if matches:
+        eprint("Похожие:")
+        for m in matches:
+            eprint("  " + m)
 
-  if [ "$force_remove" -eq 1 ]; then
-    printf '$ git worktree remove --force %s\n' "$(quote "$remove_path")"
-    git worktree remove --force "$remove_path"
-  else
-    printf '$ git worktree remove %s\n' "$(quote "$remove_path")"
-    git worktree remove "$remove_path"
-  fi
 
-  printf '\nRemoved worktree.\n'
-  printf 'Branch was not deleted. Delete it manually if needed:\n'
-  printf '  git branch -D %s\n' "$(quote "${remove_branch#refs/heads/}")"
-  exit 0
-fi
+def pick_branch():
+    """fzf-выбор ветки, у которой ещё нет worktree. None если нет fzf/веток/отмена."""
+    if not shutil.which("fzf"):
+        eprint("wt: fzf не найден — укажи ветку: wt <ветка> или wt -b <ветка>")
+        return None
+    used = {b[len("refs/heads/"):] for _, b in worktrees() if b.startswith("refs/heads/")}
+    cands = [c for c in all_branches() if c not in used]
+    if not cands:
+        eprint("wt: нет свободных веток (у всех уже есть worktree)")
+        return None
+    return fzf(cands, "attach branch> ")
 
-if [ "$mode" = 'path' ]; then
-  if [ -e "$path_target" ]; then
-    path_parent="$(cd "$(dirname "$path_target")" && pwd -P)"
-    found_path="$path_parent/$(basename "$path_target")"
-  else
-    found_path="$(worktree_path_for_branch "$path_target")"
-    if [ -z "$found_path" ]; then
-      path_slug="$(sanitize "$path_target")"
-      [ -n "$path_slug" ] || die "target '$path_target' cannot be converted to a directory name"
-      candidate="$WORKTREE_HOME/$repo_slug-$repo_hash/$path_slug"
-      if [ -e "$candidate" ]; then
-        candidate_parent="$(cd "$(dirname "$candidate")" && pwd -P)"
-        found_path="$candidate_parent/$(basename "$candidate")"
-      fi
-    fi
-  fi
-  [ -n "${found_path:-}" ] || die "no worktree found for '$path_target'"
-  found_branch="$(worktree_branch_at_path "$found_path")"
-  [ -n "${found_branch:-}" ] || die "path is not a registered worktree: $found_path"
-  printf '%s\n' "$found_path"; exit 0
-fi
 
-# --- pick → attach: выбрать существующую ветку через fzf ------------------
-if [ "$mode" = 'pick' ]; then
-  branch="$(_pick_branch)" || exit 0
-  [ -n "$branch" ] || exit 0
-  create_new=0; base="$DEFAULT_BASE"; base_provided=0
-  mode='create'
-fi
+# --- install / hook --------------------------------------------------------
 
-# --- mode = create (attach существующей ИЛИ -b новой) ---------------------
-branch_slug="$(sanitize "$branch")"
-[ -n "$branch_slug" ] || die "branch '$branch' cannot be converted to a directory name"
+def detect_package_manager(cwd):
+    """(name, install_args) или None если нет package.json."""
+    pkg_json = os.path.join(cwd, "package.json")
+    if not os.path.isfile(pkg_json):
+        return None
+    has = lambda f: os.path.isfile(os.path.join(cwd, f))
+    with open(pkg_json, encoding="utf-8", errors="replace") as fh:
+        pkg = fh.read()
+    if has("pnpm-lock.yaml") or re.search(r'"packageManager"\s*:\s*"pnpm@', pkg):
+        return "pnpm", ["install", "--frozen-lockfile", "--prefer-offline"]
+    if has("package-lock.json") or has("npm-shrinkwrap.json"):
+        return "npm", ["ci"]
+    return "npm", ["install"]
 
-target_path="$WORKTREE_HOME/$repo_slug-$repo_hash/$branch_slug"
-branch_ref="refs/heads/$branch"
 
-mkdir -p "$(dirname "$target_path")"
-target_parent="$(cd "$(dirname "$target_path")" && pwd -P)"
-target_path="$target_parent/$(basename "$target_path")"
+def run_install(target):
+    pm = detect_package_manager(target)
+    if pm is None:
+        print("No package.json found, skipping install.")
+        return
+    name, install_args = pm
+    print("$ " + name + " " + " ".join(install_args))
+    if shutil.which("fnm"):
+        if os.path.isfile(os.path.join(target, ".nvmrc")):
+            cmd = ["fnm", "exec", "--using", ".nvmrc", name, *install_args]
+        elif os.path.isfile(os.path.join(target, ".node-version")):
+            cmd = ["fnm", "exec", "--using", ".node-version", name, *install_args]
+        else:
+            cmd = ["fnm", "exec", name, *install_args]
+    else:
+        cmd = [name, *install_args]
+    rc = subprocess.run(cmd, cwd=target).returncode
+    if rc != 0:
+        sys.exit(rc)
 
-# намерение attach vs create — по флагу -b
-if [ "$create_new" -eq 1 ]; then
-  if _branch_exists "$branch"; then
-    die "ветка '$branch' уже существует — убери -b, чтобы подключить её (attach)"
-  fi
-else
-  # attach-only: ветка ДОЛЖНА существовать (локально или на remote), иначе ошибка
-  [ "$base_provided" -eq 0 ] || die "--base применяется только с -b (новая ветка)"
-  if ! _branch_exists "$branch"; then
-    printf "wt: ветка '%s' не найдена (ни локально, ни на remote).\n" "$branch" >&2
-    _suggest "$branch"
-    printf 'Создать новую:  wt -b %s [--base <ref>]\n' "$branch" >&2
-    exit 1
-  fi
-fi
 
-if [ -e "$target_path" ]; then
-  existing_branch_at_target="$(worktree_branch_at_path "$target_path")"
-  if [ "$existing_branch_at_target" != "$branch_ref" ]; then
-    die "target path exists and is not this branch: $target_path"
-  fi
-  printf 'Worktree already exists: %s\n' "$target_path"
-  run_install
-  run_post_create_hook "$target_path"
-  printf '\ncd %s\n' "$(quote "$target_path")"
-  exit 0
-fi
+def run_post_create_hook(dest, repo_root, branch):
+    if not POST_CREATE or not (os.path.isfile(POST_CREATE) and os.access(POST_CREATE, os.X_OK)):
+        return
+    rc = subprocess.run([POST_CREATE, dest, repo_root, branch]).returncode
+    if rc != 0:
+        eprint("wt: post-create hook (%s) вышел с ненулевым кодом" % POST_CREATE)
 
-existing_path_for_branch="$(worktree_path_for_branch "$branch")"
-if [ -n "$existing_path_for_branch" ]; then
-  die "branch '$branch' is already checked out at $existing_path_for_branch"
-fi
 
-printf 'Repository: %s\n' "$repo_root"
-printf 'Target: %s\n' "$target_path"
+# --- repo context ----------------------------------------------------------
 
-if [ "$create_new" -eq 1 ]; then
-  printf '$ git worktree add -b %s %s %s\n' "$(quote "$branch")" "$(quote "$target_path")" "$(quote "$base")"
-  git worktree add -b "$branch" "$target_path" "$base"
-else
-  # attach: локальную — по имени; remote-only — git DWIM создаст локальную tracking-ветку
-  printf '$ git worktree add %s %s\n' "$(quote "$target_path")" "$(quote "$branch")"
-  git worktree add "$target_path" "$branch"
-fi
+class Repo:
+    pass
 
-run_install
-run_post_create_hook "$target_path"
 
-printf '\nReady.\n'
-printf 'cd %s\n' "$(quote "$target_path")"
+def resolve_repo():
+    root = git_out(["rev-parse", "--show-toplevel"])
+    if root is None:
+        die("not inside a git repository")
+    cur = git_out(["-C", root, "rev-parse", "--git-dir"])
+    if cur is None:
+        die("cannot resolve git directory")
+    common = git_out(["-C", root, "rev-parse", "--git-common-dir"])
+    if common is None:
+        die("cannot resolve git common directory")
+    if not os.path.isabs(cur):
+        cur = os.path.join(root, cur)
+    if not os.path.isabs(common):
+        common = os.path.join(root, common)
+    cur = os.path.realpath(cur)
+    common = os.path.realpath(common)
+
+    r = Repo()
+    if os.path.basename(common) == ".git":
+        r.root = os.path.realpath(os.path.dirname(common))
+    else:
+        r.root = root
+    r.name = os.path.basename(r.root)
+    r.slug = sanitize(r.name) or "repo"
+    r.hash = cksum(r.root)
+    r.cur_git_dir = cur
+    r.common_git_dir = common
+    return r
+
+
+def target_for(repo, branch_slug):
+    """Разрешённый (физический) путь worktree для слага ветки."""
+    path = os.path.join(WORKTREE_HOME, "%s-%s" % (repo.slug, repo.hash), branch_slug)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    parent = os.path.realpath(os.path.dirname(path))
+    return os.path.join(parent, os.path.basename(path))
+
+
+# --- commands --------------------------------------------------------------
+
+def cmd_main(repo):
+    emit_cd(repo.root)
+    print(repo.root)
+
+
+def cmd_go(repo):
+    if not shutil.which("fzf"):
+        die("fzf не найден — используй: wt <ветка>")
+    items = []
+    for path, branch in worktrees():
+        name = re.sub(r"^refs/heads/", "", branch) or "(detached)"
+        items.append("%s\t%s" % (name, path))
+    sel = fzf(items, "go to worktree> ", with_nth="1", delimiter="\t")
+    if not sel:
+        sys.exit(0)
+    dest = sel.split("\t", 1)[1] if "\t" in sel else sel
+    emit_cd(dest)
+    print(dest)
+
+
+def cmd_prompt(repo):
+    if repo.cur_git_dir == repo.common_git_dir:
+        sys.exit(1)  # в главном worktree — молчим
+    print(repo.name)
+
+
+def cmd_list(repo, raw):
+    wts = worktrees()
+    if raw:
+        for path, branch in wts:
+            print("%s\t%s" % (path, branch))
+        return
+    print("%-7s %-40s %s" % ("KIND", "BRANCH", "PATH"))
+    for path, branch in wts:
+        name = re.sub(r"^refs/heads/", "", branch)
+        kind = "branch" if name else "detached"
+        print("%-7s %-40s %s" % (kind, name, path))
+
+
+def _resolve_existing_worktree(repo, target):
+    """Путь worktree для аргумента (готовый путь ИЛИ имя ветки ИЛИ слаг). '' если нет."""
+    if os.path.exists(target):
+        parent = os.path.realpath(os.path.dirname(target))
+        return os.path.join(parent, os.path.basename(target))
+    path = worktree_path_for_branch(target)
+    if path:
+        return path
+    slug = sanitize(target)
+    if not slug:
+        die("target '%s' cannot be converted to a directory name" % target)
+    candidate = os.path.join(WORKTREE_HOME, "%s-%s" % (repo.slug, repo.hash), slug)
+    if os.path.exists(candidate):
+        parent = os.path.realpath(os.path.dirname(candidate))
+        return os.path.join(parent, os.path.basename(candidate))
+    return ""
+
+
+def cmd_remove(repo, target, force):
+    passed_path = os.path.exists(target)
+    remove_path = _resolve_existing_worktree(repo, target)
+    if not remove_path:
+        die("no worktree found for '%s'" % target)
+    remove_branch = worktree_branch_at_path(remove_path)
+    if not passed_path:
+        expected = "refs/heads/" + target
+        if remove_branch and remove_branch != expected:
+            die("worktree branch mismatch at %s: expected %s, got %s"
+                % (remove_path, expected, remove_branch))
+
+    if remove_path == repo.root:
+        die("refusing to remove the main repository worktree")
+    if not remove_branch:
+        die("path is not a registered worktree: %s" % remove_path)
+
+    print("Repository: %s" % repo.root)
+    print("Removing: %s" % remove_path)
+    print("Branch: %s" % remove_branch)
+
+    if force:
+        print("$ git worktree remove --force %s" % quote(remove_path))
+        rc = git_run(["worktree", "remove", "--force", remove_path])
+    else:
+        print("$ git worktree remove %s" % quote(remove_path))
+        rc = git_run(["worktree", "remove", remove_path])
+    if rc != 0:
+        sys.exit(rc)
+
+    short = re.sub(r"^refs/heads/", "", remove_branch)
+    print("\nRemoved worktree.")
+    print("Branch was not deleted. Delete it manually if needed:")
+    print("  git branch -D %s" % quote(short))
+
+
+def cmd_path(repo, target):
+    found = _resolve_existing_worktree(repo, target)
+    if not found:
+        die("no worktree found for '%s'" % target)
+    if not worktree_branch_at_path(found):
+        die("path is not a registered worktree: %s" % found)
+    print(found)
+
+
+def cmd_create(repo, branch, base, base_provided, create_new):
+    branch_slug = sanitize(branch)
+    if not branch_slug:
+        die("branch '%s' cannot be converted to a directory name" % branch)
+    target = target_for(repo, branch_slug)
+    branch_ref = "refs/heads/" + branch
+
+    if create_new:
+        if branch_exists(branch):
+            die("ветка '%s' уже существует — убери -b, чтобы подключить её (attach)" % branch)
+    else:
+        if base_provided:
+            die("--base применяется только с -b (новая ветка)")
+        if not branch_exists(branch):
+            eprint("wt: ветка '%s' не найдена (ни локально, ни на remote)." % branch)
+            suggest(branch)
+            eprint("Создать новую:  wt -b %s [--base <ref>]" % branch)
+            sys.exit(1)
+
+    if os.path.exists(target):
+        if worktree_branch_at_path(target) != branch_ref:
+            die("target path exists and is not this branch: %s" % target)
+        print("Worktree already exists: %s" % target)
+        run_install(target)
+        run_post_create_hook(target, repo.root, branch)
+        emit_cd(target)
+        print("\ncd %s" % quote(target))
+        return
+
+    checked_out = worktree_path_for_branch(branch)
+    if checked_out:
+        die("branch '%s' is already checked out at %s" % (branch, checked_out))
+
+    print("Repository: %s" % repo.root)
+    print("Target: %s" % target)
+    if create_new:
+        print("$ git worktree add -b %s %s %s" % (quote(branch), quote(target), quote(base)))
+        rc = git_run(["worktree", "add", "-b", branch, target, base])
+    else:
+        # attach: локальную — по имени; remote-only — git DWIM создаст tracking-ветку
+        print("$ git worktree add %s %s" % (quote(target), quote(branch)))
+        rc = git_run(["worktree", "add", target, branch])
+    if rc != 0:
+        sys.exit(rc)
+
+    run_install(target)
+    run_post_create_hook(target, repo.root, branch)
+    emit_cd(target)
+    print("\nReady.")
+    print("cd %s" % quote(target))
+
+
+# --- argument parsing ------------------------------------------------------
+
+def _check_help(arg):
+    if arg in ("--help", "-h"):
+        print(HELP)
+        sys.exit(0)
+
+
+def parse_create_args(args):
+    branch, base, base_provided, create_new = "", DEFAULT_BASE, False, False
+    i = 0
+    while i < len(args):
+        a = args[i]
+        if a in ("--help", "-h"):
+            print(HELP)
+            sys.exit(0)
+        elif a in ("-b", "-c", "--create"):
+            create_new = True
+        elif a == "--base":
+            if i + 1 >= len(args):
+                die("missing value for --base")
+            base, base_provided = args[i + 1], True
+            i += 1
+        elif a.startswith("-"):
+            die("unknown option: " + a)
+        else:
+            if branch:
+                die("expected one branch, got extra argument: " + a)
+            branch = a
+        i += 1
+    if not branch:
+        die("missing branch name")
+    return branch, base, base_provided, create_new
+
+
+def parse_single(args, what):
+    """Один позиционный аргумент (path/remove), с поддержкой --help. Для remove
+    возвращает (target, force); для path — (target, None)."""
+    target, force = "", False
+    for a in args:
+        if a in ("--help", "-h"):
+            print(HELP)
+            sys.exit(0)
+        elif a in ("--force", "-f") and what == "remove":
+            force = True
+        elif a.startswith("--") or (a.startswith("-") and what == "remove"):
+            die("unknown option: " + a)
+        else:
+            if target:
+                die("expected one branch or path, got extra argument: " + a)
+            target = a
+    if not target:
+        die("missing branch or path" + (" to remove" if what == "remove" else ""))
+    return target, force
+
+
+def parse_list_args(args):
+    raw = False
+    for a in args:
+        if a in ("--help", "-h"):
+            print(HELP)
+            sys.exit(0)
+        elif a == "--raw":
+            raw = True
+        elif a.startswith("--"):
+            die("unknown option: " + a)
+        else:
+            die("list does not accept positional arguments: " + a)
+    return raw
+
+
+def no_extra(args, name):
+    if args:
+        die("%s does not accept arguments" % name)
+
+
+# --- dispatch --------------------------------------------------------------
+
+def main():
+    args = sys.argv[1:]
+    if not args:
+        mode, rest = "pick", []
+    else:
+        cmd, rest = args[0], args[1:]
+        aliases = {
+            "remove": "remove", "rm": "remove", "delete": "remove",
+            "path": "path", "p": "path",
+            "main": "main", "root": "main",
+            "go": "go", "jump": "go",
+            "prompt": "prompt",
+            "list": "list", "ls": "list",
+            "-i": "pick", "--interactive": "pick",
+        }
+        if cmd in ("--help", "-h", "help"):
+            print(HELP)
+            return
+        elif cmd in aliases:
+            mode = aliases[cmd]
+        else:
+            mode, rest = "create", args  # bare branch / -b … — весь argv
+
+    # аргументы разбираем до резолва репозитория (как в исходном скрипте)
+    if mode == "remove":
+        target, force = parse_single(rest, "remove")
+    elif mode == "path":
+        target, _ = parse_single(rest, "path")
+    elif mode == "list":
+        raw = parse_list_args(rest)
+    elif mode in ("main", "go", "prompt"):
+        no_extra(rest, mode)
+    elif mode == "create":
+        branch, base, base_provided, create_new = parse_create_args(rest)
+
+    repo = resolve_repo()
+
+    if mode == "main":
+        cmd_main(repo)
+    elif mode == "go":
+        cmd_go(repo)
+    elif mode == "prompt":
+        cmd_prompt(repo)
+    elif mode == "list":
+        cmd_list(repo, raw)
+    elif mode == "remove":
+        cmd_remove(repo, target, force)
+    elif mode == "path":
+        cmd_path(repo, target)
+    elif mode == "pick":
+        branch = pick_branch()
+        if not branch:
+            sys.exit(0)
+        cmd_create(repo, branch, DEFAULT_BASE, False, False)
+    elif mode == "create":
+        cmd_create(repo, branch, base, base_provided, create_new)
+
+
+if __name__ == "__main__":
+    main()
