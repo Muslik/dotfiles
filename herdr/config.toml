@@ -55,8 +55,19 @@ close_tab = "prefix+ampersand"   # tmux default: & kill-window
 
 # --- workspaces (tmux sessions) -----------------------------------------
 workspace_picker = "prefix+s"        # tmux default: s choose-session
-rename_workspace = "prefix+shift+4"  # tmux default: $ rename-session
+# skhd owns alt - 1..9 (yabai space focus), so nothing here may use alt.
+# tmux `$` for rename lived on shift+4 and blocked the shift+1..9 range;
+# renaming a space is rare, jumping to an agent is not, so it moved aside.
+rename_workspace = "prefix+shift+w"
 goto = "prefix+f"                    # tmux default: f find-window
+previous_workspace = "prefix+ctrl+p"
+next_workspace = "prefix+ctrl+n"
+# ctrl+digit is the shakier of the two ranges, and spaces have a picker plus
+# ctrl+p/n to fall back on — agents get the dependable shift+digit.
+switch_workspace = "prefix+ctrl+1..9"
+focus_agent = "prefix+shift+1..9"
+next_agent = "prefix+a"
+previous_agent = "prefix+shift+a"
 detach = "prefix+d"                  # tmux default: d detach-client
 new_workspace = "prefix+shift+n"
 close_workspace = "prefix+shift+d"

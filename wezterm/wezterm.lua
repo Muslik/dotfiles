@@ -38,7 +38,7 @@ local config = {
     },
   },
   color_scheme = 'rose-pine',
-  font_size = 14.0,
+  font_size = 15.0,
   line_height = 1.2,
   enable_tab_bar = false,
   term = 'xterm-256color',
